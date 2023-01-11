@@ -9,16 +9,6 @@ namespace Converter
 {
 	internal class DDS
 	{
-		private byte[] Hex_to_ByteArray(string s) // from https://stackoverflow.com/questions/23263254/convert-hex-string-to-bytearray-and-write-to-file
-		{
-			s = s.Replace(" ", "");
-			byte[] buffer = new byte[s.Length / 2];
-			for (int i = 0; i < s.Length; i += 2)
-			{
-				buffer[i / 2] = (byte)Convert.ToByte(s.Substring(i, 2), 16);
-			}
-			return buffer;
-		}
 		public static bool BuildDDS(byte[] pixelData, int width, int height, int format, uint textureSize, string basicName)
 		{
 			BinaryWriter dataOut = new BinaryWriter(new FileStream(basicName, FileMode.Create));
