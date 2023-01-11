@@ -1,3 +1,3 @@
 # RAGE-Console-Resource-Converter
 
-Based on code created by @oxmaulmike2581
+Thanks for @oxmaulmike2581 for help
