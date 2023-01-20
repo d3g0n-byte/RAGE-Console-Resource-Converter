@@ -1,4 +1,4 @@
-﻿using ConsoleApp1;
+using ConsoleApp1;
 using Converter.Utils;
 using System;
 using System.Collections.Generic;
@@ -7,11 +7,122 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using static Converter.RageResource;
+using static Converter.ResourceUtils;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Converter
 {
 	internal class RageResource
 	{
+		public struct FragmentDictionary
+		{
+			public uint _vmt;
+			public uint m_pBlockMapAdress;
+			public uint m_pDrawable;
+			public uint m_pTextureDictionary;
+		}
+
+
+		// iv
+		public struct Fragment
+		{
+			public uint _vmt;
+			public uint m_dwBlockMapAdress;
+			public float _f8;
+			public float _fC;
+			public float _f10;
+			public float _f14;
+			public float _f18;
+			public float _f1C;
+			public float _f20;
+			public float _f24;
+			public float _f28;
+			public float _f2C;
+			public float _f30;
+			public float _f34;
+			public float _f38;
+			public float _f3C;
+			public Vector4 m_UnbrokenCGOffset;
+			public Vector4 m_DampingLinearC;
+			public Vector4 m_DampingLinearV;
+			public Vector4 m_DampingLinearV2;
+			public Vector4 m_DampingAngularC;
+			public Vector4 m_DampingAngularV;
+			public Vector4 m_DampingAngularV2;
+			public uint m_pName;
+			public uint m_pDrawable;
+			public uint _fB8;
+			public uint _fBC;
+			public uint _fC0;
+			public uint _fC4;// -1
+			public uint _fC8;
+			public uint m_pChildGroupName;
+			public uint _fD0; // к оффетам к нулям
+			public uint _fD4; // к оффетам к неизвестной секции
+			public uint _fD8;
+			public uint _fDC;
+			public uint _fE0;
+			//public uint _fE0;
+
+
+		}
+		public struct IV_TextureDefinition
+		{
+			public uint vtable;
+			public uint _f4;
+			public ushort _f8;
+			public ushort _fA;
+			public uint _fC;
+			public uint _f10;
+			public uint m_pName;
+			public uint _f18;
+		}
+		public struct Matrix34
+		{
+			public Vector4 m0, m1, m2;
+
+		}
+		public struct IV_ShaderGroup
+		{
+			public uint vtable;
+			public uint m_pTexture;
+			public Collection m_pShaders;
+			public Matrix34 _f10;
+			public Collection m_pVertexFormat;
+			public Collection m_pIndexMapping;
+		}
+		public struct IV_ShaderFX
+		{
+			public uint vtable;
+			public uint m_dwBlockMapAdress;// поинтер
+			public sbyte _f8;
+			public byte m_nDrawBucket;
+			public sbyte _fA;
+			public sbyte _fB;
+			public short _fC;
+			public ushort m_wIndex;
+			public uint _f10;
+			public uint m_pShaderParams;
+			public uint _f18;
+			public uint m_dwParamsCount;
+			public uint m_dwEffectSize;
+			public uint m_pParameterTypes;
+			public uint m_dwHash;//какой-то хеш. Он разный в разных играх и в разных пратформах.
+			public uint _f2C;
+			public uint _f30;
+			public uint m_pParamsHash;
+			public uint _f38;
+			public uint _f3C;
+			public uint _f40;
+			public uint m_pName;
+			public uint m_pSPS;
+			public uint _f4C;// поинтер
+			public uint _f50;// поинтер
+			public uint _f54;
+			public uint _f58;
+		}
+
+
 		public struct XTDHeader
 		{
 			public uint m_dwVTable;
@@ -35,7 +146,7 @@ namespace Converter
 			public uint m_pBitmap;
 			public ushort m_dwWidth;
 			public ushort m_dwHeight;
-			public uint _f24;
+			public uint m_Lod;
 			public float _f28;
 			public float _f2C;
 			public float _f30;
@@ -63,8 +174,7 @@ namespace Converter
 		public struct RDRBone
 		{
 			public uint m_pName;
-			public short _f4;
-			public short _f6;
+			public uint m_dwFlags;
 			public uint m_pNextSibling;
 			public uint m_pFirstChild;
 			public uint m_pParent;
@@ -90,6 +200,7 @@ namespace Converter
 			public  int _fD4;
 			public int _fD8;
 			public int _fDC;
+			public string[] flagsAsString;
 		}
 		public struct RDRSkeletonData
 		{
@@ -108,6 +219,7 @@ namespace Converter
 			public short _f2A;
 			public uint _f2C;
 			public uint _f30;
+			public string[] flagsAsString;
 			//joint
 		}
 		public struct RDRTextureDefinition
@@ -409,22 +521,22 @@ namespace Converter
 		{
 			RageResource.rageD3D9VertexFlags vertexFlags;
 			ushort flags = (ushort)dwFlags;
-			vertexFlags.m_bPosition = Other.GetBit(flags, 0);
-			vertexFlags.m_bBlendWeight = Other.GetBit(flags, 1);
-			vertexFlags.m_bBlendIndices = Other.GetBit(flags, 2);
-			vertexFlags.m_bNormal = Other.GetBit(flags, 3);
-			vertexFlags.m_bColor = Other.GetBit(flags, 4);
-			vertexFlags.m_bSpecular = Other.GetBit(flags, 5);
-			vertexFlags.m_bTexCoord0 = Other.GetBit(flags, 6);
-			vertexFlags.m_bTexCoord1 = Other.GetBit(flags, 7);
-			vertexFlags.m_bTexCoord2 = Other.GetBit(flags, 8);
-			vertexFlags.m_bTexCoord3 = Other.GetBit(flags, 9);
-			vertexFlags.m_bTexCoord4 = Other.GetBit(flags, 10);
-			vertexFlags.m_bTexCoord5 = Other.GetBit(flags, 11);
-			vertexFlags.m_bTexCoord6 = Other.GetBit(flags, 12);
-			vertexFlags.m_bTexCoord7 = Other.GetBit(flags, 13);
-			vertexFlags.m_bTangent = Other.GetBit(flags, 14);
-			vertexFlags.m_bBinormal = Other.GetBit(flags, 15);
+			vertexFlags.m_bPosition = DataUtils.GetBit(flags, 0);
+			vertexFlags.m_bBlendWeight = DataUtils.GetBit(flags, 1);
+			vertexFlags.m_bBlendIndices = DataUtils.GetBit(flags, 2);
+			vertexFlags.m_bNormal = DataUtils.GetBit(flags, 3);
+			vertexFlags.m_bColor = DataUtils.GetBit(flags, 4);
+			vertexFlags.m_bSpecular = DataUtils.GetBit(flags, 5);
+			vertexFlags.m_bTexCoord0 = DataUtils.GetBit(flags, 6);
+			vertexFlags.m_bTexCoord1 = DataUtils.GetBit(flags, 7);
+			vertexFlags.m_bTexCoord2 = DataUtils.GetBit(flags, 8);
+			vertexFlags.m_bTexCoord3 = DataUtils.GetBit(flags, 9);
+			vertexFlags.m_bTexCoord4 = DataUtils.GetBit(flags, 10);
+			vertexFlags.m_bTexCoord5 = DataUtils.GetBit(flags, 11);
+			vertexFlags.m_bTexCoord6 = DataUtils.GetBit(flags, 12);
+			vertexFlags.m_bTexCoord7 = DataUtils.GetBit(flags, 13);
+			vertexFlags.m_bTangent = DataUtils.GetBit(flags, 14);
+			vertexFlags.m_bBinormal = DataUtils.GetBit(flags, 15);
 			return vertexFlags;
 		}
 		static RageResource.rageD3D9VertexElementTypes ReadVertexElementTypes(ulong Types)
@@ -545,7 +657,8 @@ namespace Converter
 			skeletonData.m_wBoneCount = br.ReadUInt16();// 
 			skeletonData._f18 = br.ReadInt16();
 			skeletonData._f1A = br.ReadInt16();
-			skeletonData._f1C = br.ReadUInt32();// фалги. openIV экспортирует толлько 4 флага.
+			br.ReadInt16();// skip
+			skeletonData._f1C = br.ReadUInt32();// флaги.
 			skeletonData.m_pBoneIdMapping.m_pList = br.ReadOffset();
 			skeletonData.m_pBoneIdMapping.m_wCount = br.ReadUInt16();
 			skeletonData.m_pBoneIdMapping.m_wSize = br.ReadUInt16();
@@ -553,14 +666,38 @@ namespace Converter
 			skeletonData._f2A = br.ReadInt16();
 			skeletonData._f2C = br.ReadUInt32();
 			skeletonData._f30 = br.ReadUInt32();
+
+			uint flagsCount = 0;
+			for (int a = 0; a < 32; a++) if (DataUtils.GetBit(skeletonData._f1C, a)) flagsCount++;
+			skeletonData.flagsAsString = new string[flagsCount];
+			uint currentFlags = 0;
+			for (int a = 0; a < 32; a++)
+			{
+				string flag = "";
+				switch (a)
+				{
+					case 1:
+						flag = "HaveBoneMappings";
+						break;
+					case 2:
+						flag = "HaveBoneWorldOrient";
+						break;
+					case 3:
+						flag = "AuthoredOrientation";
+						break;
+					default:
+						flag = $"UnknownFlag{a}";
+						break;
+				}
+				if (DataUtils.GetBit(skeletonData._f1C, a)) skeletonData.flagsAsString[currentFlags++] = flag;
+			}
 			return skeletonData;
 		}
 		public static RDRBone RDRBone(EndianBinaryReader br)
 		{
 			RDRBone bone;
 			bone.m_pName = br.ReadOffset();
-			bone._f4 = br.ReadInt16();
-			bone._f6 = br.ReadInt16();
+			bone.m_dwFlags = br.ReadUInt32();
 			bone.m_pNextSibling = br.ReadOffset();
 			bone.m_pFirstChild = br.ReadOffset();
 			bone.m_pParent = br.ReadOffset();
@@ -587,9 +724,82 @@ namespace Converter
 			bone._fD4 = br.ReadInt32();
 			bone._fD8 = br.ReadInt32();
 			bone._fDC = br.ReadInt32();
-
+			uint flagsCount=0;
+			for (int a = 0; a < 32; a++)if (DataUtils.GetBit(bone.m_dwFlags,a))flagsCount++;
+			bone.flagsAsString = new string[flagsCount];
+			uint currentFlags = 0;
+			for (int a = 0; a < 32; a++)
+			{
+				string flag="";
+				switch (a)
+				{
+					case 0:
+						flag = "LockRotXYZ";
+						break;
+					case 1:
+						flag = "LockRotX";
+						break;
+					case 2:
+						flag = "LockRotY";
+						break;
+					case 3:
+						flag = "LockRotZ";
+						break;
+					case 4:
+						flag = "LimitRotX";
+						break;
+					case 5:
+						flag = "LimitRotY";
+						break;
+					case 6:
+						flag = "LimitRotZ";
+						break;
+					case 7:
+						flag = "LockTransX";
+						break;
+					case 8:
+						flag = "LockTransY";
+						break;
+					case 9:
+						flag = "LockTransZ";
+						break;
+					case 10:
+						flag = "LimitTransX";
+						break;
+					case 11:
+						flag = "LimitTransY";
+						break;
+					case 12:
+						flag = "LimitTransZ";
+						break;
+					case 13:
+						flag = "LockScaleX";
+						break;
+					case 14:
+						flag = "LockScaleY";
+						break;
+					case 15:
+						flag = "LockScaleZ";
+						break;
+					case 16:
+						flag = "LimitScaleX";
+						break;
+					case 17:
+						flag = "LimitScaleY";
+						break;
+					case 18:
+						flag = "LimitScaleZ";
+						break;
+					case 19:
+						flag = "Invisible";
+						break;
+					default:
+						flag = $"UnknownFlag{a}";
+						break;
+				}
+				if (DataUtils.GetBit(bone.m_dwFlags, a)) bone.flagsAsString[currentFlags++] = flag;
+			}
 			return bone;
-
 		}
 		public static XTDHeader XTDHeader(EndianBinaryReader br)
 		{
@@ -617,7 +827,7 @@ namespace Converter
 			texture.m_pBitmap = br.ReadOffset();
 			texture.m_dwWidth = br.ReadUInt16();
 			texture.m_dwHeight = br.ReadUInt16();
-			texture._f24 = br.ReadUInt32();
+			texture.m_Lod = br.ReadUInt32();
 			texture._f28 = br.ReadSingle();
 			texture._f2C = br.ReadSingle();
 			texture._f30 = br.ReadSingle();
@@ -649,10 +859,18 @@ namespace Converter
 			bitMap.m_pPixelData = bitMap.m_pPixelData >> 8;
 			bitMap.m_pPixelData = bitMap.m_pPixelData << 16;
 			bitMap.m_pPixelData = bitMap.m_pPixelData >> 8;
-			bitMap.m_pPixelData += (uint)Program.cpuSize;
+			bitMap.m_pPixelData += (uint)(FlagInfo.BaseResourceSizeV);
 			return bitMap;
 		}
-
+		public static FragmentDictionary FragmentDictionary(EndianBinaryReader br)
+		{
+			FragmentDictionary dict = new FragmentDictionary();
+			dict._vmt = br.ReadUInt32();
+			dict.m_pBlockMapAdress = br.ReadOffset();
+			dict.m_pDrawable = br.ReadOffset();
+			dict.m_pTextureDictionary = br.ReadOffset();
+			return dict;
+		}
 	}
 
 }
