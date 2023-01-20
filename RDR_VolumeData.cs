@@ -1,5 +1,5 @@
-﻿using Converter;
-using Converter.openformat;
+using Converter;
+using Converter.openFormats;
 using Converter.Utils;
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,7 @@ using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using static Converter.RageResource;
 using static System.Net.WebRequestMethods;
 
 namespace ConsoleApp1
@@ -20,24 +21,14 @@ namespace ConsoleApp1
 		{
 			EndianBinaryReader br = new EndianBinaryReader(decompMem);
 			if (endian)br.Endianness = Endian.BigEndian;// 0 - lit, 1 - big
-			uint currentPos = 0;
-			uint _vmt = 1947759104;
-			uint tmp;
-			for (int i = 0; i < 1; )
-			{
-				br.Position = currentPos;
-				tmp = br.ReadUInt32();
-				if (tmp == _vmt) break;
-				else if ((currentPos + 0x100) > Program.cpuSize) { Console.WriteLine("Unable to determine start pagee");Console.ReadKey(); return false; }
-				else currentPos += 0x100;
-			}
-			br.Position = currentPos;
+			// узнаем позицию начальной страницы в файле
+			br.Position = ResourceUtils.FlagInfo.RSC85_ObjectStart;
 			RageResource.RDRVolumeData volumeData;
 			RageResource.Drawable[] drawable = new RageResource.Drawable[1];
 
 			volumeData = ReadRageResource.RDRVolumeData(br);
 			// xtd 
-			TextureDictionary.ReadTextureDictionary(br, volumeData.pTexture);
+			if (volumeData.pTexture != 0) TextureDictionary.ReadTextureDictionary(br, volumeData.pTexture);
 
 			// offset to drawable sections
 			br.Position = volumeData.cDrawable.m_pList;
@@ -179,7 +170,9 @@ namespace ConsoleApp1
 			for (int a = 0; a < modelCount; a++)
 			{
 				br.Position = model[a].m_pBounds;
-				for (int b = 0; b < model[a].m_pGeometry.m_wCount+1; b++)vBouds[a, b] = br.ReadVector4();
+				uint boundsCount = model[a].m_pGeometry.m_wCount;
+				if (model[a].m_pGeometry.m_wCount > 1) boundsCount++;
+				for (int b = 0; b < boundsCount; b++) vBouds[a, b] = br.ReadVector4();
 			}
 			IV_odd.Build(volumeData.cDrawable.m_wCount, shaderFXCount2, shaderFX, br, drawable, modelCount2, model, vBouds, indexBuffer, vertexBuffer, vertexDeclaration);
 			return true;
