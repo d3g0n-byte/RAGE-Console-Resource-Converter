@@ -1,4 +1,4 @@
-﻿using ConsoleApp1;
+using ConsoleApp1;
 using Converter.Utils;
 using System;
 using System.Collections.Generic;
@@ -59,35 +59,42 @@ namespace Converter
 			float[] TexCoord5Buffer = new float[2];
 			float[] TexCoord6Buffer = new float[2];
 			float[] TexCoord7Buffer = new float[2];
-			float[] TangentBuffer = new float[4];
-			float[] BinormalBuffer = new float[4];
+			Vector4 TangentBuffer = new Vector4();
+			Vector4 BinormalBuffer = new Vector4();
 			br.Position = pVertexData;
-			Console.WriteLine(pVertexData);
+			//Console.WriteLine(pVertexData);
 			for (ushort k = 0; k < wCount; k++)
 			{
+				uint currentByte = 0;
 				if (vertexDeclaration.m_UsedElements.m_bPosition)
 				{
 					for (int a = 0; a < 3; a++) PositionBuffer[a] = br.ReadSingle();
+					currentByte += 12;
 				}
 				if (vertexDeclaration.m_UsedElements.m_bBlendWeight)
 				{
 					for (int a = 0; a < 4; a++) BlendWeightBuffer[3 - a] = ((float)br.ReadByte())/255;
+					currentByte += 4;
 				}
 				if (vertexDeclaration.m_UsedElements.m_bBlendIndices)
 				{
 					for (int a = 0; a < 4; a++) BlendIndicesBuffer[3 - a] = br.ReadByte();
+					currentByte += 4;
 				}
 				if (vertexDeclaration.m_UsedElements.m_bNormal)
 				{
 					NormalBuffer = DEC3NToVector4(br.ReadUInt32());
+					currentByte += 4;
 				}
 				if (vertexDeclaration.m_UsedElements.m_bColor)
 				{
 					for (int a = 0; a < 4; a++) ColorBuffer[3 - a] = br.ReadByte();
+					currentByte += 4;
 				}
 				if (vertexDeclaration.m_UsedElements.m_bSpecular)
 				{
 					for (int a = 0; a < 4; a++) SpecularBuffer[3 - a] = br.ReadByte();
+					currentByte += 4;
 				}
 				/*
 				1 - float16 используется в большинстве моделях рдр.
@@ -98,69 +105,86 @@ namespace Converter
 				{
 				if (vertexDeclaration.m_ElementTypes.m_nTexCoord0Type == 1)for (int a = 0; a < 2; a++) TexCoord0Buffer[a] = (float)br.ReadHalf();
 					else if (vertexDeclaration.m_ElementTypes.m_nTexCoord0Type == 14)for (int a = 0; a < 2; a++)TexCoord0Buffer[a] = ((float)br.ReadUInt16()) * (float)(3.05185094e-005);
-					else if (vertexDeclaration.m_ElementTypes.m_nTexCoord0Type == 5)for (int a = 0; a < 2; a++) TexCoord0Buffer[a] = br.ReadSingle();
+					//else if (vertexDeclaration.m_ElementTypes.m_nTexCoord0Type == 5)for (int a = 0; a < 2; a++) TexCoord0Buffer[a] = br.ReadSingle();
+					currentByte += 4;
 				}
 				if (vertexDeclaration.m_UsedElements.m_bTexCoord1)
 				{
 					if (vertexDeclaration.m_ElementTypes.m_nTexCoord1Type == 1) for (int a = 0; a < 2; a++) TexCoord1Buffer[a] = (float)br.ReadHalf();
 					else if (vertexDeclaration.m_ElementTypes.m_nTexCoord1Type == 14) for (int a = 0; a < 2; a++) TexCoord1Buffer[a] = ((float)br.ReadUInt16()) * (float)(3.05185094e-005);
-					else if (vertexDeclaration.m_ElementTypes.m_nTexCoord1Type == 5) for (int a = 0; a < 2; a++) TexCoord1Buffer[a] = br.ReadSingle();
+					//else if (vertexDeclaration.m_ElementTypes.m_nTexCoord1Type == 5) for (int a = 0; a < 2; a++) TexCoord1Buffer[a] = br.ReadSingle();
+					currentByte += 4;
 				}
 				if (vertexDeclaration.m_UsedElements.m_bTexCoord2)
 				{
 					if (vertexDeclaration.m_ElementTypes.m_nTexCoord2Type == 1) for (int a = 0; a < 2; a++) TexCoord1Buffer[a] = (float)br.ReadHalf();
 					else if (vertexDeclaration.m_ElementTypes.m_nTexCoord2Type == 14) for (int a = 0; a < 2; a++) TexCoord1Buffer[a] = ((float)br.ReadUInt16()) * (float)(3.05185094e-005);
-					else if (vertexDeclaration.m_ElementTypes.m_nTexCoord2Type == 5) for (int a = 0; a < 2; a++) TexCoord1Buffer[a] = br.ReadSingle();
+					//else if (vertexDeclaration.m_ElementTypes.m_nTexCoord2Type == 5) for (int a = 0; a < 2; a++) TexCoord1Buffer[a] = br.ReadSingle();
+					currentByte += 4;
 				}
 				if (vertexDeclaration.m_UsedElements.m_bTexCoord3)
 				{
 					if (vertexDeclaration.m_ElementTypes.m_nTexCoord3Type == 1) for (int a = 0; a < 2; a++) TexCoord1Buffer[a] = (float)br.ReadHalf();
 					else if (vertexDeclaration.m_ElementTypes.m_nTexCoord3Type == 14) for (int a = 0; a < 2; a++) TexCoord1Buffer[a] = ((float)br.ReadUInt16()) * (float)(3.05185094e-005);
-					else if (vertexDeclaration.m_ElementTypes.m_nTexCoord3Type == 5) for (int a = 0; a < 2; a++) TexCoord1Buffer[a] = br.ReadSingle();
+					//lse if (vertexDeclaration.m_ElementTypes.m_nTexCoord3Type == 5) for (int a = 0; a < 2; a++) TexCoord1Buffer[a] = br.ReadSingle();
+					currentByte += 4;
 				}
 				if (vertexDeclaration.m_UsedElements.m_bTexCoord4)
 				{
 					if (vertexDeclaration.m_ElementTypes.m_nTexCoord4Type == 1) for (int a = 0; a < 2; a++) TexCoord1Buffer[a] = (float)br.ReadHalf();
 					else if (vertexDeclaration.m_ElementTypes.m_nTexCoord4Type == 14) for (int a = 0; a < 2; a++) TexCoord1Buffer[a] = ((float)br.ReadUInt16()) * (float)(3.05185094e-005);
-					else if (vertexDeclaration.m_ElementTypes.m_nTexCoord4Type == 5) for (int a = 0; a < 2; a++) TexCoord1Buffer[a] = br.ReadSingle();
+					//else if (vertexDeclaration.m_ElementTypes.m_nTexCoord4Type == 5) for (int a = 0; a < 2; a++) TexCoord1Buffer[a] = br.ReadSingle();
+					currentByte += 4;
 				}
 				if (vertexDeclaration.m_UsedElements.m_bTexCoord5)
 				{
 					if (vertexDeclaration.m_ElementTypes.m_nTexCoord5Type == 1) for (int a = 0; a < 2; a++) TexCoord1Buffer[a] = (float)br.ReadHalf();
 					else if (vertexDeclaration.m_ElementTypes.m_nTexCoord5Type == 14) for (int a = 0; a < 2; a++) TexCoord1Buffer[a] = ((float)br.ReadUInt16()) * (float)(3.05185094e-005);
-					else if (vertexDeclaration.m_ElementTypes.m_nTexCoord5Type == 5) for (int a = 0; a < 2; a++) TexCoord1Buffer[a] = br.ReadSingle();
+					//else if (vertexDeclaration.m_ElementTypes.m_nTexCoord5Type == 5) for (int a = 0; a < 2; a++) TexCoord1Buffer[a] = br.ReadSingle();
+					currentByte += 4;
 				}
 				if (vertexDeclaration.m_UsedElements.m_bTexCoord6)
 				{
 					if (vertexDeclaration.m_ElementTypes.m_nTexCoord6Type == 1) for (int a = 0; a < 2; a++) TexCoord1Buffer[a] = (float)br.ReadHalf();
 					else if (vertexDeclaration.m_ElementTypes.m_nTexCoord6Type == 14) for (int a = 0; a < 2; a++) TexCoord1Buffer[a] = ((float)br.ReadUInt16()) * (float)(3.05185094e-005);
-					else if (vertexDeclaration.m_ElementTypes.m_nTexCoord6Type == 5) for (int a = 0; a < 2; a++) TexCoord1Buffer[a] = br.ReadSingle();
+					//else if (vertexDeclaration.m_ElementTypes.m_nTexCoord6Type == 5) for (int a = 0; a < 2; a++) TexCoord1Buffer[a] = br.ReadSingle();
+					currentByte += 4;
 				}
 				if (vertexDeclaration.m_UsedElements.m_bTexCoord7)
 				{
 					if (vertexDeclaration.m_ElementTypes.m_nTexCoord7Type == 1) for (int a = 0; a < 2; a++) TexCoord1Buffer[a] = (float)br.ReadHalf();
 					else if (vertexDeclaration.m_ElementTypes.m_nTexCoord7Type == 14) for (int a = 0; a < 2; a++) TexCoord1Buffer[a] = ((float)br.ReadUInt16()) * (float)(3.05185094e-005);
-					else if (vertexDeclaration.m_ElementTypes.m_nTexCoord7Type == 5) for (int a = 0; a < 2; a++) TexCoord1Buffer[a] = br.ReadSingle();
+					//else if (vertexDeclaration.m_ElementTypes.m_nTexCoord7Type == 5) for (int a = 0; a < 2; a++) TexCoord1Buffer[a] = br.ReadSingle();
+					currentByte += 4;
 				}
 				if (vertexDeclaration.m_UsedElements.m_bTangent)
 				{
-					for (int a = 0; a < 4; a++) TangentBuffer[3 - a] = ((float)br.ReadSByte()) / 127;// этот способ просто из потолка.
+					TangentBuffer = DEC3NToVector4(br.ReadUInt32());
+					currentByte += 4;
 				}
 				if (vertexDeclaration.m_UsedElements.m_bBinormal)
 				{
-					for (int a = 0; a < 4; a++) BinormalBuffer[3 - a] = ((float)br.ReadSByte()) / 127;// и тут
+					BinormalBuffer = DEC3NToVector4(br.ReadUInt32());
+					currentByte += 4;
 				}
+				br.Position += (vertexDeclaration.m_nTotaSize - currentByte);
 				// пишем
 				outFile.Append("\t\t\t\t");
 				if (!vertexDeclaration.m_UsedElements.m_bBlendIndices || !vertexDeclaration.m_UsedElements.m_bBlendWeight) // проверка на skinned
 				{
-					if (vertexDeclaration.m_UsedElements.m_bPosition) outFile.Append($"{PositionBuffer[0]} {PositionBuffer[1]} {PositionBuffer[2]} / ");
+					if (vertexDeclaration.m_UsedElements.m_bPosition)
+						if (!Settings.bSwapYAndZ)outFile.Append($"{PositionBuffer[0]} {PositionBuffer[1]} {PositionBuffer[2]} / ");
+						else outFile.Append($"{PositionBuffer[0]*-1} {PositionBuffer[2]} {PositionBuffer[1]} / ");
 					else outFile.Append("0 0 0 / ");
-					if (vertexDeclaration.m_UsedElements.m_bNormal) outFile.Append($"{NormalBuffer.X} {NormalBuffer.Y} {NormalBuffer.Z} / ");
+					if (vertexDeclaration.m_UsedElements.m_bNormal)// outFile.Append($"{NormalBuffer.X} {NormalBuffer.Y} {NormalBuffer.Z} / ");
+						if (!Settings.bSwapYAndZ) outFile.Append($"{NormalBuffer.X} {NormalBuffer.Y} {NormalBuffer.Z} / ");
+						else outFile.Append($"{NormalBuffer.X} {NormalBuffer.Z} {NormalBuffer.Y} / ");
 					else outFile.Append("0 0 0 / ");
 					if (vertexDeclaration.m_UsedElements.m_bColor) outFile.Append($"{ColorBuffer[0]} {ColorBuffer[1]} {ColorBuffer[2]} {ColorBuffer[3]} / ");
 					else outFile.Append("255 255 255 255 / ");
-					if (vertexDeclaration.m_UsedElements.m_bTangent) outFile.Append($"{TangentBuffer[0]} {TangentBuffer[1]} {TangentBuffer[2]} {TangentBuffer[3]} / ");
+					if (vertexDeclaration.m_UsedElements.m_bTangent) //outFile.Append($"{TangentBuffer.X} {TangentBuffer.Y} {TangentBuffer.Z} {TangentBuffer.W} / ");
+						if (!Settings.bSwapYAndZ) outFile.Append($"{TangentBuffer.X} {TangentBuffer.Y} {TangentBuffer.Z} {TangentBuffer.W} / ");
+						else outFile.Append($"{TangentBuffer.X} {TangentBuffer.Z} {TangentBuffer.Y} {TangentBuffer.W} / ");
 					else outFile.Append("0 0 0 0 / ");
 					if (vertexDeclaration.m_UsedElements.m_bTexCoord0) outFile.Append($"{TexCoord0Buffer[0]} {TexCoord0Buffer[1]} / ");
 					else outFile.Append("0 0 / ");
@@ -170,16 +194,25 @@ namespace Converter
 					else outFile.Append("0 0 / ");
 					if (vertexDeclaration.m_UsedElements.m_bTexCoord3) outFile.Append($"{TexCoord3Buffer[0]} {TexCoord3Buffer[1]} / ");
 					else outFile.Append("0 0 / ");
-					if (vertexDeclaration.m_UsedElements.m_bTexCoord4) outFile.Append($"{TexCoord4Buffer[0]} {TexCoord4Buffer[1]} / ");
-					else outFile.Append("0 0 / ");
-					if (vertexDeclaration.m_UsedElements.m_bTexCoord5) outFile.AppendLine($"{TexCoord5Buffer[0]} {TexCoord5Buffer[1]}");
-					else outFile.AppendLine("0 0");
+
+					if (!vertexDeclaration.m_UsedElements.m_bSpecular)
+					{
+						if (vertexDeclaration.m_UsedElements.m_bTexCoord4) outFile.Append($"{TexCoord4Buffer[0]} {TexCoord4Buffer[1]} / ");
+						else outFile.Append("0 0 / ");
+						if (vertexDeclaration.m_UsedElements.m_bTexCoord5) outFile.AppendLine($"{TexCoord5Buffer[0]} {TexCoord5Buffer[1]}");
+						else outFile.AppendLine("0 0");
+					}
+					else outFile.AppendLine($"0 {SpecularBuffer[0] / 255} {SpecularBuffer[1] / 255} {SpecularBuffer[2] / 255}");
 				}
 				else
 				{
-					if (vertexDeclaration.m_UsedElements.m_bPosition) outFile.Append($"{PositionBuffer[0]} {PositionBuffer[1]} {PositionBuffer[2]} / ");
+					if (vertexDeclaration.m_UsedElements.m_bPosition)
+						if (!Settings.bSwapYAndZ) outFile.Append($"{PositionBuffer[0]} {PositionBuffer[1]} {PositionBuffer[2]} / ");
+						else outFile.Append($"{PositionBuffer[0]*-1} {PositionBuffer[2]} {PositionBuffer[1]} / ");
 					else outFile.Append("0 0 0 / ");
-					if (vertexDeclaration.m_UsedElements.m_bNormal) outFile.Append($"{NormalBuffer.X} {NormalBuffer.Y} {NormalBuffer.Z} / ");
+					if (vertexDeclaration.m_UsedElements.m_bNormal)
+						if (!Settings.bSwapYAndZ) outFile.Append($"{NormalBuffer.X} {NormalBuffer.Y} {NormalBuffer.Z} / ");
+						else outFile.Append($"{NormalBuffer.X} {NormalBuffer.Z} {NormalBuffer.Y} / ");
 					else outFile.Append("0 0 0 / ");
 					if (vertexDeclaration.m_UsedElements.m_bBlendWeight) outFile.Append($"{BlendWeightBuffer[0]} {BlendWeightBuffer[1]} {BlendWeightBuffer[2]} {BlendWeightBuffer[3]} / ");
 					else outFile.Append("0 0 0 0 / ");
@@ -187,7 +220,9 @@ namespace Converter
 					else outFile.Append("0 0 0 0 / ");
 					if (vertexDeclaration.m_UsedElements.m_bColor) outFile.Append($"{ColorBuffer[0]} {ColorBuffer[1]} {ColorBuffer[2]} {ColorBuffer[3]} / ");
 					else outFile.Append("255 255 255 255 / ");
-					if (vertexDeclaration.m_UsedElements.m_bTangent) outFile.Append($"{TangentBuffer[0]} {TangentBuffer[1]} {TangentBuffer[2]} {TangentBuffer[3]} / ");
+					if (vertexDeclaration.m_UsedElements.m_bTangent)
+						if (!Settings.bSwapYAndZ) outFile.Append($"{TangentBuffer.X} {TangentBuffer.Y} {TangentBuffer.Z} {TangentBuffer.W} / ");
+						else outFile.Append($"{TangentBuffer.X} {TangentBuffer.Z} {TangentBuffer.Y} {TangentBuffer.W} / ");
 					else outFile.Append("0 0 0 0 / ");
 					if (vertexDeclaration.m_UsedElements.m_bTexCoord0) outFile.Append($"{TexCoord0Buffer[0]} {TexCoord0Buffer[1]} / ");
 					else outFile.Append("0 0 / ");
