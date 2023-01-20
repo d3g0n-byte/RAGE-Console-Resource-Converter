@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -9,9 +9,10 @@ namespace Converter
 {
 	internal class DDS
 	{
-		public static bool BuildDDS(byte[] pixelData, int width, int height, int format, uint textureSize, string basicName)
+		public static bool BuildDDS(byte[] pixelData, int width, int height, int format, uint textureSize, string basicName, uint lodCount)
 		{
 			BinaryWriter dataOut = new BinaryWriter(new FileStream(basicName, FileMode.Create));
+			if (lodCount < 2) lodCount = 0;
 
 			uint ddsFlags = 528391;
 			uint ddsMagic = 542327876;
