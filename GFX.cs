@@ -1,4 +1,4 @@
-using ConsoleApp1;
+﻿using ConsoleApp1;
 using Converter.Utils;
 using System;
 using System.Collections.Generic;
@@ -6,6 +6,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using static Converter.RageResource;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Converter
@@ -43,7 +44,7 @@ namespace Converter
 			if (w > 1) w -= 4;
 			return new Vector4((float)(x) / 511.0f, (float)(y) / 511.0f, (float)(z) / 511.0f, (float)(w));
 		}
-		public static bool Vertex(EndianBinaryReader br, StringBuilder outFile, RageResource.VertexDeclaration vertexDeclaration, uint pVertexData, uint wCount)
+		public static bool Vertex(EndianBinaryReader br, StringBuilder outFile, RageResource.VertexDeclaration vertexDeclaration, uint pVertexData, uint wCount, bool skinned)
 		{
 			float[] PositionBuffer=new float[3];
 			float[] BlendWeightBuffer = new float[4];
@@ -170,7 +171,7 @@ namespace Converter
 				br.Position += (vertexDeclaration.m_nTotaSize - currentByte);
 				// пишем
 				outFile.Append("\t\t\t\t");
-				if (!vertexDeclaration.m_UsedElements.m_bBlendIndices || !vertexDeclaration.m_UsedElements.m_bBlendWeight) // проверка на skinned
+				if (!skinned) // проверка на skinned
 				{
 					if (vertexDeclaration.m_UsedElements.m_bPosition)
 						if (!Settings.bSwapYAndZ)outFile.Append($"{PositionBuffer[0]} {PositionBuffer[1]} {PositionBuffer[2]} / ");

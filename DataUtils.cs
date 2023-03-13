@@ -111,6 +111,21 @@ namespace Converter
 			br.Position = oldPos;
 			return tempstring;
 		}
+		public enum ErrorCode
+		{
+			None = 0,
+		}
+
+		public static int DecompressLZX(byte[] compressedData, byte[] decompressedData)
+		{
+			Array.Resize<byte>(ref compressedData, (int)(compressedData.Length * 2));
+
+			var decompContext = new XCompression.DecompressionContext();
+			int pakLen = compressedData.Length;
+			int outLen = decompressedData.Length;
+			ErrorCode err = (ErrorCode)decompContext.Decompress(compressedData, 0, ref pakLen, decompressedData, 0, ref outLen);
+			return (int)err;
+		}
 		public static void ReverseBytes(ref byte[] src, int count)
 		{
 			if (count==0) return;

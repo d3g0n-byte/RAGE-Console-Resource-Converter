@@ -1,4 +1,4 @@
-using ConsoleApp1;
+﻿using ConsoleApp1;
 using Converter.Utils;
 using System;
 using System.Collections.Generic;
@@ -222,6 +222,26 @@ namespace Converter
 			public string[] flagsAsString;
 			//joint
 		}
+		public struct IVSkeletonData
+		{
+			public uint m_pBone;
+			public uint m_pChildrenMapping;
+			public uint _f8; // поинтер
+			public uint _fC; // поинтер
+			public uint _f10; // поинтер
+			public ushort m_wBoneCount;
+			public short _f16;
+			public short _f18;
+			public short _f1A;
+			public uint _f1C;                   // flags
+			public Collection m_pBoneIdMapping;
+			public short m_wUsageCount;
+			public short _f2A;
+			public uint _f2C;
+			public uint _f30;
+			public string[] flagsAsString;
+			//joint
+		}
 		public struct RDRTextureDefinition
 		{
 			public uint _vmt;
@@ -402,7 +422,30 @@ namespace Converter
 			public int _f14;
 			public uint m_pDeclaration;
 		}
-
+		public struct MCLAShaderFX
+		{
+			public uint vtable;
+			public uint m_dwBlockMapAdress;
+			public byte _f8;
+			public byte m_nDrawBucket;
+			public byte _fA;
+			public byte _fB;
+			public short _fC;
+			public ushort m_wIndex;
+			public uint m_pShaderParams;
+			public uint _f14;
+			public ushort m_wParamsCount;
+			public ushort m_wEffectSize;
+			public uint m_pParameterTypes;
+			public uint m_dwHash;
+			public uint m_pParamsHash;
+			public uint _f24; // поинтер
+			public uint _f28;
+			public uint m_pName;
+			public uint _f30;
+			public uint m_pSPS;
+			public uint m_pString;
+		}
 	}
 	internal class ReadRageResource
 	{
@@ -577,7 +620,7 @@ namespace Converter
 			vertexElementTypes.m_nPositionType = (byte)((tmpValue & 0xF0) >> 4);
 			return vertexElementTypes;
 		}
-		public static VertexDeclaration VertexDeclaration (EndianBinaryReader br)
+		public static VertexDeclaration VertexDeclaration(EndianBinaryReader br)
 		{
 			VertexDeclaration vertexDeclaration;
 			vertexDeclaration.m_UsedElements = ReadVertexFlags(br.ReadUInt32());
@@ -602,7 +645,7 @@ namespace Converter
 		{
 			RDRShaderFX shaderFX;
 			shaderFX.m_pValue = br.ReadOffset();
-			shaderFX.m_dwNameHash= br.ReadUInt32();
+			shaderFX.m_dwNameHash = br.ReadUInt32();
 			shaderFX.m_nParamCount = br.ReadByte();
 			shaderFX._f9 = br.ReadSByte();
 			shaderFX._fA = br.ReadInt16();
@@ -615,7 +658,7 @@ namespace Converter
 			shaderFX.value = new RDRShaderValue[shaderFX.m_nParamCount];
 			for (int a = 0; a < shaderFX.m_nParamCount; a++)
 			{
-				br.Position = shaderFX.m_pValue+(a*8);
+				br.Position = shaderFX.m_pValue + (a * 8);
 				shaderFX.value[a] = ReadRageResource.RDRShaderValue(br);
 			}
 			return shaderFX;
@@ -643,7 +686,7 @@ namespace Converter
 			textureDefinition._f2C = br.ReadInt32();
 			return textureDefinition;
 		}
-//		public static string GetSkelFlag(byte)
+		//		public static string GetSkelFlag(byte)
 		public static RDRSkeletonData RDRSkeletonData(EndianBinaryReader br)
 		{
 			RDRSkeletonData skeletonData;
@@ -662,6 +705,51 @@ namespace Converter
 			skeletonData.m_pBoneIdMapping.m_pList = br.ReadOffset();
 			skeletonData.m_pBoneIdMapping.m_wCount = br.ReadUInt16();
 			skeletonData.m_pBoneIdMapping.m_wSize = br.ReadUInt16();
+			skeletonData.m_wUsageCount = br.ReadInt16();
+			skeletonData._f2A = br.ReadInt16();
+			skeletonData._f2C = br.ReadUInt32();
+			skeletonData._f30 = br.ReadUInt32();
+
+			uint flagsCount = 0;
+			for (int a = 0; a < 32; a++) if (DataUtils.GetBit(skeletonData._f1C, a)) flagsCount++;
+			skeletonData.flagsAsString = new string[flagsCount];
+			uint currentFlags = 0;
+			for (int a = 0; a < 32; a++)
+			{
+				string flag = "";
+				switch (a)
+				{
+					case 1:
+						flag = "HaveBoneMappings";
+						break;
+					case 2:
+						flag = "HaveBoneWorldOrient";
+						break;
+					case 3:
+						flag = "AuthoredOrientation";
+						break;
+					default:
+						flag = $"UnknownFlag{a}";
+						break;
+				}
+				if (DataUtils.GetBit(skeletonData._f1C, a)) skeletonData.flagsAsString[currentFlags++] = flag;
+			}
+			return skeletonData;
+		}
+		public static RDRSkeletonData IVSkeletonData(EndianBinaryReader br)
+		{
+			RDRSkeletonData skeletonData;
+			skeletonData.m_pBone = br.ReadOffset();
+			skeletonData.m_pChildrenMapping = br.ReadOffset();
+			skeletonData._f8 = br.ReadInt32();
+			skeletonData._fC = br.ReadInt32();
+			skeletonData._f10 = br.ReadInt32();
+			skeletonData.m_wBoneCount = br.ReadUInt16();// 
+			skeletonData._f16 = br.ReadInt16();//
+			skeletonData._f18 = br.ReadInt16();
+			skeletonData._f1A = br.ReadInt16();
+			skeletonData._f1C = br.ReadUInt32();// флaги.
+			skeletonData.m_pBoneIdMapping = br.ReadCollections();
 			skeletonData.m_wUsageCount = br.ReadInt16();
 			skeletonData._f2A = br.ReadInt16();
 			skeletonData._f2C = br.ReadUInt32();
@@ -724,13 +812,13 @@ namespace Converter
 			bone._fD4 = br.ReadInt32();
 			bone._fD8 = br.ReadInt32();
 			bone._fDC = br.ReadInt32();
-			uint flagsCount=0;
-			for (int a = 0; a < 32; a++)if (DataUtils.GetBit(bone.m_dwFlags,a))flagsCount++;
+			uint flagsCount = 0;
+			for (int a = 0; a < 32; a++) if (DataUtils.GetBit(bone.m_dwFlags, a)) flagsCount++;
 			bone.flagsAsString = new string[flagsCount];
 			uint currentFlags = 0;
 			for (int a = 0; a < 32; a++)
 			{
-				string flag="";
+				string flag = "";
 				switch (a)
 				{
 					case 0:
@@ -805,7 +893,7 @@ namespace Converter
 		{
 			XTDHeader header;
 			header.m_dwVTable = br.ReadUInt32();
-			header.m_pBlockMap= br.ReadOffset();
+			header.m_pBlockMap = br.ReadOffset();
 			header.m_pParentDictionary = br.ReadOffset();
 			header.m_dwUsageCount = br.ReadUInt32();
 			header.m_cHash = br.ReadCollections();
@@ -815,7 +903,7 @@ namespace Converter
 		public static Texture Texture(EndianBinaryReader br)
 		{
 			Texture texture;
-			texture._vmt= br.ReadUInt32();
+			texture._vmt = br.ReadUInt32();
 			texture._f4 = br.ReadInt32();
 			texture._f8 = br.ReadSByte();
 			texture._f9 = br.ReadSByte();
@@ -836,6 +924,32 @@ namespace Converter
 			texture._f3C = br.ReadSingle();
 			return texture;
 		}
+		public static Texture TextureGTAIV(EndianBinaryReader br)
+		{
+			Texture texture;
+			texture._vmt = br.ReadUInt32();
+			texture._f4 = br.ReadInt32();
+			texture._f8 = br.ReadSByte();
+			texture._f9 = br.ReadSByte();
+			texture._fA = br.ReadInt16();
+			texture._fC = br.ReadInt32();
+			texture._f10 = br.ReadOffset();
+			//texture._f14 = br.ReadInt32();
+			texture.m_pName = br.ReadOffset();
+			texture.m_pBitmap = br.ReadOffset();
+			texture.m_dwWidth = br.ReadUInt16();
+			texture.m_dwHeight = br.ReadUInt16();
+			texture.m_Lod = br.ReadUInt32();
+			texture._f28 = br.ReadSingle();
+			texture._f2C = br.ReadSingle();
+			texture._f30 = br.ReadSingle();
+			texture._f34 = br.ReadSingle();
+			texture._f38 = br.ReadSingle();
+			texture._f3C = br.ReadSingle();
+
+			texture._f14 = 0;
+			return texture;
+		}
 		public static BitMap BitMap(EndianBinaryReader br)
 		{
 			BitMap bitMap;
@@ -853,13 +967,15 @@ namespace Converter
 			bitMap._f2C = br.ReadInt32();
 			bitMap._f30 = br.ReadInt32();
 			// получаем тип текстуры. 0x000000FF
+			bool pointerToGFX = false;
 			bitMap.m_dwTextureType = bitMap.m_pPixelData << 26;
 			bitMap.m_dwTextureType = bitMap.m_dwTextureType >> 26;
 			// получаем оффсет. Вместо этого можно просто использовать маску 0x0FFFFF00
+			if (bitMap.m_pPixelData >> 28 == 6) pointerToGFX = true;
 			bitMap.m_pPixelData = bitMap.m_pPixelData >> 8;
 			bitMap.m_pPixelData = bitMap.m_pPixelData << 16;
 			bitMap.m_pPixelData = bitMap.m_pPixelData >> 8;
-			bitMap.m_pPixelData += (uint)(FlagInfo.BaseResourceSizeV);
+			if (pointerToGFX) bitMap.m_pPixelData += (uint)(FlagInfo.BaseResourceSizeV);
 			return bitMap;
 		}
 		public static FragmentDictionary FragmentDictionary(EndianBinaryReader br)
@@ -871,6 +987,45 @@ namespace Converter
 			dict.m_pTextureDictionary = br.ReadOffset();
 			return dict;
 		}
-	}
+		public static IV_ShaderGroup IV_ShaderGroup(EndianBinaryReader br)
+		{
+			IV_ShaderGroup shade = new IV_ShaderGroup();
+			shade.vtable = br.ReadUInt32();
+			shade.m_pTexture = br.ReadOffset();
+			shade.m_pShaders = br.ReadCollections();
+			shade._f10.m0 = br.ReadVector4();
+			shade._f10.m1 = br.ReadVector4();
+			shade._f10.m2 = br.ReadVector4();
+			shade.m_pVertexFormat = br.ReadCollections();
+			shade.m_pIndexMapping = br.ReadCollections();
+			return shade;
+		}
+		public static MCLAShaderFX MCLAShaderFX(EndianBinaryReader br)
+		{
+			MCLAShaderFX fx = new MCLAShaderFX();
+			fx.vtable = br.ReadUInt32();
+			fx.m_dwBlockMapAdress = br.ReadOffset();
+			fx._f8 = br.ReadByte();
+			fx.m_nDrawBucket = br.ReadByte();
+			fx._fA = br.ReadByte();
+			fx._fB = br.ReadByte();
+			fx._fC = br.ReadInt16();
+			fx.m_wIndex = br.ReadUInt16();
+			fx.m_pShaderParams = br.ReadOffset();
+			fx._f14 = br.ReadUInt32();
+			fx.m_wParamsCount = br.ReadUInt16();
+			fx.m_wEffectSize = br.ReadUInt16();
+			fx.m_pParameterTypes = br.ReadOffset();
+			fx.m_dwHash = br.ReadUInt32();
+			fx.m_pParamsHash = br.ReadOffset();
+			fx._f24 = br.ReadOffset();
+			fx._f28 = br.ReadUInt32();
+			fx.m_pName = br.ReadOffset();
+			fx._f30 = br.ReadUInt32();
+			fx.m_pSPS = br.ReadOffset();
+			fx.m_pString = br.ReadOffset();
 
+			return fx;
+		}
+	}
 }

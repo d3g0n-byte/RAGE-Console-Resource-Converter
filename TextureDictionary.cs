@@ -1,4 +1,4 @@
-using ConsoleApp1;
+﻿using ConsoleApp1;
 using Converter.Utils;
 using System;
 using System.Collections.Generic;
@@ -19,6 +19,7 @@ namespace Converter
 				case 18: return "DXT1";
 				case 19: return "DXT3";
 				case 20: return "DXT5";
+				//case 32: return "16_16_16_16_FLOAT";
 				case 59: return "DXT5A";
 				case 49: return "DXN";
 				case 2: return "8";
@@ -111,7 +112,164 @@ namespace Converter
 
 		}*/
 
+		public static bool ReadTexture(RageResource.Texture texture, RageResource.BitMap bitMap, EndianBinaryReader br, bool addDDStoName)
+		{
+			string  typeAsString = GetFormat(bitMap.m_dwTextureType);
+			if (typeAsString == "unknown") { Console.WriteLine($"Unknown texture type {bitMap.m_dwTextureType}.\nSend this file to the author d3g0n#8929 " +
+				"or on gtaforums so that he can add its support.\nPress any key to continue"); Console.ReadKey(); return true; }
 
+			string textureName;
+			if (texture.m_pName != 0)
+			{
+				textureName = DataUtils.ReadStringAtOffset(texture.m_pName, br);
+				textureName = Path.GetFileName(textureName.Replace(':', '\\'));
+			}
+			else
+				textureName = $"{texture.m_dwHeight + texture.m_dwWidth + bitMap.m_pPixelData}.dds";
+
+			if (ResourceUtils.ResourceInfo.version == 109|| addDDStoName) textureName += ".dds";
+
+
+			uint endian;
+			byte[] pixelData = new byte[1];
+
+			// this code was moved from Rage Console Texture Editor
+
+			int H = 0;
+			int W = 0;
+			int T = 0;
+			int dwEndian = 0;
+			bool bSwizzled;
+			int dwSize = 0;
+			if (typeAsString == "DXT1")
+			{
+				W = texture.m_dwWidth;
+				H = texture.m_dwHeight;
+				if (W % 128 != 0) W = W + (128 - W % 128);
+				if (H % 128 != 0) H = H + (128 - H % 128);
+				dwSize = W * H / 2;
+				W = texture.m_dwWidth / 4;
+				H = texture.m_dwHeight / 4;
+				T = 8;
+				dwEndian = 2;
+				bSwizzled = true;
+			}
+			else if (typeAsString == "DXT3")
+			{
+				W = texture.m_dwWidth;
+				H = texture.m_dwHeight;
+				if (W % 128 != 0) W = W + (128 - W % 128);
+				if (H % 128 != 0) H = H + (128 - H % 128);
+				dwSize = W * H;
+				W = texture.m_dwWidth / 4;
+				H = texture.m_dwHeight / 4;
+				T = 16;
+				dwEndian = 2;
+				bSwizzled = true;
+			}
+			else if (typeAsString == "DXT5")
+			{
+				W = texture.m_dwWidth;
+				H = texture.m_dwHeight;
+				if (W % 128 != 0) W = W + (128 - W % 128);
+				if (H % 128 != 0) H = H + (128 - H % 128);
+				dwSize = W * H;
+				W = texture.m_dwWidth / 4;
+				H = texture.m_dwHeight / 4;
+				T = 16;
+				dwEndian = 2;
+				bSwizzled = true;
+			}
+			else if (typeAsString == "DXT5A")
+			{
+				W = texture.m_dwWidth;
+				H = texture.m_dwHeight;
+				if (W % 128 != 0) W = W + (128 - W % 128);
+				if (H % 128 != 0) H = H + (128 - H % 128);
+				dwSize = W * H;
+				W = texture.m_dwWidth / 4;
+				H = texture.m_dwHeight / 4;
+				T = 8;
+				dwEndian = 2;
+				bSwizzled = true;
+			}
+			else if (typeAsString == "8")
+			{
+				W = texture.m_dwWidth;
+				H = texture.m_dwHeight;
+				if (W % 128 != 0) W = W + (128 - W % 128);
+				if (H % 128 != 0) H = H + (128 - H % 128);
+				dwSize = W * H;
+				W = texture.m_dwWidth;
+				H = texture.m_dwHeight;
+				T = 1;
+				dwEndian = 2;
+				bSwizzled = true;
+			}
+			else if (typeAsString == "8888")
+			{
+				W = texture.m_dwWidth;
+				H = texture.m_dwHeight;
+				if (W % 128 != 0) W = W + (128 - W % 128);
+				if (H % 128 != 0) H = H + (128 - H % 128);
+				dwSize = W * H * 4;
+				W = texture.m_dwWidth / 4;
+				H = texture.m_dwHeight / 4;
+				T = 4;
+				dwEndian = 4;
+				bSwizzled = true;
+			}
+			else if (typeAsString == "DXN")
+			{
+				W = texture.m_dwWidth;
+				H = texture.m_dwHeight;
+				if (W % 128 != 0) W = W + (128 - W % 128);
+				if (H % 128 != 0) H = H + (128 - H % 128);
+				dwSize = W * H * 4;
+				W = texture.m_dwWidth / 4;
+				H = texture.m_dwHeight / 4;
+				T = 4;
+				dwEndian = 4;
+				bSwizzled = true;
+			}
+			else if (typeAsString == "16_16_16_16_FLOAT")
+			{
+				W = texture.m_dwWidth;
+				H = texture.m_dwHeight;
+				if (W % 128 != 0) W = W + (128 - W % 128);
+				if (H % 128 != 0) H = H + (128 - H % 128);
+				dwSize = W * H * 4;
+				W = texture.m_dwWidth / 4;
+				H = texture.m_dwHeight / 4;
+				T = 8;
+				dwEndian = 2;
+				bSwizzled = true;
+			}
+
+			Array.Resize<byte>(ref pixelData, (int)dwSize);
+			br.Position = bitMap.m_pPixelData;
+			pixelData = br.ReadBytes((int)dwSize);
+			DataUtils.ReverseBytes(ref pixelData, dwEndian);
+			byte[] unSwizzledBuffer = new byte[dwSize];
+			int off = 0;
+			for (int Y = 0; Y < H; Y++)
+			{
+				for (int X = 0; X < W; X++)
+				{
+					off = 0;
+					off = XGAddress2DTiledOffset(X, Y, W, T);
+					Buffer.BlockCopy(pixelData, off * T, unSwizzledBuffer, (X + Y * W) * T, T);
+				}
+			}
+			Buffer.BlockCopy(unSwizzledBuffer, 0, pixelData, 0, unSwizzledBuffer.Length);
+
+			string path = $"{FileInfo.filePath}\\{FileInfo.baseFileName}\\";
+			if (!Directory.Exists(path.Substring(0, path.Length - 1))) Directory.CreateDirectory(path.Substring(0, path.Length - 1));
+
+			DDS.BuildDDS(pixelData, texture.m_dwWidth, texture.m_dwHeight, (int)bitMap.m_dwTextureType, (uint)dwSize,
+				$"{FileInfo.filePath}\\{FileInfo.baseFileName}\\{textureName}", texture.m_Lod);
+			return true;
+		}
 		public static bool ReadTextureDictionary(EndianBinaryReader br, /*bool endian, */uint pointer)
 		{
 
@@ -126,144 +284,59 @@ namespace Converter
 			for (int a = 0; a < header.m_cTexture.m_wCount; a++)
 			{
 				br.Position = pTexture[a];
-				texture[a] = ReadRageResource.Texture(br);
+				if (ResourceUtils.ResourceInfo.version == 109)
+				{
+					texture[a] = ReadRageResource.TextureGTAIV(br);
+				}
+				else
+				{
+					texture[a] = ReadRageResource.Texture(br);
+				}
 				br.Position = texture[a].m_pBitmap;
 				bitMap[a] = ReadRageResource.BitMap(br);
 			}
 
-			string typeAsString;
-			uint endian;
-			byte[] pixelData = new byte[1];
+			//string typeAsString;
+			//uint endian;
+			//byte[] pixelData = new byte[1];
 			for (int a = 0; a < header.m_cTexture.m_wCount; a++)
 			{
-				typeAsString = GetFormat(bitMap[a].m_dwTextureType);
-				if (typeAsString == "unknown") continue;
-				string textureName = DataUtils.ReadStringAtOffset(texture[a].m_pName, br);
-				textureName = Path.GetFileName(textureName.Replace(':', '\\'));
+				ReadTexture(texture[a], bitMap[a], br, false);
+			}
+			return true;
+		}
+		public static bool ReadTextureDictionary(EndianBinaryReader br, /*bool endian, */uint pointer, int hash)
+		{
 
-				// this code was moved from Rage Console Texture Editor
+			br.Position = pointer;
+			RageResource.XTDHeader header = new RageResource.XTDHeader();
+			header = ReadRageResource.XTDHeader(br);
+			uint[] pTexture = new uint[header.m_cTexture.m_wCount];// 
+			br.Position = header.m_cTexture.m_pList;
+			for (int a = 0; a < header.m_cTexture.m_wCount; a++) pTexture[a] = br.ReadOffset();
+			RageResource.Texture[] texture = new RageResource.Texture[header.m_cTexture.m_wCount];
+			RageResource.BitMap[] bitMap = new RageResource.BitMap[header.m_cTexture.m_wCount];
+			for (int a = 0; a < header.m_cTexture.m_wCount; a++)
+			{
+				br.Position = pTexture[a];
+				if (ResourceUtils.ResourceInfo.version == 109)
+				{
+					texture[a] = ReadRageResource.TextureGTAIV(br);
+				}
+				else
+				{
+					texture[a] = ReadRageResource.Texture(br);
+				}
+				br.Position = texture[a].m_pBitmap;
+				bitMap[a] = ReadRageResource.BitMap(br);
+			}
 
-				int H = 0;
-				int W = 0;
-				int T = 0;
-				int dwEndian = 0;
-				bool bSwizzled;
-				int dwSize = 0;
-				if (typeAsString == "DXT1")
-				{
-					W = texture[a].m_dwWidth;
-					H = texture[a].m_dwHeight;
-					if (W % 128 != 0) W = W + (128 - W % 128);
-					if (H % 128 != 0) H = H + (128 - H % 128);
-					dwSize = W * H / 2;
-					W = texture[a].m_dwWidth  / 4;
-					H = texture[a].m_dwHeight / 4;
-					T = 8;
-					dwEndian = 2;
-					bSwizzled = true;
-				}
-				else if (typeAsString == "DXT3")
-				{
-					W = texture[a].m_dwWidth;
-					H = texture[a].m_dwHeight;
-					if (W % 128 != 0) W = W + (128 - W % 128);
-					if (H % 128 != 0) H = H + (128 - H % 128);
-					dwSize = W * H;
-					W = texture[a].m_dwWidth / 4;
-					H = texture[a].m_dwHeight / 4;
-					T = 16;
-					dwEndian = 2;
-					bSwizzled = true;
-				}
-				else if (typeAsString == "DXT5")
-				{
-					W = texture[a].m_dwWidth;
-					H = texture[a].m_dwHeight;
-					if (W % 128 != 0) W = W + (128 - W % 128);
-					if (H % 128 != 0) H = H + (128 - H % 128);
-					dwSize = W * H;
-					W = texture[a].m_dwWidth / 4;
-					H = texture[a].m_dwHeight / 4;
-					T = 16;
-					dwEndian = 2;
-					bSwizzled = true;
-				}
-				else if (typeAsString == "DXT5A")
-				{
-					W = texture[a].m_dwWidth;
-					H = texture[a].m_dwHeight;
-					if (W % 128 != 0) W = W + (128 - W % 128);
-					if (H % 128 != 0) H = H + (128 - H % 128);
-					dwSize = W * H;
-					W = texture[a].m_dwWidth / 4;
-					H = texture[a].m_dwHeight / 4;
-					T = 8;
-					dwEndian = 2;
-					bSwizzled = true;
-				}
-				else if (typeAsString == "8")
-				{
-					W = texture[a].m_dwWidth;
-					H = texture[a].m_dwHeight;
-					if (W % 128 != 0) W = W + (128 - W % 128);
-					if (H % 128 != 0) H = H + (128 - H % 128);
-					dwSize = W * H;
-					W = texture[a].m_dwWidth;
-					H = texture[a].m_dwHeight;
-					T = 1;
-					dwEndian = 2;
-					bSwizzled = true;
-				}
-				else if (typeAsString == "8888")
-				{
-					W = texture[a].m_dwWidth;
-					H = texture[a].m_dwHeight;
-					if (W % 128 != 0) W = W + (128 - W % 128);
-					if (H % 128 != 0) H = H + (128 - H % 128);
-					dwSize = W * H*4;
-					W = texture[a].m_dwWidth / 4;
-					H = texture[a].m_dwHeight / 4;
-					T = 4;
-					dwEndian = 4;
-					bSwizzled = true;
-				}
-				else if (typeAsString == "DXN")
-				{
-					W = texture[a].m_dwWidth;
-					H = texture[a].m_dwHeight;
-					if (W % 128 != 0) W = W + (128 - W % 128);
-					if (H % 128 != 0) H = H + (128 - H % 128);
-					dwSize = W * H * 4;
-					W = texture[a].m_dwWidth / 4;
-					H = texture[a].m_dwHeight / 4;
-					T = 4;
-					dwEndian = 4;
-					bSwizzled = true;
-				}
-
-				Array.Resize<byte>(ref pixelData, (int)dwSize);
-				br.Position = bitMap[a].m_pPixelData;
-				pixelData = br.ReadBytes((int)dwSize);
-				DataUtils.ReverseBytes(ref pixelData, dwEndian);
-				byte[] unSwizzledBuffer = new byte[dwSize];
-				int off = 0;
-				for (int Y = 0; Y < H; Y++)
-				{
-					for (int X = 0; X < W; X++)
-					{
-						off = 0;
-						off = XGAddress2DTiledOffset(X, Y, W, T);
-						Buffer.BlockCopy(pixelData, off * T, unSwizzledBuffer, (X + Y * W) * T, T);
-					}
-				}
-				Buffer.BlockCopy(unSwizzledBuffer, 0, pixelData, 0, unSwizzledBuffer.Length);
-
-				string path = $"{FileInfo.filePath}\\{FileInfo.baseFileName}\\";
-				if (!Directory.Exists(path.Substring(0, path.Length - 1))) Directory.CreateDirectory(path.Substring(0, path.Length - 1));
-
-				DDS.BuildDDS(pixelData, texture[a].m_dwWidth, texture[a].m_dwHeight, (int)bitMap[a].m_dwTextureType, (uint)dwSize, 
-					$"{FileInfo.filePath}\\{FileInfo.baseFileName}\\{textureName}", texture[a].m_Lod);
-
+			//string typeAsString;
+			//uint endian;
+			//byte[] pixelData = new byte[1];
+			for (int a = 0; a < header.m_cTexture.m_wCount; a++)
+			{
+				ReadTexture(texture[a], bitMap[a], br, false);
 			}
 			return true;
 		}

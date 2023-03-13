@@ -1,4 +1,4 @@
-using Converter.Utils;
+﻿using Converter.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;

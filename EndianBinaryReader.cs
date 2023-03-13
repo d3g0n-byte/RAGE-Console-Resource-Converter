@@ -4,6 +4,7 @@ using System.IO;
 using ConsoleApp1;
 using System.Numerics;
 using Converter;
+using static Converter.ResourceUtils;
 
 namespace Converter.Utils
 {
@@ -251,7 +252,7 @@ namespace Converter.Utils
 				if (tmp == 0) return 0;
 				else if (((tmp >> 28 != 5) && (tmp >> 28 != 6))) return 0;
 				else if (tmp >> 28 == 5) return tmp & 0x0FFFFFFF;
-				else return (tmp & 0x0FFFFFFF) + (uint)(Program.cpuSize);
+				else return (tmp & 0x0FFFFFFF) + (uint)(FlagInfo.BaseResourceSizeV);
 			}
 			else
 			{
@@ -259,7 +260,7 @@ namespace Converter.Utils
 				if (tmp == 0) return 0;
 				else if (((tmp >> 28 != 5) && (tmp >> 28 != 6))) return 0;
 				else if (tmp >> 28 == 5) return tmp & 0x0FFFFFFF;
-				else return (tmp & 0x0FFFFFFF) + (uint)(Program.cpuSize);
+				else return (tmp & 0x0FFFFFFF) + (uint)(FlagInfo.BaseResourceSizeV);
 			}
 		}
 		//public RageResource.Collection ReadCollection()
@@ -298,7 +299,7 @@ namespace Converter.Utils
 				if (value.m_pList == 0) value.m_pList = 0;
 				else if (((value.m_pList >> 28 != 5) && (value.m_pList >> 28 != 6))) value.m_pList = 0;
 				else if (value.m_pList >> 28 == 5) value.m_pList = value.m_pList & 0x0FFFFFFF;
-				else value.m_pList = (value.m_pList & 0x0FFFFFFF) + (uint)(Program.cpuSize);
+				else value.m_pList = (value.m_pList & 0x0FFFFFFF) + (uint)(FlagInfo.BaseResourceSizeV);
 				value.m_wCount = base.ReadUInt16();
 				value.m_wSize = base.ReadUInt16();
 			}
@@ -308,7 +309,7 @@ namespace Converter.Utils
 				if (value.m_pList == 0) value.m_pList = 0;
 				else if (((value.m_pList >> 28 != 5) && (value.m_pList >> 28 != 6))) value.m_pList = 0;
 				else if (value.m_pList >> 28 == 5) value.m_pList = value.m_pList & 0x0FFFFFFF;
-				else value.m_pList = (value.m_pList & 0x0FFFFFFF) + (uint)(Program.cpuSize);
+				else value.m_pList = (value.m_pList & 0x0FFFFFFF) + (uint)(FlagInfo.BaseResourceSizeV);
 				value.m_wCount = base.ReadUInt16().Reverse();
 				value.m_wSize = base.ReadUInt16().Reverse();
 			}

@@ -1,4 +1,4 @@
-using Converter;
+﻿using Converter;
 using Converter.openFormats;
 using Converter.Utils;
 using System;
