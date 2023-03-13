@@ -67,7 +67,7 @@ namespace Converter.openFormats
 				sbOutFileMesh.AppendLine($"\t\t\t}}");
 				sbOutFileMesh.AppendLine($"\t\t\tVerts {vertexBuffer[currentGeometry].m_wVertexCount}");
 				sbOutFileMesh.AppendLine($"\t\t\t{{");
-				if (!GFX.Vertex(br, sbOutFileMesh, vertexDeclaration[currentGeometry], vertexBuffer[currentGeometry].m_pVertexData, vertexBuffer[currentGeometry].m_wVertexCount))
+				if (!GFX.Vertex(br, sbOutFileMesh, vertexDeclaration[currentGeometry], vertexBuffer[currentGeometry].m_pVertexData, vertexBuffer[currentGeometry].m_wVertexCount, model.m_bSkinned))
 				{
 					Console.WriteLine("Failed to export vertex");
 					return false;

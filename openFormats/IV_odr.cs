@@ -74,7 +74,7 @@ namespace Converter.openFormats
 					if (!Directory.Exists(path.Substring(0, path.Length - 1))) Directory.CreateDirectory(path);
 					string skelFileName = $"{FileInfo.filePath}\\{FileInfo.baseFileName}\\{FileInfo.baseFileName}.skel";
 					sbOutFileMain.AppendLine($"\tskel {FileInfo.baseFileName}\\{FileInfo.baseFileName}.skel");
-					IV_skel.Build(br, drawable.m_pSkeleton, skelFileName);
+					IV_skel.Build(br, drawable.m_pSkeleton, skelFileName, 0);
 				}
 				sbOutFileMain.AppendLine("}");
 			}

@@ -9,7 +9,9 @@ namespace Converter.openFormats
 {
 	internal class IV_skel
 	{
-		public static void Build(EndianBinaryReader br, uint m_pSkeleton, string skelFileName)
+		public static void Build(EndianBinaryReader br, uint m_pSkeleton, string skelFileName, int game)
+		// 0 - rdr
+		// 1 - iv&mcla
 		{
 			FileStream outFileSkel;
 			StreamWriter swOutFileSkel;
@@ -17,9 +19,10 @@ namespace Converter.openFormats
 			uint[] ChildCountBuffer = new uint[255];
 
 			br.Position = m_pSkeleton;
-			RageResource.RDRSkeletonData skelData;
+			RageResource.RDRSkeletonData skelData = new RageResource.RDRSkeletonData();
 
-			skelData = ReadRageResource.RDRSkeletonData(br);
+			if(game == 0) skelData = ReadRageResource.RDRSkeletonData(br);
+			else if(game == 1) skelData = ReadRageResource.IVSkeletonData(br);
 			uint[] MappingBuffer = new uint[255];
 			br.Position = skelData.m_pChildrenMapping;
 			for (int b = 0; b < skelData.m_wBoneCount; b++) MappingBuffer[b] = br.ReadUInt32();
@@ -30,7 +33,7 @@ namespace Converter.openFormats
 
 			sbOutFileSkel.AppendLine($"Version {107} {11}");
 			sbOutFileSkel.AppendLine($"NumBones {skelData.m_wBoneCount}");
-			sbOutFileSkel.Append($"Flags ");
+			sbOutFileSkel.Append($"Flags");
 			for (int c = 0; c < skelData.flagsAsString.Length; c++) sbOutFileSkel.Append($" {skelData.flagsAsString[c]}");
 			sbOutFileSkel.AppendLine("");
 
