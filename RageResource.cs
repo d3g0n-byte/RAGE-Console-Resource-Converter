@@ -21,6 +21,18 @@ namespace Converter
 			public uint m_pDrawable;
 			public uint m_pTextureDictionary;
 		}
+		public struct FlashTexture
+		{
+			public uint _vmt;
+			public uint _f4;
+			public uint _f8;
+			public uint m_pTexture;
+			public uint _f10;
+			public ushort m_nWidth;
+			public ushort m_nHeight;
+			public uint _f18;
+			public uint _f1c;
+		}
 
 
 		// iv
@@ -163,13 +175,17 @@ namespace Converter
 			public int _f10;
 			public int _f14;
 			public int _f18;
-			public int _f1C;
+			public uint _f1C;
 			public uint m_pPixelData;
-			public int _f24;
+			public ushort _f24;
+			public ushort _f26;
 			public int _f28;
 			public int _f2C;
-			public int _f30;
-			public uint m_dwTextureType;		// has nothing to do with structure
+			public uint _f30;
+
+			public uint m_dwTextureType;        // has nothing to do with structure
+			public uint originalPoint;        // has nothing to do with structure
+			public uint m_pMipsOffset;        // has nothing to do with structure
 		}
 		public struct RDRBone
 		{
@@ -449,6 +465,20 @@ namespace Converter
 	}
 	internal class ReadRageResource
 	{
+		public static FlashTexture FlashTexture(EndianBinaryReader br)
+		{
+			FlashTexture flash;
+			flash._vmt = br.ReadUInt32();
+			flash._f4 = br.ReadUInt32();
+			flash._f8 = br.ReadUInt32();
+			flash.m_pTexture = br.ReadOffset();
+			flash._f10 = br.ReadUInt32();
+			flash.m_nWidth = br.ReadUInt16();
+			flash.m_nHeight = br.ReadUInt16();
+			flash._f18 = br.ReadUInt32();
+			flash._f1c = br.ReadUInt32();
+			return flash;
+		}
 		public static RDRVolumeData RDRVolumeData(EndianBinaryReader br)
 		{
 			RDRVolumeData volumeData;
@@ -960,12 +990,17 @@ namespace Converter
 			bitMap._f10 = br.ReadInt32();
 			bitMap._f14 = br.ReadInt32();
 			bitMap._f18 = br.ReadInt32();
-			bitMap._f1C = br.ReadInt32();
+			bitMap._f1C = br.ReadUInt32();
 			bitMap.m_pPixelData = br.ReadUInt32();
-			bitMap._f24 = br.ReadInt32();
+			bitMap.originalPoint = bitMap.m_pPixelData;
+			bitMap._f24 = br.ReadUInt16();
+			bitMap._f26 = br.ReadUInt16();
 			bitMap._f28 = br.ReadInt32();
 			bitMap._f2C = br.ReadInt32();
-			bitMap._f30 = br.ReadInt32();
+			bitMap._f30 = br.ReadUInt32();
+
+			bitMap.m_pMipsOffset = (uint)bitMap._f30 & 0x0ffff000;
+			if (bitMap._f30 >> 28 == 6) bitMap.m_pMipsOffset += (uint)(FlagInfo.BaseResourceSizeV);
 			// получаем тип текстуры. 0x000000FF
 			bool pointerToGFX = false;
 			bitMap.m_dwTextureType = bitMap.m_pPixelData << 26;

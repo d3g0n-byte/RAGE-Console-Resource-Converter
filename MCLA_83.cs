@@ -51,7 +51,7 @@ namespace Converter
 				RageResource.Texture zoneTexture = ReadRageResource.Texture(br);
 				br.Position = zoneTexture.m_pBitmap;
 				RageResource.BitMap zoneBitMap = ReadRageResource.BitMap(br);
-				TextureDictionary.ReadTexture(zoneTexture, zoneBitMap, br, true);
+				TextureDictionary.ReadTexture(zoneTexture, zoneBitMap, br, 0);
 			}
 			if (file._f18 != 0)
 			{
@@ -59,7 +59,7 @@ namespace Converter
 				RageResource.Texture maxDamageTexture = ReadRageResource.Texture(br);
 				br.Position = maxDamageTexture.m_pBitmap;
 				RageResource.BitMap maxDamageBitMap = ReadRageResource.BitMap(br);
-				TextureDictionary.ReadTexture(maxDamageTexture, maxDamageBitMap, br, true);
+				TextureDictionary.ReadTexture(maxDamageTexture, maxDamageBitMap, br, 0);
 			}
 			if (file._f1c != 0)
 			{
@@ -67,7 +67,7 @@ namespace Converter
 				RageResource.Texture scratchTexture = ReadRageResource.Texture(br);
 				br.Position = scratchTexture.m_pBitmap;
 				RageResource.BitMap scratchBitMap = ReadRageResource.BitMap(br);
-				TextureDictionary.ReadTexture(scratchTexture, scratchBitMap, br, true);
+				TextureDictionary.ReadTexture(scratchTexture, scratchBitMap, br, 0);
 			}
 
 			br.Position = file.m_pShaderGroup;

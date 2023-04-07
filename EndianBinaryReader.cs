@@ -377,5 +377,9 @@ namespace Converter.Utils
 				((value & 0x000000000000FF00UL) >> 8) << 48 |
 				((value & 0x00000000000000FFUL) >> 0) << 56);
 		}
+		public static float Reverse(this float value)
+		{
+			return BitConverter.Int32BitsToSingle(Reverse(BitConverter.SingleToInt32Bits(value)));
+		}
 	}
 }

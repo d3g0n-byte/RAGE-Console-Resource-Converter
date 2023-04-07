@@ -17,6 +17,10 @@ namespace Converter
 			public uint pEnd;
 			public uint pTexture; // только одна текстура
 			public uint _fc;
+			public uint _f10;
+			public uint _f14;
+			public uint _f18;
+			public uint _f1c;
 		}
 		struct SMALL_DRAWABLE
 		{
@@ -35,7 +39,11 @@ namespace Converter
 			file._vmt = br.ReadUInt32();
 			file.pEnd= br.ReadOffset();
 			file.pTexture= br.ReadOffset();
-			file._fc = br.ReadUInt32();
+			//file._fc = br.ReadUInt32();
+			//file._f10 = br.ReadUInt32();
+			//file._f14 = br.ReadUInt32();
+			//file._f18 = br.ReadUInt32();
+			//file._f1c = br.ReadUInt32();
 			int mode = -1;
 			if (file._vmt == 1690719744 || file._vmt == 2630243840)
 			{
@@ -52,6 +60,16 @@ namespace Converter
 				pointToNextSection = file.pTexture;
 				mode = 1;
 			}
+			else if (file._vmt == 1087133184)
+			{
+				pointToNextSection = file.pTexture;
+				mode = 0;
+			}
+			else if (file._vmt == 2489935104)
+			{
+				pointToNextSection = file.pTexture;
+				mode = 2;
+			}
 			else return false;
 
 			switch (mode)
@@ -65,14 +83,14 @@ namespace Converter
 						RageResource.Texture texture = ReadRageResource.Texture(br);
 						br.Position = texture.m_pBitmap;
 						RageResource.BitMap bitMap = ReadRageResource.BitMap(br);
-						TextureDictionary.ReadTexture(texture, bitMap, br, true);
+						TextureDictionary.ReadTexture(texture, bitMap, br, 0);
 					}
 					else if (tmpVmt == 1961646080)
 					{
 						RageResource.Texture texture = ReadRageResource.TextureGTAIV(br);
 						br.Position = texture.m_pBitmap;
 						RageResource.BitMap bitMap = ReadRageResource.BitMap(br);
-						TextureDictionary.ReadTexture(texture, bitMap, br, true);
+						TextureDictionary.ReadTexture(texture, bitMap, br, 0);
 					}
 					else return false;
 					break;
@@ -300,6 +318,43 @@ namespace Converter
 
 
 					break;
+				case 2:
+					//br.BaseStream.Position = pointToNextSection;
+					file._fc = br.ReadUInt32();
+					file._f10 = br.ReadOffset();
+					file._f14 = br.ReadUInt16();
+					br.ReadUInt16();
+					file._f18 = br.ReadOffset();
+					file._f1c = br.ReadUInt16();
+					br.ReadUInt16();
+					//file._f1c = br.ReadUInt32();
+					//uint hash
+					uint[] pTexture = new uint[file._f1c];
+					br.Position = file._f18;
+					for (int a = 0; a < file._f1c; a++) pTexture[a] = br.ReadOffset();
+					for (int a = 0; a < file._f1c; a++)
+					{
+						br.Position = pTexture[a];
+						uint tmpVmt2 = br.ReadUInt32();
+						br.BaseStream.Position -= 4;//
+						if (tmpVmt2 == 1955882240)
+						{
+							RageResource.Texture texture = ReadRageResource.Texture(br);
+							br.Position = texture.m_pBitmap;
+							RageResource.BitMap bitMap = ReadRageResource.BitMap(br);
+							TextureDictionary.ReadTexture(texture, bitMap, br, 0);
+						}
+						//else if (tmpVmt2 == 1961646080)
+						//{
+						//	RageResource.Texture texture = ReadRageResource.TextureGTAIV(br);
+						//	br.Position = texture.m_pBitmap;
+						//	RageResource.BitMap bitMap = ReadRageResource.BitMap(br);
+						//	TextureDictionary.ReadTexture(texture, bitMap, br, true);
+						//}
+						else return false;
+					}
+					break;
+
 			}
 			return true;
 		}

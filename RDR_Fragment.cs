@@ -20,6 +20,9 @@ namespace Converter
 		}
 		public static bool ReadFragment(MemoryStream decompMem, bool endian)// конверт фрагментной модели в обычную
 		{
+			Log.ToLog(Log.MessageType.INFO, "Red Dead Redemption Fragment");
+			Log.ToLog(Log.MessageType.INFO, $"RSC85 Res Start: 0x{ResourceUtils.FlagInfo.RSC85_ObjectStart.ToString("X8")}");
+
 			// мы будем конвертировать в odr формат, поэтому мы пропускаем секции, которые имеют отношение к фрагментной модели
 			EndianBinaryReader br = new EndianBinaryReader(decompMem);
 			if (endian) br.Endianness = Endian.BigEndian;// 0 - lit, 1 - big
@@ -30,7 +33,11 @@ namespace Converter
 			uint pDrawable = br.ReadOffset();
 			br.Position +=312;
 			uint pTexture = br.ReadOffset();
-			if (pTexture!=0)TextureDictionary.ReadTextureDictionary(br, pTexture);
+			if (pTexture != 0)
+			{
+				Log.ToLog(Log.MessageType.INFO, "Textures detected."); 
+				TextureDictionary.ReadTextureDictionary(br, pTexture);
+			}
 			br.Position = pDrawable;
 			drawable = ReadRageResource.Drawable(br);
 			// шейдеры
@@ -40,6 +47,8 @@ namespace Converter
 			uint[] pShaderFX = new uint[shaderGroup.m_cShaderFX.m_wCount];
 			RageResource.RDRShaderFX[] shaderFX = new RageResource.RDRShaderFX[shaderGroup.m_cShaderFX.m_wCount];
 			br.Position = shaderGroup.m_cShaderFX.m_pList;
+
+			Log.ToLog(Log.MessageType.INFO, $"Shaders count: {shaderGroup.m_cShaderFX.m_wCount}");
 			for (int a = 0; a < shaderGroup.m_cShaderFX.m_wCount; a++) pShaderFX[a] = br.ReadOffset();
 			for (int a = 0; a < shaderGroup.m_cShaderFX.m_wCount; a++)
 			{
@@ -49,35 +58,47 @@ namespace Converter
 			// модель
 			uint currentModel = 0;
 			uint[] pModel = new uint[200];
-			
+			string level = "";
+
+			RageResource.Collection[] сModel = new RageResource.Collection[4];
 			for (int a = 0; a < 4; a++) // lod
 			{
 				if (drawable.m_pModelCollection[a] != 0)
 				{
 					br.Position = drawable.m_pModelCollection[a];
-					RageResource.Collection сModel = br.ReadCollections();
-					br.Position = сModel.m_pList;
-					for (int b = 0; b < сModel.m_wCount; b++) pModel[currentModel++] = br.ReadOffset();
+					сModel[a] = br.ReadCollections();
+					br.Position = сModel[a].m_pList;
+					for (int b = 0; b < сModel[a].m_wCount; b++) pModel[currentModel++] = br.ReadOffset();
+
+					level = a switch
+					{
+						0 => "High",
+						1 => "Med",
+						2 => "Low",
+						3 => "Vlow"
+					};
+					Log.ToLog(Log.MessageType.INFO, $"{level} models count: {сModel[a].m_wCount}");
 				}
 			}
 			uint modelCount = currentModel;
 			Array.Resize<uint>(ref pModel, (int)modelCount);
 			RageResource.Model[] model = new RageResource.Model[pModel.Length];
+			Log.ToLog(Log.MessageType.INFO, $"Models count: {modelCount}");
 			for (int a = 0; a < pModel.Length; a++)
 			{
 				br.Position = pModel[a];
 				model[a] = ReadRageResource.Model(br);
 			}
-			uint[] pGeometry = new uint[200];
-			//uint geometryCount = 0;
+			uint geometryCount = 0;
+			for (int a = 0; a < modelCount; a++) geometryCount += model[a].m_pGeometry.m_wCount;
+			uint[] pGeometry = new uint[geometryCount];
+			Log.ToLog(Log.MessageType.INFO, $"Geometries count: {geometryCount}");
 			uint currentGeometry = 0;
 			for (int a = 0; a < pModel.Length; a++)
 			{
 				br.Position = model[a].m_pGeometry.m_pList;
 				for (int b = 0; b < model[a].m_pGeometry.m_wCount; b++)pGeometry[currentGeometry++] = br.ReadOffset();
 			}
-			uint geometryCount = currentGeometry;
-			Array.Resize<uint>(ref pGeometry, (int)geometryCount);
 			RageResource.Geometry[] geometry = new RageResource.Geometry[geometryCount];
 			RageResource.VertexBuffer[] vertexBuffer= new RageResource.VertexBuffer[geometryCount];
 			RageResource.IndexBuffer[] indexBuffer = new RageResource.IndexBuffer[geometryCount];
@@ -93,15 +114,17 @@ namespace Converter
 				br.Position = geometry[a].m_pIndexBuffer;
 				indexBuffer[a] = ReadRageResource.IndexBuffer(br);
 			}
-			Vector4[,] vBouds = new Vector4[modelCount, 100];
+			// границы модели. Количесво границ
+			uint boundsCount;
+			Vector4[,] vBounds = new Vector4[modelCount, 100];
 			for (int a = 0; a < modelCount; a++)
 			{
 				br.Position = model[a].m_pBounds;
-				uint boundsCount = model[a].m_pGeometry.m_wCount;
-				if (model[a].m_pGeometry.m_wCount > 1) boundsCount++;
-				for (int b = 0; b < boundsCount; b++) vBouds[a, b] = br.ReadVector4();
+				// если секций Geometry больше чем 1, то к количества границ добавляем 1
+				boundsCount = model[a].m_pGeometry.m_wCount > 1 ? (uint)model[a].m_pGeometry.m_wCount + 1 : (uint)model[a].m_pGeometry.m_wCount;
+				for (int b = 0; b < boundsCount; b++) vBounds[a, b] = br.ReadVector4();
 			}
-			openFormats.IV_odr.Build(shaderFX, br, drawable, model, vBouds, indexBuffer, vertexBuffer, vertexDeclaration);
+			openFormats.IV_odr.Build(shaderFX, br, drawable, model, vBounds, indexBuffer, vertexBuffer, vertexDeclaration, сModel);
 			return true;
 		}
 	}

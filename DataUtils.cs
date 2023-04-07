@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Converter.Utils;
@@ -11,6 +12,7 @@ namespace Converter
 {
 	public static class DataUtils
 	{
+		public static int GetFileSize(string path) => (int)(new System.IO.FileInfo(path).Length);
 		public static uint GetHash(string str)
 		{
 			char[] array = str.ToLower().ToCharArray();
@@ -126,13 +128,41 @@ namespace Converter
 			ErrorCode err = (ErrorCode)decompContext.Decompress(compressedData, 0, ref pakLen, decompressedData, 0, ref outLen);
 			return (int)err;
 		}
+		public static int CompressLZX(byte[] decompressedData, byte[] compressedData)
+		{
+			var compContext = new XCompression.CompressionContext(131072u);
+			int pakLen = compressedData.Length;
+			int unpackLen = decompressedData.Length;
+			ErrorCode err = (ErrorCode)compContext.Compress(decompressedData, 0, ref unpackLen, compressedData, 0, ref pakLen);
+
+			return (int)err;
+		}
+
+		public static byte[] CompressLZX2(byte[] decompressedData, uint windowSize = 131072u)
+		{
+			xCompress32.XMEMCODEC_PARAMETERS_LZX _params = default(xCompress32.XMEMCODEC_PARAMETERS_LZX);
+			int context = 0;
+			_params.Flags = 0;
+			_params.CompressionPartitionSize = 0;
+			_params.WindowSize = windowSize;
+			if (xCompress32.XMemCreateCompressionContext(xCompress32.XMEMCODEC_TYPE.XMEMCODEC_LZX, ref _params, 0, ref context) == 0)
+			{
+				xCompress32.XMemResetCompressionContext(context);
+				byte[] array = new byte[decompressedData.Length * 2];
+				int size = array.Length;
+				int decompSize = decompressedData.Length;
+				xCompress32.XMemCompress(context, array, ref size, decompressedData, decompSize);
+				Array.Resize(ref array, size);
+				xCompress32.XMemDestroyCompressionContext(context);
+				return array;
+			}
+			else throw new Exception("error");
+		}
+
 		public static void ReverseBytes(ref byte[] src, int count)
 		{
 			if (count==0) return;
-			if (count % 2 != 0)
-			{
-				throw new NotSupportedException("This operation is possible only for even numbers.");
-			}
+			if (count % 2 != 0) throw new NotSupportedException("This operation is possible only for even numbers.");
 
 			using (MemoryStream outStream = new MemoryStream())
 			{
@@ -154,6 +184,59 @@ namespace Converter
 				}
 			}
 		}
+	}
+	public static class xCompress32
+	{
+		public enum XMEMCODEC_TYPE
+		{
+			XMEMCODEC_DEFAULT,
+			XMEMCODEC_LZX
+		}
+
+		[StructLayout(LayoutKind.Explicit)]
+		public struct XMEMCODEC_PARAMETERS_LZX
+		{
+			[FieldOffset(0)]
+			public uint Flags;
+
+			[FieldOffset(4)]
+			public uint WindowSize;
+
+			[FieldOffset(8)]
+			public uint CompressionPartitionSize;
+		}
+
+		public const int XMEMCOMPRESS_STREAM = 1;
+
+		[DllImport("xcompress32.dll")]
+		public static extern int XMemCreateDecompressionContext(XMEMCODEC_TYPE CodecType, int pCodecParams, int Flags, ref int pContext);
+
+		[DllImport("xcompress32.dll")]
+		public static extern void XMemDestroyDecompressionContext(int Context);
+
+		[DllImport("xcompress32.dll")]
+		public static extern int XMemResetDecompressionContext(int Context);
+
+		[DllImport("xcompress32.dll")]
+		public static extern int XMemDecompress(int Context, byte[] pDestination, ref int pDestSize, byte[] pSource, int pSrcSize);
+
+		[DllImport("xcompress32.dll")]
+		public static extern int XMemDecompressStream(int Context, byte[] pDestination, ref int pDestSize, byte[] pSource, ref int pSrcSize);
+
+		[DllImport("xcompress32.dll")]
+		public static extern int XMemCreateCompressionContext(XMEMCODEC_TYPE CodecType, ref XMEMCODEC_PARAMETERS_LZX prams, int Flags, ref int pContext);
+
+		[DllImport("xcompress32.dll")]
+		public static extern void XMemDestroyCompressionContext(int Context);
+
+		[DllImport("xcompress32.dll")]
+		public static extern int XMemResetCompressionContext(int Context);
+
+		[DllImport("xcompress32.dll")]
+		public static extern int XMemCompress(int Context, byte[] pDestination, ref int pDestSize, byte[] pSource, int pSrcSize);
+
+		[DllImport("xcompress32.dll")]
+		public static extern int XMemCompressStream(int Context, byte[] pDestination, ref int pDestSize, byte[] pSource, ref int pSrcSize);
 	}
 	public static class FileInfo
 	{

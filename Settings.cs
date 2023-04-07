@@ -16,6 +16,10 @@ namespace Converter
 		public static uint nTempShadersCount = 50;
 		public static bool bSaveUnpackedResource = false;
 		public static string sNumberDecimalSeparator = ".";
+		public static string sTexturesFolder = "null";
+		public static string sAdditionalTexturesFolder = "null";
+		//public static bool bExportMipMaps = true;
+		public static bool bConvertShadersToIV = false;
 
 		static void WriteSettings()
 		{
@@ -28,7 +32,7 @@ namespace Converter
 			settings.DoNotEscapeUriAttributes = true;
 			settings.OmitXmlDeclaration = false;
 
-			XmlWriter xmlWriter = XmlWriter.Create(@"settings.xml", settings);
+			XmlWriter xmlWriter = XmlWriter.Create(settingsPath, settings);
 			xmlWriter.WriteStartElement("Settings");
 			xmlWriter.WriteStartElement("Item");
 			xmlWriter.WriteAttributeString("ExportShaders", "true");
@@ -44,6 +48,12 @@ namespace Converter
 			xmlWriter.WriteEndElement();
 			xmlWriter.WriteStartElement("Item");
 			xmlWriter.WriteAttributeString("NumberDecimalSeparator", ".");
+			xmlWriter.WriteEndElement();
+			xmlWriter.WriteStartElement("Item");
+			xmlWriter.WriteAttributeString("TexturesFolder", "null");
+			xmlWriter.WriteEndElement();
+			xmlWriter.WriteStartElement("Item");
+			xmlWriter.WriteAttributeString("AdditionalTexturesFolder", "null");
 			xmlWriter.WriteEndElement();
 			xmlWriter.WriteEndElement();
 			xmlWriter.Flush();
@@ -74,7 +84,12 @@ namespace Converter
 			reader.Read();
 			sNumberDecimalSeparator = reader.GetAttribute("NumberDecimalSeparator");
 			reader.Read();
+			sTexturesFolder = reader.GetAttribute("TexturesFolder");
+			reader.Read();
+			sAdditionalTexturesFolder = reader.GetAttribute("AdditionalTexturesFolder");
+			reader.Read();
 			if (reader.NodeType != XmlNodeType.EndElement || reader.Name != "Settings") throw new Exception("Settings not loaded");
+			reader.Close();
 		}
 	}
 }

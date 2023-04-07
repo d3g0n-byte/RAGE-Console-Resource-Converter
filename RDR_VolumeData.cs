@@ -19,162 +19,168 @@ namespace ConsoleApp1
 	{
 		public static bool ReadVolumeData(MemoryStream decompMem, bool endian)
 		{
+			Log.ToLog(Log.MessageType.INFO, "Red Dead Redemption Volume Data");
+			Log.ToLog(Log.MessageType.INFO, $"RSC85 Res Start: 0x{ResourceUtils.FlagInfo.RSC85_ObjectStart.ToString("X8")}");
+
 			EndianBinaryReader br = new EndianBinaryReader(decompMem);
 			if (endian)br.Endianness = Endian.BigEndian;// 0 - lit, 1 - big
-			// узнаем позицию начальной страницы в файле
+			
+			// узнаем позицию начальной страницы в файле и читаем начальную секцию
 			br.Position = ResourceUtils.FlagInfo.RSC85_ObjectStart;
 			RageResource.RDRVolumeData volumeData;
-			RageResource.Drawable[] drawable = new RageResource.Drawable[1];
-
 			volumeData = ReadRageResource.RDRVolumeData(br);
-			// xtd 
-			if (volumeData.pTexture != 0) TextureDictionary.ReadTextureDictionary(br, volumeData.pTexture);
 
-			// offset to drawable sections
+			// экспортируем текстуры если имеются
+			if (volumeData.pTexture != 0)
+			{
+				Log.ToLog(Log.MessageType.INFO, "Textures detected");
+				TextureDictionary.ReadTextureDictionary(br, volumeData.pTexture);
+			}
+			// коллекция содержит объекты и хэшы
+			uint[] hash = new uint[volumeData.cNameHash.m_wCount];
+			br.Position = volumeData.cNameHash.m_pList;
+			for (int a = 0; a < volumeData.cNameHash.m_wCount; a++) hash[a] = br.ReadUInt32();
+
+			// xvd может содержать в себе несколько секций drawable, поэтому читаем поитер к каждомой секции
+			Log.ToLog(Log.MessageType.INFO, $"Drawable sections count: {volumeData.cDrawable.m_wCount}");
 			br.Position = volumeData.cDrawable.m_pList;
 			uint[] pDrawable = new uint[volumeData.cDrawable.m_wCount];
 			for (int a = 0; a  < volumeData.cDrawable.m_wCount; a ++) pDrawable[a] = br.ReadOffset();
 
-			Array.Resize<RageResource.Drawable>(ref drawable, volumeData.cDrawable.m_wCount);
-			// read drawable sections
+			// читаем каждую секцию drawable
+			RageResource.Drawable[] drawable = new RageResource.Drawable[volumeData.cDrawable.m_wCount];
 			for (ushort a = 0; a < volumeData.cDrawable.m_wCount; a++)
 			{
 				br.Position = pDrawable[a];
 				drawable[a] = ReadRageResource.Drawable(br);
 			}
+
+			// количество секций ShaderGrоup всегда равно количеству секций drawable
 			RageResource.RDRShaderGroup[] shaderGroup = new RageResource.RDRShaderGroup[volumeData.cDrawable.m_wCount];
-			// offset to shadergroup section
 			uint[] pShaderGroup = new uint[volumeData.cDrawable.m_wCount];
+			for (int a = 0; a < volumeData.cDrawable.m_wCount; a++) pShaderGroup[a] = drawable[a].m_pShaderGroup;
 			for (int a = 0; a < volumeData.cDrawable.m_wCount; a++)
-			{
-				pShaderGroup[a] = drawable[a].m_pShaderGroup;
-			}
-			// read shadergroup sections
-			for (int a = 0; a < volumeData.cDrawable.m_wCount; a++)
-			{
-				br.Position = pShaderGroup[a];
-				shaderGroup[a] = ReadRageResource.RDRShaderGroup(br);
-			}
-			// shaderFX sections count
-			uint shaderFXCount = 0;
-			uint[] shaderFXCount2 = new uint[100];
-			for (int a = 0; a < volumeData.cDrawable.m_wCount; a++)
-			{
-				br.Position = drawable[a].m_pShaderGroup+12;
-				ushort fxcount = br.ReadUInt16();
-				shaderFXCount += fxcount;
-				shaderFXCount2[a] = fxcount;
-			}
-			RageResource.RDRShaderFX[] shaderFX = new RageResource.RDRShaderFX[shaderFXCount];
-			// offset
+				//if (pShaderGroup[a] != 0)
+				{
+					br.Position = pShaderGroup[a];
+					shaderGroup[a] = ReadRageResource.RDRShaderGroup(br);
+				}
+			
+			// т.к. у нас несколько секций Drawable, то нам нужно узнать количество шейдеров во всех секциях ShaderGroup
+			uint shaderFXCount = 0; // Общее количество
+			//uint[] shaderFXCount2 = new uint[volumeData.cDrawable.m_wCount]; // Количество шейдеров в каждой секции ShaderGroup
+			for (int a = 0; a < volumeData.cDrawable.m_wCount; a++) shaderFXCount += /*shaderFXCount2[a] =*/ shaderGroup[a].m_cShaderFX.m_wCount;
+
+
+			// читаем поинтеры к всем секция ShaderFX
 			uint currentShaderFX = 0;
 			uint[] pShaderFX = new uint[shaderFXCount];
 			for (int a = 0; a < volumeData.cDrawable.m_wCount; a++)
 			{
-				br.Position = drawable[a].m_pShaderGroup + 8;
-				br.Position = br.ReadOffset();
-				for (int b = 0; b < shaderFXCount2[a]; b++)pShaderFX[currentShaderFX++] = br.ReadOffset();
+				Log.ToLog(Log.MessageType.INFO, $"Shaders count in Drawable{a}: {shaderGroup[a].m_cShaderFX.m_wCount}");
+				br.Position = shaderGroup[a].m_cShaderFX.m_pList;
+				for (int b = 0; b < shaderGroup[a].m_cShaderFX.m_wCount; b++)pShaderFX[currentShaderFX++] = br.ReadOffset();
 			}
-			// read shaderFX sections
+
+			// читаем каждую секцию ShaderFX
+			RageResource.RDRShaderFX[] shaderFX = new RageResource.RDRShaderFX[shaderFXCount];
 			for (int a = 0; a < shaderFXCount; a++)
 			{
 				br.Position = pShaderFX[a];
 				shaderFX[a] = ReadRageResource.RDRShaderFX(br);
 			}
 
-			// model sections count
+			// считаем количество секций Model
 			uint modelCount = 0;
-			uint[,] modelCount2 = new uint[volumeData.cDrawable.m_wCount, 4];
+			//uint[,] modelCount2 = new uint[volumeData.cDrawable.m_wCount, 4];
+			RageResource.Collection[,] modelCollection = new Collection[volumeData.cDrawable.m_wCount, 4]; // количество секций Drawable и 4 уровня детализации
+																										   //RageResource.Collection tmpCollection;
+			string level ="";
 			for (ushort a = 0; a < volumeData.cDrawable.m_wCount; a++)
 			{
 				for (int b = 0; b < 4; b++)
 				{
-					if (drawable[a].m_pModelCollection[b]!=0)
+					if (drawable[a].m_pModelCollection[b] != 0)
 					{
 						br.Position = drawable[a].m_pModelCollection[b];
-						br.ReadUInt32();
-						ushort count = br.ReadUInt16();
-						modelCount2[a,b] = count;
-						modelCount += count;
+						//modelCollection[a][b] = br.ReadCollections();
+						modelCount += (modelCollection[a, b] = br.ReadCollections()).m_wCount;
+
+						level = b switch
+						{
+							0 => "High",
+							1 => "Med",
+							2 => "Low",
+							3 => "Vlow"
+						};
+						Log.ToLog(Log.MessageType.INFO, $"{level} models count in Drawable{a}: {modelCollection[a, b].m_wCount}");
 					}
 				}
 			}
 			RageResource.Model[] model = new RageResource.Model[modelCount];
+
+			// читаем секции Model для каждого уровня детализации
 			int currentModel = 0;
-			// read model sections
+			uint[] pModel;
 			for (int a = 0; a < drawable.Length; a++)
 			{
 				for (int b = 0; b < 4; b++) // lod
 				{
-					if (drawable[a].m_pModelCollection[b] != 0)
+					if(modelCollection[a, b].m_pList != 0)
 					{
-						br.Position = drawable[a].m_pModelCollection[b];
-						uint pModel = br.ReadOffset();
-						uint wModelCount = br.ReadUInt16();
-						uint wModelSize = br.ReadUInt16();
-
-						br.Position = pModel;
-						uint[] pModel2 = new uint[wModelCount];
-						for (int c = 0; c < wModelCount; c++) pModel2[c] = br.ReadOffset();
-						for (int c = 0; c < wModelCount; c++)
+						br.Position = modelCollection[a, b].m_pList;
+						pModel = new uint[modelCollection[a, b].m_wCount];
+						for (int c = 0; c < modelCollection[a, b].m_wCount; c++) pModel[c] = br.ReadOffset();
+						for (int c = 0; c < modelCollection[a, b].m_wCount; c++)
 						{
-							br.Position = pModel2[c];
+							br.Position = pModel[c];
 							model[currentModel++] = ReadRageResource.Model(br);
 						}
 					}
 				}
 			}
-			// 
+			Log.ToLog(Log.MessageType.INFO, $"Models count: {currentModel}");
+
+			// считаем общее количество секций Geometry
 			uint geometryCount = 0;
 			for (int a = 0; a < modelCount; a++)geometryCount += model[a].m_pGeometry.m_wCount;
+			Log.ToLog(Log.MessageType.INFO, $"Geometries count: {geometryCount}");
 			RageResource.Geometry[] geometry = new RageResource.Geometry[geometryCount];
-			// offset to geometry
+			// и поинтеры
 			uint[] pGeometry = new uint[geometryCount];
 			uint currentGeometry = 0;
 			for (int a = 0; a < modelCount; a++)
 			{
 				br.Position = model[a].m_pGeometry.m_pList;
-				for (int b = 0; b < model[a].m_pGeometry.m_wCount; b++)pGeometry[currentGeometry++] = br.ReadOffset(); // нужно проверить
+				for (int b = 0; b < model[a].m_pGeometry.m_wCount; b++)pGeometry[currentGeometry++] = br.ReadOffset();
 			}
-			// reading geometry sections
+			// читаем секции Geometry с остальнимы секциями
+			RageResource.VertexBuffer[] vertexBuffer = new RageResource.VertexBuffer[geometryCount];
+			RageResource.IndexBuffer[] indexBuffer = new RageResource.IndexBuffer[geometryCount];
+			RageResource.VertexDeclaration[] vertexDeclaration = new RageResource.VertexDeclaration[geometryCount];
 			for (uint a = 0; a < geometryCount; a++)
 			{
 				br.Position = pGeometry[a];
 				geometry[a] = ReadRageResource.Geometry(br);
-			}
-			RageResource.VertexBuffer[] vertexBuffer = new RageResource.VertexBuffer[geometryCount];
-			RageResource.IndexBuffer[] indexBuffer = new RageResource.IndexBuffer[geometryCount];
-			RageResource.VertexDeclaration[] vertexDeclaration = new RageResource.VertexDeclaration[geometryCount];
-			// vertex buffer
-			for (uint a = 0; a < geometryCount; a++)
-			{
 				br.Position = geometry[a].m_pVertexBuffer;
 				vertexBuffer[a] = ReadRageResource.VertexBuffer(br);
-			}
-			// index buffer
-			for (uint a = 0; a < geometryCount; a++)
-			{
 				br.Position = geometry[a].m_pIndexBuffer;
-				indexBuffer[a].vtable = br.ReadUInt32();
-				indexBuffer[a].m_dwIndexCount = br.ReadUInt32();
-				indexBuffer[a].m_pIndexData = br.ReadOffset();
-			}
-			// reading vertex declaration sections
-			for (int a = 0; a < geometryCount; a++)
-			{
+				indexBuffer[a] = ReadRageResource.IndexBuffer(br);
 				br.Position = vertexBuffer[a].m_pDeclaration;
 				vertexDeclaration[a] = ReadRageResource.VertexDeclaration(br);
 			}
-			// bounds
-			Vector4[,] vBouds = new Vector4[modelCount, 100];
+			// границы модели. Количесво границ
+			uint boundsCount;
+			Vector4[,] vBounds = new Vector4[modelCount, 100];
 			for (int a = 0; a < modelCount; a++)
 			{
 				br.Position = model[a].m_pBounds;
-				uint boundsCount = model[a].m_pGeometry.m_wCount;
-				if (model[a].m_pGeometry.m_wCount > 1) boundsCount++;
-				for (int b = 0; b < boundsCount; b++) vBouds[a, b] = br.ReadVector4();
+				// если секций Geometry больше чем 1, то к количества границ добавляем 1
+				boundsCount = model[a].m_pGeometry.m_wCount > 1 ? (uint)model[a].m_pGeometry.m_wCount + 1 : (uint)model[a].m_pGeometry.m_wCount;
+				for (int b = 0; b < boundsCount; b++) vBounds[a, b] = br.ReadVector4();
 			}
-			IV_odd.Build(volumeData.cDrawable.m_wCount, shaderFXCount2, shaderFX, br, drawable, modelCount2, model, vBouds, indexBuffer, vertexBuffer, vertexDeclaration);
+			if (!IV_odd.Build(volumeData.cDrawable.m_wCount, shaderGroup, shaderFX, br, drawable, modelCollection,
+				model, vBounds, indexBuffer, vertexBuffer, vertexDeclaration, hash)) return false;
 			return true;
 			//Console.ReadKey();
 		}

@@ -581,7 +581,7 @@ namespace Converter
 				return (array[0], array[1], array[2], array[3], array[4], array[5]);
 			}
 
-			/*public void RSC85_SetMemSizes(int totalVirt, int totalPhys, int pageBaseSize = 4096)
+			public static void RSC85_SetMemSizes(int totalVirt, int totalPhys, int pageBaseSize = 4096)
 			{
 				(int, int, int, int, int, int) tuple = RSC85_GenerateMemorySizes(totalVirt, totalPhys, pageBaseSize);
 				RSC85_VPage0 = tuple.Item1;
@@ -592,7 +592,7 @@ namespace Converter
 				RSC85_PPage2 = tuple.Item6;
 				RSC85_TotalVSize = totalVirt;
 				RSC85_TotalPSize = totalPhys;
-			}*/
+			}
 
 			public int[] RSC85_GetAvaliableObjectStartPage(int pageBaseSize = 4096)
 			{
@@ -617,7 +617,7 @@ namespace Converter
 				return Flag1 & Convert.ToInt32(3221225471);
 			}
 
-			/*public void SetTotalSize(int virtOrSize, int phys)
+			public void SetTotalSize(int virtOrSize, int phys)
 			{
 				if (IsResource)
 				{
@@ -631,7 +631,7 @@ namespace Converter
 				}
 				else
 					Flag1 = (int)(((long)Flag1 & 0x40000000L) | (virtOrSize & 0xBFFFFFFFu));
-			}*/
+			}
 
 			public override string ToString()
 			{
