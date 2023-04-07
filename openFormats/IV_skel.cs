@@ -9,6 +9,29 @@ namespace Converter.openFormats
 {
 	internal class IV_skel
 	{
+		static void ToQuaternion(float roll, float pitch, float yaw,ref float valX,ref float valY,ref float valZ,ref float valW) // roll (x), pitch (Y), yaw (z)
+		{
+			// Abbreviations for the various angular functions
+
+			float cr = Convert.ToSingle(Math.Cos(roll * 0.5));
+			float sr = Convert.ToSingle(Math.Sin(roll * 0.5));
+			float cp = Convert.ToSingle(Math.Cos(pitch * 0.5));
+			float sp = Convert.ToSingle(Math.Sin(pitch * 0.5));
+			float cy = Convert.ToSingle(Math.Cos(yaw * 0.5));
+			float sy = Convert.ToSingle(Math.Sin(yaw * 0.5));
+
+			float x, y, z, w;
+			w = cr * cp * cy + sr * sp * sy;
+			x = sr * cp * cy - cr * sp * sy;
+			y = cr * sp * cy + sr * cp * sy;
+			z = cr * cp * sy - sr * sp * cy;
+
+			valX = x;
+			valY = y;
+			valZ = z;
+			valW = w;
+
+		}
 		public static void Build(EndianBinaryReader br, uint m_pSkeleton, string skelFileName, int game)
 		// 0 - rdr
 		// 1 - iv&mcla
@@ -18,11 +41,15 @@ namespace Converter.openFormats
 			StringBuilder sbOutFileSkel = new StringBuilder();
 			uint[] ChildCountBuffer = new uint[255];
 
+
 			br.Position = m_pSkeleton;
 			RageResource.RDRSkeletonData skelData = new RageResource.RDRSkeletonData();
 
 			if(game == 0) skelData = ReadRageResource.RDRSkeletonData(br);
 			else if(game == 1) skelData = ReadRageResource.IVSkeletonData(br);
+
+			Log.ToLog(Log.MessageType.INFO, $"Bones count: {skelData.m_wBoneCount}");
+
 			uint[] MappingBuffer = new uint[255];
 			br.Position = skelData.m_pChildrenMapping;
 			for (int b = 0; b < skelData.m_wBoneCount; b++) MappingBuffer[b] = br.ReadUInt32();
@@ -62,17 +89,57 @@ namespace Converter.openFormats
 				for (int d = 0; d < tabsCount; d++) sbOutFileSkel.Append($"\t");
 				sbOutFileSkel.AppendLine($"Mirror {bone[b].m_wMirror}");
 
-				if (b == 0&& Settings.bSwapYAndZ)// root
+				float tmp;
+				if (b==0&&Settings.bSwapYAndZ)// root
 				{
-					float tmp = 0;
-					bone[b].m_vRotationQuaternion.Y += 180f;
-					bone[b].m_vRotationQuaternion.Z += 180f;
-					tmp = bone[b].m_vOffset.Z;
-					bone[b].m_vOffset.Z = bone[b].m_vOffset.Y;
-					bone[b].m_vOffset.Y = tmp;
+					tmp = bone[b].m_vOffset.Y;
+					bone[b].m_vOffset.Y = bone[b].m_vOffset.Z;
+					bone[b].m_vOffset.Z = tmp;
+
+					//tmp = bone[b].m_vRotationEuler.Y;
+					//bone[b].m_vRotationEuler.Y = bone[b].m_vRotationEuler.Z;
+					//bone[b].m_vRotationEuler.Z = tmp;
+					tmp = bone[b].m_vRotationEuler.Z += 1.5708f * 2;
+					bone[b].m_vRotationEuler.X += 1.5708f;
+
+					//tmp = bone[b].m_vRotationQuaternion.Y;
+					//bone[b].m_vRotationQuaternion.Y = bone[b].m_vRotationQuaternion.Z;
+					//bone[b].m_vRotationQuaternion.Z = tmp;
+
+					ToQuaternion(bone[b].m_vRotationEuler.X, bone[b].m_vRotationEuler.Y, bone[b].m_vRotationEuler.Z,
+						ref bone[b].m_vRotationQuaternion.X, ref bone[b].m_vRotationQuaternion.Y, ref bone[b].m_vRotationQuaternion.Z, ref bone[b].m_vRotationQuaternion.W);
+					
+					tmp = bone[b].m_vScale.Y;
+					bone[b].m_vScale.Y = bone[b].m_vScale.Z;
+					bone[b].m_vScale.Z = tmp;
+
 					tmp = bone[b].m_vWorldOffset.Z;
 					bone[b].m_vWorldOffset.Z = bone[b].m_vWorldOffset.Y;
 					bone[b].m_vWorldOffset.Y = tmp;
+
+					tmp = bone[b].m_vOrient.Y;
+					bone[b].m_vOrient.Y = bone[b].m_vOrient.Z;
+					bone[b].m_vOrient.Z = tmp;
+
+					tmp = bone[b].m_vSorient.Y;
+					bone[b].m_vSorient.Y = bone[b].m_vSorient.Z;
+					bone[b].m_vSorient.Z = tmp;
+
+					tmp = bone[b].m_vTransMin.Y;
+					bone[b].m_vTransMin.Y = bone[b].m_vTransMin.Z;
+					bone[b].m_vTransMin.Z = tmp;
+
+					tmp = bone[b].m_vTransMax.Y;
+					bone[b].m_vTransMax.Y = bone[b].m_vTransMax.Z;
+					bone[b].m_vTransMax.Z = tmp;
+
+					tmp = bone[b].m_vRotMin.Y;
+					bone[b].m_vRotMin.Y = bone[b].m_vRotMin.Z;
+					bone[b].m_vRotMin.Z = tmp;
+
+					tmp = bone[b].m_vRotMax.Y;
+					bone[b].m_vRotMax.Y = bone[b].m_vRotMax.Z;
+					bone[b].m_vRotMax.Z = tmp;
 				}
 
 				for (int d = 0; d < tabsCount; d++) sbOutFileSkel.Append($"\t");

@@ -16,7 +16,7 @@ namespace Converter.openFormats
 			//			memmove()
 			aa++;
 		}
-		public static unsafe bool Build(RageResource.Model model, EndianBinaryReader br, Vector4[,] vBouds, ref uint currentModel, ref uint currentGeometry,
+		public static bool Build(RageResource.Model model, EndianBinaryReader br, Vector4[,] vBouds, ref uint currentModel, ref uint currentGeometry,
 			RageResource.IndexBuffer[] indexBuffer, RageResource.VertexBuffer[] vertexBuffer, string meshFileName,
 			RageResource.VertexDeclaration[] vertexDeclaration)
 		{
@@ -25,14 +25,17 @@ namespace Converter.openFormats
 			StreamWriter swOutFileMesh;
 			StringBuilder sbOutFileMesh = new StringBuilder();
 
+			Log.ToLog(Log.MessageType.INFO, $"Model{currentModel}:");
+
 			sbOutFileMesh.AppendLine($"Version {11} {13}");
 			sbOutFileMesh.AppendLine($"{{");
 			sbOutFileMesh.AppendLine($"\tSkinned {Convert.ToInt32(model.m_bSkinned)}");
 			if (!model.m_bSkinned)//skinned
 			{
 				// пишем границы, которые есть только в non skinned модели
-				uint boundsCount = model.m_pGeometry.m_wCount;
-				if (model.m_pGeometry.m_wCount > 1) boundsCount++;
+				uint boundsCount = model.m_pGeometry.m_wCount>1? (uint)model.m_pGeometry.m_wCount+1: model.m_pGeometry.m_wCount;
+				Log.ToLog(Log.MessageType.INFO, $"Bounds count: {boundsCount}");
+				//if (model.m_pGeometry.m_wCount > 1) boundsCount++; из-за этого рядка я потерял примерно час
 				sbOutFileMesh.AppendLine($"\tBounds {boundsCount}");
 				sbOutFileMesh.AppendLine($"\t{{");
 				if (!Settings.bSwapYAndZ)
@@ -51,25 +54,31 @@ namespace Converter.openFormats
 			br.Position = model.m_pShaderMapping;
 			for (int d = 0; d < model.m_pGeometry.m_wCount; d++) wMaterialMapping[d] = br.ReadUInt16();
 			// the geometry section is one material in the mesh file
+			Log.ToLog(Log.MessageType.INFO, $"Geometries count: {model.m_pGeometry.m_wCount}");
 			for (int d = 0; d < model.m_pGeometry.m_wCount; d++)
 			{
+				Log.ToLog(Log.MessageType.INFO, $"Geometry{d}:");
+				Log.ToLog(Log.MessageType.INFO, $"Mtl id: {wMaterialMapping[d]}");
+
 				sbOutFileMesh.AppendLine($"\tMtl {wMaterialMapping[d]}");
 				sbOutFileMesh.AppendLine($"\t{{");
 				sbOutFileMesh.AppendLine($"\t\tPrim {0}");
 				sbOutFileMesh.AppendLine($"\t\t{{");
+				Log.ToLog(Log.MessageType.INFO, $"Indices count: {indexBuffer[currentGeometry].m_dwIndexCount}");
 				sbOutFileMesh.AppendLine($"\t\t\tIdx {indexBuffer[currentGeometry].m_dwIndexCount}");
 				sbOutFileMesh.AppendLine($"\t\t\t{{");
 				if (!GFX.Indices(br, sbOutFileMesh, indexBuffer[currentGeometry].m_pIndexData, indexBuffer[currentGeometry].m_dwIndexCount))
 				{
-					Console.WriteLine("Failed to export indices");
+					Log.ToLog(Log.MessageType.ERROR, $"Failed to export indices");
 					return false;
 				}
 				sbOutFileMesh.AppendLine($"\t\t\t}}");
+				Log.ToLog(Log.MessageType.INFO, $"Vertices count: {vertexBuffer[currentGeometry].m_wVertexCount}");
 				sbOutFileMesh.AppendLine($"\t\t\tVerts {vertexBuffer[currentGeometry].m_wVertexCount}");
 				sbOutFileMesh.AppendLine($"\t\t\t{{");
 				if (!GFX.Vertex(br, sbOutFileMesh, vertexDeclaration[currentGeometry], vertexBuffer[currentGeometry].m_pVertexData, vertexBuffer[currentGeometry].m_wVertexCount, model.m_bSkinned))
 				{
-					Console.WriteLine("Failed to export vertex");
+					Log.ToLog(Log.MessageType.ERROR, $"Failed to export vertices");
 					return false;
 				}
 				sbOutFileMesh.AppendLine($"\t\t\t}}");
