@@ -1,0 +1,2443 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ShaderManager>
+	<Shader>
+		<Name>rage_curvedmodel</Name>
+		<VertexFormat>16601</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="DiffuseSampler" skip="false" />
+			<Item type="sampler" name="NormalMapSampler" skip="false" />
+			<Item type="float" name="SegmentSize" skip="false" />
+			<Item type="float4" name="curveCoeffs" skip="false" />
+			<Item type="float4" name="approxTangent" skip="false" />
+			<Item type="float3" name="uvScales" skip="false" />
+			<Item type="float" name="radius" skip="false" />
+			<Item type="float3" name="Offset" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rage_lightprepass</Name>
+		<VertexFormat>217</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float4" name="TexelSize" skip="false" />
+			<Item type="sampler" name="SkyReflectionSampler2" skip="false" />
+			<Item type="sampler" name="CloudShadowSampler1" skip="false" />
+			<Item type="float2" name="CloudPatternScale" skip="false" />
+			<Item type="float2" name="CloudShadowStrength" skip="false" />
+			<Item type="float2" name="ScrollXZ" skip="false" />
+			<Item type="sampler" name="DepthMapSampler" skip="false" />
+			<Item type="sampler" name="RenderMapSampler" skip="false" />
+			<Item type="sampler" name="SnowMaskSampler" skip="false" />
+			<Item type="float4x4" name="WorldViewProjInverse" skip="false" />
+			<Item type="float4" name="PointLightSphere" skip="false" />
+			<Item type="float4" name="PointLightColor" skip="false" />
+			<Item type="float3" name="AttenuationConstants" skip="false" />
+			<Item type="float3" name="SpotLightDirection" skip="false" />
+			<Item type="float2" name="WrapAmount" skip="false" />
+			<Item type="float2" name="PenumbraScaleAndBias" skip="false" />
+			<Item type="float4" name="NearFarClipPlane" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_alpha</Name>
+		<VertexFormat>95</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_alpha_bspec_ao</Name>
+		<VertexFormat>16607</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="AmbOccSampler" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_alpha_bspec_ao_cloth</Name>
+		<VertexFormat>16601</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="AmbOccSampler" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_alpha_bspec_ao_cpv</Name>
+		<VertexFormat>16479</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_alpha_bspec_ao_shared</Name>
+		<VertexFormat>16607</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_alpha_bspec_ao_shareduv</Name>
+		<VertexFormat>16463</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_alpha_bspec_ao_shareduv_character</Name>
+		<VertexFormat>16607</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float4" name="gBloodDataX" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="DetailMapSampler" skip="false" />
+			<Item type="float4" name="mainUVModulate" skip="false" />
+			<Item type="float" name="detailMapScaleU" skip="false" />
+			<Item type="float" name="detailMapScaleV" skip="false" />
+			<Item type="float" name="detailMapScale" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="specularFactor2" skip="false" />
+			<Item type="float" name="specularColorFactor2" skip="false" />
+			<Item type="float" name="specDiffuseAmount" skip="false" />
+			<Item type="float" name="specularFresnelExp" skip="false" />
+			<Item type="float" name="specularFresnelMin" skip="false" />
+			<Item type="float" name="specularFresnelMax" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_alpha_bspec_ao_shareduv_character_cutscene</Name>
+		<VertexFormat>16479</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float4" name="gAnimatedNormalMapParams" skip="false" />
+			<Item type="sampler" name="NormalMapSampler1" skip="false" />
+			<Item type="sampler" name="NormalMapSampler2" skip="false" />
+			<Item type="sampler" name="AnimatedNormalMapMask0Sampler" skip="false" />
+			<Item type="sampler" name="AnimatedNormalMapMask1Sampler" skip="false" />
+			<Item type="sampler" name="AnimatedNormalMapMask2Sampler" skip="false" />
+			<Item type="float" name="animatedNormalMapMod1" skip="false" />
+			<Item type="float" name="animatedNormalMapMod2" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="DetailMapSampler" skip="false" />
+			<Item type="float4" name="mainUVModulate" skip="false" />
+			<Item type="float4" name="animNrmUVModulate" skip="false" />
+			<Item type="float" name="detailMapScaleU" skip="false" />
+			<Item type="float" name="detailMapScaleV" skip="false" />
+			<Item type="float" name="detailMapScale" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="specularFactor2" skip="false" />
+			<Item type="float" name="specularColorFactor2" skip="false" />
+			<Item type="float" name="specDiffuseAmount" skip="false" />
+			<Item type="float" name="specularFresnelExp" skip="false" />
+			<Item type="float" name="specularFresnelMin" skip="false" />
+			<Item type="float" name="specularFresnelMax" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_alpha_bspec_ao_shareduv_character_hair</Name>
+		<VertexFormat>16607</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float4" name="gBloodDataX" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="DetailMapSampler" skip="false" />
+			<Item type="float4" name="mainUVModulate" skip="false" />
+			<Item type="float" name="detailMapScaleU" skip="false" />
+			<Item type="float" name="detailMapScaleV" skip="false" />
+			<Item type="float" name="detailMapScale" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="specularFactor2" skip="false" />
+			<Item type="float" name="specularColorFactor2" skip="false" />
+			<Item type="float" name="specDiffuseAmount" skip="false" />
+			<Item type="float" name="specularFresnelExp" skip="false" />
+			<Item type="float" name="specularFresnelMin" skip="false" />
+			<Item type="float" name="specularFresnelMax" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_alpha_cloth</Name>
+		<VertexFormat>89</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_alpha_foliage</Name>
+		<VertexFormat>16505</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_alpha_foliage_no_fade</Name>
+		<VertexFormat>16505</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_alpha_hair_a</Name>
+		<VertexFormat>49231</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="SpecShiftSampler" skip="false" />
+			<Item type="sampler" name="DetailNormalMapSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="float" name="detailNormalMapScaleU" skip="false" />
+			<Item type="float" name="detailNormalMapScaleV" skip="false" />
+			<Item type="float" name="detailNormalMapScale" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="specDiffuseAmount" skip="false" />
+			<Item type="float" name="specularShiftMapFalloff" skip="false" />
+			<Item type="float" name="specularShiftIntensity" skip="false" />
+			<Item type="float" name="specularShiftOffset" skip="false" />
+			<Item type="float" name="gTransparentAlphaBoost" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_atmoscatt</Name>
+		<VertexFormat>193</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float3" name="SunCentre" skip="false" />
+			<Item type="sampler" name="PerlinNoiseSampler" skip="false" />
+			<Item type="sampler" name="HighDetailNoiseSampler" skip="false" />
+			<Item type="sampler" name="StarFieldSampler" skip="false" />
+			<Item type="sampler" name="MoonSampler" skip="false" />
+			<Item type="sampler" name="MoonGlowSampler" skip="false" />
+			<Item type="sampler" name="SkyMapSampler" skip="false" />
+			<Item type="float2" name="GalaxyOffset" skip="false" />
+			<Item type="float" name="StarFieldUVRepeat" skip="false" />
+			<Item type="float" name="CloudShadowOffset" skip="false" />
+			<Item type="float4" name="CloudThicknessEdgeSmoothDetailScaleStrength" skip="false" />
+			<Item type="float4" name="TopCloudBiasDetailThresholdHeight" skip="false" />
+			<Item type="float" name="AzimuthHeight" skip="false" />
+			<Item type="float" name="AzimuthStrength" skip="false" />
+			<Item type="float3" name="AzimuthColorEast" skip="false" />
+			<Item type="float" name="CloudThreshold" skip="false" />
+			<Item type="float" name="CloudBias" skip="false" />
+			<Item type="float" name="CloudShadowStrength" skip="false" />
+			<Item type="float" name="CloudInscatteringRange" skip="false" />
+			<Item type="float4" name="CloudColor" skip="false" />
+			<Item type="float4" name="SunsetColor" skip="false" />
+			<Item type="float3" name="TopCloudColor" skip="false" />
+			<Item type="float" name="MoonVisiblity" skip="false" />
+			<Item type="float" name="CloudFadeOutRate" skip="false" />
+			<Item type="float" name="CloudFadeOut" skip="false" />
+			<Item type="float4" name="SunDirection" skip="false" />
+			<Item type="float2" name="DetailOffset" skip="false" />
+			<Item type="float3" name="AzimuthColor" skip="false" />
+			<Item type="float3" name="SkyColor" skip="false" />
+			<Item type="float3" name="SunColor" skip="false" />
+			<Item type="float2" name="SunSize" skip="false" />
+			<Item type="float" name="HDRSunExposure" skip="false" />
+			<Item type="float4" name="StarFieldBrightness" skip="false" />
+			<Item type="float3" name="MoonPosition" skip="false" />
+			<Item type="float3" name="MoonXVector" skip="false" />
+			<Item type="float3" name="MoonYVector" skip="false" />
+			<Item type="float4" name="MoonColorConstant" skip="false" />
+			<Item type="float" name="HDRExposure" skip="false" />
+			<Item type="float" name="TimeOfDay" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_beacon</Name>
+		<VertexFormat>81</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_billboard</Name>
+		<VertexFormat>65</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="CloudShadowSampler1" skip="false" />
+			<Item type="float2" name="CloudPatternScale" skip="false" />
+			<Item type="float2" name="CloudShadowStrength" skip="false" />
+			<Item type="float2" name="ScrollXZ" skip="false" />
+			<Item type="sampler" name="DiffuseBillboardSampler" skip="false" />
+			<Item type="float2" name="g_BillboardFadeOut" skip="false" />
+			<Item type="float" name="g_FadeScale" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_binoculars_barrel</Name>
+		<VertexFormat>16601</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_binoculars_lens</Name>
+		<VertexFormat>65</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_breakableglass</Name>
+		<VertexFormat>16857</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="CrackSampler" skip="false" />
+			<Item type="sampler" name="BrokenDiffuseSampler" skip="false" />
+			<Item type="sampler" name="BrokenBumpSampler" skip="false" />
+			<Item type="sampler" name="DecalSampler" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="ambOccFillFactor" skip="false" />
+			<Item type="float" name="ambOccSunFactor" skip="false" />
+			<Item type="float4" name="CrackOffset" skip="false" />
+			<Item type="float4" name="CrackMatrix" skip="false" />
+			<Item type="float4" name="BrokenGlassTileScale" skip="false" />
+			<Item type="float4" name="CrackDiffuse" skip="false" />
+			<Item type="float4" name="CrackSpecular" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_bump</Name>
+		<VertexFormat>16473</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_bump_ambocc</Name>
+		<VertexFormat>16607</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float" name="specularGreenScale" skip="false" />
+			<Item type="float" name="specularGreenBias" skip="false" />
+			<Item type="float" name="FresnelTerm" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="AmbOccSampler" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_bump_ambocc_alphaao</Name>
+		<VertexFormat>16473</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_bump_ambocc_cpv</Name>
+		<VertexFormat>16479</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_bump_cloth_ambocc_shareduv_character</Name>
+		<VertexFormat>16607</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float" name="ClothFalloff" skip="false" />
+			<Item type="float" name="ClothDiffuse" skip="false" />
+			<Item type="float" name="ClothIntensity" skip="false" />
+			<Item type="float3" name="ClothSheen" skip="false" />
+			<Item type="float" name="ClothDiffuseContribution" skip="false" />
+			<Item type="float4" name="gBloodDataX" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="DetailMapSampler" skip="false" />
+			<Item type="float" name="detailMapScaleU" skip="false" />
+			<Item type="float" name="detailMapScaleV" skip="false" />
+			<Item type="float" name="detailMapScale" skip="false" />
+			<Item type="float" name="rimPower" skip="false" />
+			<Item type="float" name="rimAmount" skip="false" />
+			<Item type="float" name="rimGlowScale" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_bump_spec</Name>
+		<VertexFormat>16479</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_bump_spec_alpha</Name>
+		<VertexFormat>16473</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_bump_spec_ambocc_cpv</Name>
+		<VertexFormat>16473</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_bump_spec_ambocc_reflection_shared</Name>
+		<VertexFormat>16591</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="SkyReflectionSampler" skip="false" />
+			<Item type="float" name="ReflectionDiffuseContribution" skip="false" />
+			<Item type="float" name="ReflectionFallOff" skip="false" />
+			<Item type="float" name="ReflectionIntensity" skip="false" />
+			<Item type="float" name="ClothFalloff" skip="false" />
+			<Item type="float" name="ClothIntensity" skip="false" />
+			<Item type="float3" name="ClothSheen" skip="false" />
+			<Item type="float" name="ClothDiffuseContribution" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_bump_spec_ambocc_shared</Name>
+		<VertexFormat>16591</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_bump_spec_ambocc_shareduv</Name>
+		<VertexFormat>49263</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float4" name="gBloodDataX" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_bump_spec_ambocc_shareduv_character</Name>
+		<VertexFormat>16607</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float4" name="gBloodDataX" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="DetailMapSampler" skip="false" />
+			<Item type="float" name="detailMapScaleU" skip="false" />
+			<Item type="float" name="detailMapScaleV" skip="false" />
+			<Item type="float" name="detailMapScale" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="specularFactor2" skip="false" />
+			<Item type="float" name="specularColorFactor2" skip="false" />
+			<Item type="float" name="specDiffuseAmount" skip="false" />
+			<Item type="float" name="specularFresnelExp" skip="false" />
+			<Item type="float" name="specularFresnelMin" skip="false" />
+			<Item type="float" name="specularFresnelMax" skip="false" />
+			<Item type="float" name="rimPower" skip="false" />
+			<Item type="float" name="rimAmount" skip="false" />
+			<Item type="float" name="rimGlowScale" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_bump_spec_ambocc_shareduv_character_2sided</Name>
+		<VertexFormat>16607</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float4" name="gBloodDataX" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="DetailMapSampler" skip="false" />
+			<Item type="float" name="detailMapScaleU" skip="false" />
+			<Item type="float" name="detailMapScaleV" skip="false" />
+			<Item type="float" name="detailMapScale" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="specularFactor2" skip="false" />
+			<Item type="float" name="specularColorFactor2" skip="false" />
+			<Item type="float" name="specDiffuseAmount" skip="false" />
+			<Item type="float" name="specularFresnelExp" skip="false" />
+			<Item type="float" name="specularFresnelMin" skip="false" />
+			<Item type="float" name="specularFresnelMax" skip="false" />
+			<Item type="float" name="rimPower" skip="false" />
+			<Item type="float" name="rimAmount" skip="false" />
+			<Item type="float" name="rimGlowScale" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_bump_spec_ambocc_shareduv_character_cloth</Name>
+		<VertexFormat>16601</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="SkyReflectionSampler" skip="false" />
+			<Item type="float" name="ReflectionDiffuseContribution" skip="false" />
+			<Item type="float" name="ReflectionFallOff" skip="false" />
+			<Item type="float" name="ReflectionIntensity" skip="false" />
+			<Item type="float4" name="gBloodDataX" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="DetailMapSampler" skip="false" />
+			<Item type="float" name="detailMapScaleU" skip="false" />
+			<Item type="float" name="detailMapScaleV" skip="false" />
+			<Item type="float" name="detailMapScale" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="specularFactor2" skip="false" />
+			<Item type="float" name="specularColorFactor2" skip="false" />
+			<Item type="float" name="specDiffuseAmount" skip="false" />
+			<Item type="float" name="specularFresnelExp" skip="false" />
+			<Item type="float" name="specularFresnelMin" skip="false" />
+			<Item type="float" name="specularFresnelMax" skip="false" />
+			<Item type="float" name="rimPower" skip="false" />
+			<Item type="float" name="rimAmount" skip="false" />
+			<Item type="float" name="rimGlowScale" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_bump_spec_ambocc_shareduv_character_cutscene</Name>
+		<VertexFormat>16591</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float3" name="dermisColor" skip="false" />
+			<Item type="float" name="dermisWieght" skip="false" />
+			<Item type="float3" name="epidermisColor" skip="false" />
+			<Item type="float" name="epidermisWieght" skip="false" />
+			<Item type="float" name="blurSize" skip="false" />
+			<Item type="float4" name="gBloodDataX" skip="false" />
+			<Item type="float4" name="gAnimatedNormalMapParams" skip="false" />
+			<Item type="sampler" name="NormalMapSampler1" skip="false" />
+			<Item type="sampler" name="NormalMapSampler2" skip="false" />
+			<Item type="sampler" name="AnimatedNormalMapMask0Sampler" skip="false" />
+			<Item type="sampler" name="AnimatedNormalMapMask1Sampler" skip="false" />
+			<Item type="sampler" name="AnimatedNormalMapMask2Sampler" skip="false" />
+			<Item type="float" name="animatedNormalMapMod1" skip="false" />
+			<Item type="float" name="animatedNormalMapMod2" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="DetailMapSampler" skip="false" />
+			<Item type="float4" name="animNrmUVModulate" skip="false" />
+			<Item type="float" name="detailMapScaleU" skip="false" />
+			<Item type="float" name="detailMapScaleV" skip="false" />
+			<Item type="float" name="detailMapScale" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="specularFactor2" skip="false" />
+			<Item type="float" name="specularColorFactor2" skip="false" />
+			<Item type="float" name="specDiffuseAmount" skip="false" />
+			<Item type="float" name="specularFresnelExp" skip="false" />
+			<Item type="float" name="specularFresnelMin" skip="false" />
+			<Item type="float" name="specularFresnelMax" skip="false" />
+			<Item type="float" name="rimPower" skip="false" />
+			<Item type="float" name="rimAmount" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_bump_spec_ambocc_shareduv_character_skin</Name>
+		<VertexFormat>16607</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float3" name="dermisColor" skip="false" />
+			<Item type="float" name="dermisWieght" skip="false" />
+			<Item type="float3" name="epidermisColor" skip="false" />
+			<Item type="float" name="epidermisWieght" skip="false" />
+			<Item type="float" name="blurSize" skip="false" />
+			<Item type="float4" name="gBloodDataX" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="DetailMapSampler" skip="false" />
+			<Item type="float" name="detailMapScaleU" skip="false" />
+			<Item type="float" name="detailMapScaleV" skip="false" />
+			<Item type="float" name="detailMapScale" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="specularFactor2" skip="false" />
+			<Item type="float" name="specularColorFactor2" skip="false" />
+			<Item type="float" name="specDiffuseAmount" skip="false" />
+			<Item type="float" name="specularFresnelExp" skip="false" />
+			<Item type="float" name="specularFresnelMin" skip="false" />
+			<Item type="float" name="specularFresnelMax" skip="false" />
+			<Item type="float" name="rimPower" skip="false" />
+			<Item type="float" name="rimAmount" skip="false" />
+			<Item type="float" name="rimGlowScale" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_bump_spec_ambocc_smooth_shared</Name>
+		<VertexFormat>16591</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_bump_spec_ao_cloth</Name>
+		<VertexFormat>16601</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="AmbOccSampler" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_bump_spec_ao_dirt_cloth</Name>
+		<VertexFormat>16857</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="TextureSampler2" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="AmbOccSampler" skip="false" />
+			<Item type="float" name="dirtMapFactor" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_cati</Name>
+		<VertexFormat>16591</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_character_cloth_2sided</Name>
+		<VertexFormat>16457</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="DetailMapSampler" skip="false" />
+			<Item type="float" name="detailMapScaleU" skip="false" />
+			<Item type="float" name="detailMapScaleV" skip="false" />
+			<Item type="float" name="detailMapScale" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="specularFactor2" skip="false" />
+			<Item type="float" name="specularColorFactor2" skip="false" />
+			<Item type="float" name="specDiffuseAmount" skip="false" />
+			<Item type="float" name="specularFresnelExp" skip="false" />
+			<Item type="float" name="specularFresnelMin" skip="false" />
+			<Item type="float" name="specularFresnelMax" skip="false" />
+			<Item type="float" name="rimPower" skip="false" />
+			<Item type="float" name="rimAmount" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_character_lod</Name>
+		<VertexFormat>207</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float4" name="gBloodDataX" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="float4" name="mainUVModulate" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_cliffwall</Name>
+		<VertexFormat>49369</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_cliffwall_alpha</Name>
+		<VertexFormat>49401</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float" name="BumpSelfShadowAmount" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="sampler" name="SkyReflectionSampler2" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_cliffwall_alpha2</Name>
+		<VertexFormat>49401</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="sampler" name="SkyReflectionSampler2" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_cliffwall_ao</Name>
+		<VertexFormat>49369</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float" name="BumpSelfShadowAmount" skip="false" />
+			<Item type="sampler" name="TerrainBlendMap1" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="float" name="detailNormalMapScaleU" skip="false" />
+			<Item type="float" name="detailNormalMapScaleV" skip="false" />
+			<Item type="float" name="detailNormalMapScale" skip="false" />
+			<Item type="float2" name="BlendMapScaleCliff" skip="false" />
+			<Item type="float2" name="BlendMapOffsetCliff" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="MegaTexSpecularIntensityScale1" skip="false" />
+			<Item type="float" name="MegaTexSpecularIntensityScale2" skip="false" />
+			<Item type="sampler" name="SkyReflectionSampler2" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_cliffwall_ao_low_lod</Name>
+		<VertexFormat>49369</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float" name="BumpSelfShadowAmount" skip="false" />
+			<Item type="sampler" name="FlattenBumpSampler" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="float" name="detailNormalMapScaleU" skip="false" />
+			<Item type="float" name="detailNormalMapScaleV" skip="false" />
+			<Item type="float" name="detailNormalMapScale" skip="false" />
+			<Item type="float2" name="BlendMapScaleCliffFlatten" skip="false" />
+			<Item type="float2" name="BlendMapOffsetCliffFlatten" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="MegaTexSpecularIntensityScale1" skip="false" />
+			<Item type="float" name="MegaTexSpecularIntensityScale2" skip="false" />
+			<Item type="sampler" name="SkyReflectionSampler2" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_clouds_anim</Name>
+		<VertexFormat>16457</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="DensitySampler" skip="false" />
+			<Item type="sampler" name="NormalSampler" skip="false" />
+			<Item type="sampler" name="DetailDensitySampler" skip="false" />
+			<Item type="sampler" name="DetailNormalSampler" skip="false" />
+			<Item type="sampler" name="DetailDensity2Sampler" skip="false" />
+			<Item type="sampler" name="DetailNormal2Sampler" skip="false" />
+			<Item type="sampler" name="LowResDensitySampler" skip="false" />
+			<Item type="sampler" name="LowResNormalSampler" skip="false" />
+			<Item type="float3" name="SkyColor" skip="false" />
+			<Item type="float3" name="EastColor" skip="false" />
+			<Item type="float3" name="WestColor" skip="false" />
+			<Item type="float3" name="gSunDirection" skip="false" />
+			<Item type="float3" name="gSunColor" skip="false" />
+			<Item type="float3" name="gCloudColor" skip="false" />
+			<Item type="float3" name="gAmbientColor" skip="false" />
+			<Item type="float3" name="gBounceColor" skip="false" />
+			<Item type="float2" name="gDensityShiftScale" skip="false" />
+			<Item type="float4" name="gScatterG_GSquared_PhaseMult_Scale" skip="false" />
+			<Item type="float4" name="gPiercingLightPower_Strength_NormalStrength_Thickness" skip="false" />
+			<Item type="float3" name="gScaleDiffuseFillAmbient" skip="false" />
+			<Item type="float3" name="gWrapLighting_MSAARef" skip="false" />
+			<Item type="float3" name="gAnimCombine" skip="false" />
+			<Item type="float3" name="gAnimSculpt" skip="false" />
+			<Item type="float3" name="gAnimBlendWeights" skip="false" />
+			<Item type="float2" name="gUVOffset" skip="false" />
+			<Item type="float2" name="gUVOffset1" skip="false" />
+			<Item type="float2" name="gUVOffset2" skip="false" />
+			<Item type="float2" name="gUVOffset3" skip="false" />
+			<Item type="float2" name="gRescaleUV1" skip="false" />
+			<Item type="float2" name="gRescaleUV2" skip="false" />
+			<Item type="float2" name="gRescaleUV3" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_clouds_animsoft</Name>
+		<VertexFormat>16457</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="DensitySampler" skip="false" />
+			<Item type="sampler" name="NormalSampler" skip="false" />
+			<Item type="sampler" name="DetailDensitySampler" skip="false" />
+			<Item type="sampler" name="DetailNormalSampler" skip="false" />
+			<Item type="sampler" name="DetailDensity2Sampler" skip="false" />
+			<Item type="sampler" name="DetailNormal2Sampler" skip="false" />
+			<Item type="sampler" name="LowResDensitySampler" skip="false" />
+			<Item type="sampler" name="LowResNormalSampler" skip="false" />
+			<Item type="float3" name="SkyColor" skip="false" />
+			<Item type="float3" name="EastColor" skip="false" />
+			<Item type="float3" name="WestColor" skip="false" />
+			<Item type="float3" name="gSunDirection" skip="false" />
+			<Item type="float3" name="gSunColor" skip="false" />
+			<Item type="float3" name="gCloudColor" skip="false" />
+			<Item type="float3" name="gAmbientColor" skip="false" />
+			<Item type="float3" name="gBounceColor" skip="false" />
+			<Item type="float2" name="gDensityShiftScale" skip="false" />
+			<Item type="float4" name="gScatterG_GSquared_PhaseMult_Scale" skip="false" />
+			<Item type="float4" name="gPiercingLightPower_Strength_NormalStrength_Thickness" skip="false" />
+			<Item type="float3" name="gScaleDiffuseFillAmbient" skip="false" />
+			<Item type="float3" name="gWrapLighting_MSAARef" skip="false" />
+			<Item type="float4" name="gNearFarQMult" skip="false" />
+			<Item type="float3" name="gAnimCombine" skip="false" />
+			<Item type="float3" name="gAnimSculpt" skip="false" />
+			<Item type="float3" name="gAnimBlendWeights" skip="false" />
+			<Item type="float2" name="gUVOffset" skip="false" />
+			<Item type="float2" name="gUVOffset1" skip="false" />
+			<Item type="float2" name="gUVOffset2" skip="false" />
+			<Item type="float2" name="gUVOffset3" skip="false" />
+			<Item type="float2" name="gRescaleUV1" skip="false" />
+			<Item type="float2" name="gRescaleUV2" skip="false" />
+			<Item type="float2" name="gRescaleUV3" skip="false" />
+			<Item type="float" name="gSoftParticleRange" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_clouds_fast</Name>
+		<VertexFormat>16457</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="DensitySampler" skip="false" />
+			<Item type="sampler" name="NormalSampler" skip="false" />
+			<Item type="sampler" name="LowResDensitySampler" skip="false" />
+			<Item type="sampler" name="LowResNormalSampler" skip="false" />
+			<Item type="float3" name="SkyColor" skip="false" />
+			<Item type="float3" name="EastColor" skip="false" />
+			<Item type="float3" name="WestColor" skip="false" />
+			<Item type="float3" name="gSunDirection" skip="false" />
+			<Item type="float3" name="gSunColor" skip="false" />
+			<Item type="float3" name="gCloudColor" skip="false" />
+			<Item type="float3" name="gAmbientColor" skip="false" />
+			<Item type="float3" name="gBounceColor" skip="false" />
+			<Item type="float2" name="gDensityShiftScale" skip="false" />
+			<Item type="float4" name="gScatterG_GSquared_PhaseMult_Scale" skip="false" />
+			<Item type="float4" name="gPiercingLightPower_Strength_NormalStrength_Thickness" skip="false" />
+			<Item type="float3" name="gScaleDiffuseFillAmbient" skip="false" />
+			<Item type="float3" name="gWrapLighting_MSAARef" skip="false" />
+			<Item type="float2" name="gUVOffset" skip="false" />
+			<Item type="float2" name="gUVOffset1" skip="false" />
+			<Item type="float2" name="gUVOffset2" skip="false" />
+			<Item type="float2" name="gUVOffset3" skip="false" />
+			<Item type="float2" name="gRescaleUV1" skip="false" />
+			<Item type="float2" name="gRescaleUV2" skip="false" />
+			<Item type="float2" name="gRescaleUV3" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_clouds_fog</Name>
+		<VertexFormat>16457</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="DensitySampler" skip="false" />
+			<Item type="sampler" name="NormalSampler" skip="false" />
+			<Item type="float3" name="SkyColor" skip="false" />
+			<Item type="float3" name="EastColor" skip="false" />
+			<Item type="float3" name="WestColor" skip="false" />
+			<Item type="float3" name="gSunDirection" skip="false" />
+			<Item type="float3" name="gSunColor" skip="false" />
+			<Item type="float3" name="gCloudColor" skip="false" />
+			<Item type="float3" name="gAmbientColor" skip="false" />
+			<Item type="float3" name="gBounceColor" skip="false" />
+			<Item type="float2" name="gDensityShiftScale" skip="false" />
+			<Item type="float4" name="gPiercingLightPower_Strength_NormalStrength_Thickness" skip="false" />
+			<Item type="float3" name="gScaleDiffuseFillAmbient" skip="false" />
+			<Item type="float3" name="gWrapLighting_MSAARef" skip="false" />
+			<Item type="float4" name="gNearFarQMult" skip="false" />
+			<Item type="float2" name="gUVOffset" skip="false" />
+			<Item type="float2" name="gUVOffset1" skip="false" />
+			<Item type="float2" name="gUVOffset2" skip="false" />
+			<Item type="float2" name="gUVOffset3" skip="false" />
+			<Item type="float2" name="gRescaleUV1" skip="false" />
+			<Item type="float2" name="gRescaleUV2" skip="false" />
+			<Item type="float2" name="gRescaleUV3" skip="false" />
+			<Item type="float" name="gSoftParticleRange" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_clouds_soft</Name>
+		<VertexFormat>16457</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="DensitySampler" skip="false" />
+			<Item type="sampler" name="NormalSampler" skip="false" />
+			<Item type="sampler" name="LowResDensitySampler" skip="false" />
+			<Item type="sampler" name="LowResNormalSampler" skip="false" />
+			<Item type="float3" name="SkyColor" skip="false" />
+			<Item type="float3" name="EastColor" skip="false" />
+			<Item type="float3" name="WestColor" skip="false" />
+			<Item type="float3" name="gSunDirection" skip="false" />
+			<Item type="float3" name="gSunColor" skip="false" />
+			<Item type="float3" name="gCloudColor" skip="false" />
+			<Item type="float3" name="gAmbientColor" skip="false" />
+			<Item type="float3" name="gBounceColor" skip="false" />
+			<Item type="float2" name="gDensityShiftScale" skip="false" />
+			<Item type="float4" name="gScatterG_GSquared_PhaseMult_Scale" skip="false" />
+			<Item type="float4" name="gPiercingLightPower_Strength_NormalStrength_Thickness" skip="false" />
+			<Item type="float3" name="gScaleDiffuseFillAmbient" skip="false" />
+			<Item type="float3" name="gWrapLighting_MSAARef" skip="false" />
+			<Item type="float4" name="gNearFarQMult" skip="false" />
+			<Item type="float2" name="gUVOffset" skip="false" />
+			<Item type="float2" name="gUVOffset1" skip="false" />
+			<Item type="float2" name="gUVOffset2" skip="false" />
+			<Item type="float2" name="gUVOffset3" skip="false" />
+			<Item type="float2" name="gRescaleUV1" skip="false" />
+			<Item type="float2" name="gRescaleUV2" skip="false" />
+			<Item type="float2" name="gRescaleUV3" skip="false" />
+			<Item type="float" name="gSoftParticleRange" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_debris</Name>
+		<VertexFormat>16479</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="TreeTintSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_diffuse</Name>
+		<VertexFormat>95</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_diffuse_cloth</Name>
+		<VertexFormat>89</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_dome_clouds</Name>
+		<VertexFormat>16457</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="DensitySampler" skip="false" />
+			<Item type="sampler" name="NormalSampler" skip="false" />
+			<Item type="sampler" name="DetailDensitySampler" skip="false" />
+			<Item type="sampler" name="DetailNormalSampler" skip="false" />
+			<Item type="sampler" name="DetailDensity2Sampler" skip="false" />
+			<Item type="sampler" name="DetailNormal2Sampler" skip="false" />
+			<Item type="float3" name="SkyColor" skip="false" />
+			<Item type="float3" name="EastColor" skip="false" />
+			<Item type="float3" name="WestColor" skip="false" />
+			<Item type="float3" name="gSunDirection" skip="false" />
+			<Item type="float3" name="gSunColor" skip="false" />
+			<Item type="float3" name="gCloudColor" skip="false" />
+			<Item type="float3" name="gAmbientColor" skip="false" />
+			<Item type="float3" name="gBounceColor" skip="false" />
+			<Item type="float2" name="gDensityShiftScale" skip="false" />
+			<Item type="float4" name="gScatterG_GSquared_PhaseMult_Scale" skip="false" />
+			<Item type="float4" name="gPiercingLightPower_Strength_NormalStrength_Thickness" skip="false" />
+			<Item type="float3" name="gScaleDiffuseFillAmbient" skip="false" />
+			<Item type="float2" name="gWrapLighting" skip="false" />
+			<Item type="float4" name="gNearFarQMult" skip="false" />
+			<Item type="float3" name="gAnimCombine" skip="false" />
+			<Item type="float3" name="gAnimSculpt" skip="false" />
+			<Item type="float3" name="gAnimBlendWeights" skip="false" />
+			<Item type="float2" name="gUVOffset" skip="false" />
+			<Item type="float2" name="gUVOffset1" skip="false" />
+			<Item type="float2" name="gUVOffset2" skip="false" />
+			<Item type="float2" name="gUVOffset3" skip="false" />
+			<Item type="float2" name="gRescaleUV1" skip="false" />
+			<Item type="float2" name="gRescaleUV2" skip="false" />
+			<Item type="float2" name="gRescaleUV3" skip="false" />
+			<Item type="float" name="gSoftParticleRange" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_door_glow</Name>
+		<VertexFormat>25</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float" name="beginFadeDist" skip="false" />
+			<Item type="float" name="endFadeDist" skip="false" />
+			<Item type="float" name="keyframeIndex" skip="false" />
+			<Item type="float" name="gMaxDisplacement" skip="false" />
+			<Item type="float" name="gCameraDistanceAtMaxDisplacement" skip="false" />
+			<Item type="float" name="gSoftParticleRange" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_flattenterrain</Name>
+		<VertexFormat>65</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="DetailSampler" skip="false" />
+			<Item type="sampler" name="DetailNormalMapSampler" skip="false" />
+			<Item type="float2" name="CutFlattenDiffuseScale" skip="false" />
+			<Item type="float2" name="CutFlattenDiffuseOffset" skip="false" />
+			<Item type="float2" name="CutFlattenBumpScale" skip="false" />
+			<Item type="float2" name="CutFlattenBumpOffset" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float2" name="detailMapUVScale" skip="false" />
+			<Item type="float" name="detailMapScale" skip="false" />
+			<Item type="float" name="detailNormalMapScaleU" skip="false" />
+			<Item type="float" name="detailNormalMapScaleV" skip="false" />
+			<Item type="float" name="detailNormalMapScale" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_flattenterrain_blend</Name>
+		<VertexFormat>49401</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="FlattenTextureSampler" skip="false" />
+			<Item type="sampler" name="FlattenBumpSampler" skip="false" />
+			<Item type="sampler" name="FlattenDetailSampler" skip="false" />
+			<Item type="sampler" name="FlattenDetailNormalMapSampler" skip="false" />
+			<Item type="float2" name="CutFlattenBlendDiffuseScale" skip="false" />
+			<Item type="float2" name="CutFlattenBlendDiffuseOffset" skip="false" />
+			<Item type="float2" name="CutFlattenBlendBumpScale" skip="false" />
+			<Item type="float2" name="CutFlattenBlendBumpOffset" skip="false" />
+			<Item type="float" name="bumpinessFlatten" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float2" name="detailMapUVScaleFlatten" skip="false" />
+			<Item type="float" name="detailMapScaleFlatten" skip="false" />
+			<Item type="float" name="detailNormalMapScaleUFlatten" skip="false" />
+			<Item type="float" name="detailNormalMapScaleVFlatten" skip="false" />
+			<Item type="float" name="detailNormalMapScaleFlatten" skip="false" />
+			<Item type="float" name="detailNormalMapScaleU" skip="false" />
+			<Item type="float" name="detailNormalMapScaleV" skip="false" />
+			<Item type="float" name="detailNormalMapScale" skip="false" />
+			<Item type="sampler" name="SkyReflectionSampler2" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_footprint</Name>
+		<VertexFormat>217</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="SkyReflectionSampler2" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="NormalMapSampler" skip="false" />
+			<Item type="sampler" name="DepthBufferSampler" skip="false" />
+			<Item type="float4" name="DepthParams" skip="false" />
+			<Item type="float4" name="FootprintColors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_fur</Name>
+		<VertexFormat>111</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float4" name="gBloodDataX" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="NoiseSampler" skip="false" />
+			<Item type="float" name="noiseScaleU" skip="false" />
+			<Item type="float" name="noiseScaleV" skip="false" />
+			<Item type="float" name="furStep" skip="false" />
+			<Item type="float" name="furLayerShadowMin" skip="false" />
+			<Item type="float" name="numFurLayers" skip="false" />
+			<Item type="float" name="highLodDist" skip="false" />
+			<Item type="float" name="lowLodDist" skip="false" />
+			<Item type="float" name="gravity" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_glass_decal</Name>
+		<VertexFormat>16457</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="tintSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="decalSampler" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_glass_glow</Name>
+		<VertexFormat>16463</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="float" name="gOverridePosition" skip="false" />
+			<Item type="float3" name="gLocalLightPosition" skip="false" />
+			<Item type="float3" name="gLightSourcePos" skip="false" />
+			<Item type="float" name="gAmbientGlowScale" skip="false" />
+			<Item type="float" name="gGlowFuncShift" skip="false" />
+			<Item type="float" name="gGlowFuncPower" skip="false" />
+			<Item type="float" name="gGlowFuncScale" skip="false" />
+			<Item type="float3" name="gLightSourceColor" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_glass_nodistortion_bump_spec_ao</Name>
+		<VertexFormat>16607</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="AmbOccSampler" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_glass_nodistortion_bump_spec_ao_shared</Name>
+		<VertexFormat>16591</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="SkyReflectionSampler" skip="false" />
+			<Item type="float" name="ReflectionDiffuseContribution" skip="false" />
+			<Item type="float" name="ReflectionFallOff" skip="false" />
+			<Item type="float" name="ReflectionIntensity" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_glass_notint</Name>
+		<VertexFormat>16479</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="AmbOccSampler" skip="false" />
+			<Item type="float" name="ambOccFillFactor" skip="false" />
+			<Item type="float" name="ambOccSunFactor" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_glass_notint_nodistortion</Name>
+		<VertexFormat>16479</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="SkyReflectionSampler" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="AmbOccSampler" skip="false" />
+			<Item type="float" name="ambOccFillFactor" skip="false" />
+			<Item type="float" name="ambOccSunFactor" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_glass_notint_shared</Name>
+		<VertexFormat>16463</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="float" name="ambOccFillFactor" skip="false" />
+			<Item type="float" name="ambOccSunFactor" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_glow</Name>
+		<VertexFormat>16607</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="heatIntensity" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_gpurain_render</Name>
+		<VertexFormat>1</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float" name="gMotionBlur" skip="false" />
+			<Item type="float4" name="gRadius" skip="false" />
+			<Item type="float4" name="gTextureAnimation" skip="false" />
+			<Item type="float4" name="gColorTint" skip="false" />
+			<Item type="float4" name="gColorTintPhase2" skip="false" />
+			<Item type="float4" name="cameraParams" skip="false" />
+			<Item type="sampler" name="DiffuseSamplerPhase1" skip="false" />
+			<Item type="sampler" name="DiffuseSamplerPhase2" skip="false" />
+			<Item type="float4" name="lightPos" skip="false" />
+			<Item type="float4" name="lightColors" skip="false" />
+			<Item type="float4" name="lightAngles" skip="false" />
+			<Item type="float4" name="lightSpotDirs" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_grass</Name>
+		<VertexFormat>217</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float4" name="g_clipDims" skip="false" />
+			<Item type="float2" name="FadeOffsetSlope" skip="false" />
+			<Item type="float3" name="g_GrassSunColor" skip="false" />
+			<Item type="float3" name="g_GrassSunDirection" skip="false" />
+			<Item type="float3" name="g_GrassGustWind" skip="false" />
+			<Item type="sampler" name="DiffuseSampler" skip="false" />
+			<Item type="sampler" name="GrassTintSampler" skip="false" />
+			<Item type="float4" name="StaticLighting" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_gravestone_text</Name>
+		<VertexFormat>89</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float" name="gMaxDisplacement" skip="false" />
+			<Item type="float" name="gCameraDistanceAtMaxDisplacement" skip="false" />
+			<Item type="sampler" name="NormalMapTexSampler" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_horsehair</Name>
+		<VertexFormat>49263</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float4" name="gAnimatedNormalMapParams" skip="false" />
+			<Item type="sampler" name="NormalMapSampler1" skip="false" />
+			<Item type="sampler" name="AnimatedNormalMapMask0Sampler" skip="false" />
+			<Item type="float" name="animatedNormalMapMod1" skip="false" />
+			<Item type="float4" name="gBloodDataX" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="SpecShiftSampler" skip="false" />
+			<Item type="sampler" name="DetailNormalMapSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="DetailMapSampler" skip="false" />
+			<Item type="float" name="detailNormalMapScaleU" skip="false" />
+			<Item type="float" name="detailNormalMapScaleV" skip="false" />
+			<Item type="float" name="detailNormalMapScale" skip="false" />
+			<Item type="float" name="detailMapScaleU" skip="false" />
+			<Item type="float" name="detailMapScaleV" skip="false" />
+			<Item type="float" name="detailMapScale" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="specDiffuseAmount" skip="false" />
+			<Item type="float" name="specularShiftMapFalloff" skip="false" />
+			<Item type="float" name="specularShiftIntensity" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_im</Name>
+		<VertexFormat>89</VertexFormat>
+		<Variables>
+			<Item type="float" name="gMotionBlurScalar" skip="false" />
+			<Item type="float4" name="TexelSize" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="TransparentDstMapSampler" skip="false" />
+			<Item type="sampler" name="TransparentSrcMapSampler" skip="false" />
+			<Item type="sampler" name="DepthMapPointSampler" skip="false" />
+			<Item type="float4" name="ColorScale" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_injury</Name>
+		<VertexFormat>81</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="SplatterSampler" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_layer_2_nospec_ambocc</Name>
+		<VertexFormat>16863</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float" name="specularGreenScale" skip="false" />
+			<Item type="float" name="specularGreenBias" skip="false" />
+			<Item type="float" name="FresnelTerm" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="TextureSampler2" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="AmbOccSampler" skip="false" />
+			<Item type="float" name="dirtMapFactor" skip="false" />
+			<Item type="float" name="specularDirtMapInfluence" skip="false" />
+			<Item type="float" name="specularDirtMapOffset" skip="false" />
+			<Item type="float" name="specularDirtMapMin" skip="false" />
+			<Item type="float" name="specularDirtMapMax" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_layer_2_nospec_ambocc_bridge</Name>
+		<VertexFormat>16863</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float" name="specularGreenScale" skip="false" />
+			<Item type="float" name="specularGreenBias" skip="false" />
+			<Item type="float" name="FresnelTerm" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="TextureSampler2" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="AmbOccSampler" skip="false" />
+			<Item type="float" name="dirtMapFactor" skip="false" />
+			<Item type="float" name="specularDirtMapInfluence" skip="false" />
+			<Item type="float" name="specularDirtMapOffset" skip="false" />
+			<Item type="float" name="specularDirtMapMin" skip="false" />
+			<Item type="float" name="specularDirtMapMax" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_layer_2_nospec_ambocc_decal</Name>
+		<VertexFormat>16857</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="TextureSampler3" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="AmbOccSampler" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_layer_3_nospec_normal_ambocc</Name>
+		<VertexFormat>17369</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float" name="specularGreenScale" skip="false" />
+			<Item type="float" name="specularGreenBias" skip="false" />
+			<Item type="float" name="FresnelTerm" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="TextureSampler2" skip="false" />
+			<Item type="sampler" name="TextureSampler3" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="AmbOccSampler" skip="false" />
+			<Item type="float" name="dirtMapFactor" skip="false" />
+			<Item type="float" name="specularDirtMapInfluence" skip="false" />
+			<Item type="float" name="specularDirtMapOffset" skip="false" />
+			<Item type="float" name="specularDirtMapMin" skip="false" />
+			<Item type="float" name="specularDirtMapMax" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_lightcone</Name>
+		<VertexFormat>137</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="DepthBufferSampler" skip="false" />
+			<Item type="sampler" name="permSampler2d" skip="false" />
+			<Item type="sampler" name="gradPermSampler" skip="false" />
+			<Item type="sampler" name="olanoSampler" skip="false" />
+			<Item type="float4x4" name="ConeInvMatrix" skip="false" />
+			<Item type="float4" name="ConeAngles" skip="false" />
+			<Item type="float4" name="ConeFogParams" skip="false" />
+			<Item type="float4" name="ConeNoiseParams" skip="false" />
+			<Item type="float3" name="ConeNoiseDir" skip="false" />
+			<Item type="float4" name="ConeColor" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_lightglow</Name>
+		<VertexFormat>465</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="DepthBufferSampler" skip="false" />
+			<Item type="sampler" name="StarTextureSampler" skip="false" />
+			<Item type="float4" name="lightglowTap" skip="false" />
+			<Item type="float" name="lightglowBias" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_litdecal</Name>
+		<VertexFormat>961</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float" name="gBiasToCamera" skip="false" />
+			<Item type="float" name="gCollectorBlend" skip="false" />
+			<Item type="sampler" name="DiffuseTexSampler" skip="false" />
+			<Item type="sampler" name="NormalMapTexSampler" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_lod4_water</Name>
+		<VertexFormat>25</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float4" name="TileCenterPos" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_low_lod</Name>
+		<VertexFormat>16601</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="TextureSampler2" skip="false" />
+			<Item type="float" name="dirtMapFactor" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_low_lod_decal</Name>
+		<VertexFormat>16857</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="TextureSampler2" skip="false" />
+			<Item type="sampler" name="TextureSampler3" skip="false" />
+			<Item type="float" name="dirtMapFactor" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_low_lod_nodirt</Name>
+		<VertexFormat>16473</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_low_lod_nodirt_singlesided</Name>
+		<VertexFormat>16473</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_low_lod_singlesided</Name>
+		<VertexFormat>16601</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="TextureSampler2" skip="false" />
+			<Item type="float" name="dirtMapFactor" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_map</Name>
+		<VertexFormat>65</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="DiffuseSampler" skip="false" />
+			<Item type="sampler" name="MaskSampler" skip="false" />
+			<Item type="sampler" name="NormalSampler" skip="false" />
+			<Item type="float" name="g_fMaskAnim" skip="false" />
+			<Item type="float" name="g_fAspect" skip="false" />
+			<Item type="float4" name="g_vAtten" skip="false" />
+			<Item type="float4" name="g_vLightColor" skip="false" />
+			<Item type="float4" name="g_vLightColorAmbient0" skip="false" />
+			<Item type="float4" name="g_vLightColorAmbient1" skip="false" />
+			<Item type="float4" name="g_vLightColorAmbient2" skip="false" />
+			<Item type="float4" name="g_vLightPosition" skip="false" />
+			<Item type="float4" name="g_vMaterialSpecular" skip="false" />
+			<Item type="float4" name="g_directionalLightMap0" skip="false" />
+			<Item type="float4" name="g_directionalLightMap1" skip="false" />
+			<Item type="float4" name="g_directionalLightMap2" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_mirror</Name>
+		<VertexFormat>16457</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="ReflectionSampler" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="ReflectionIntensity" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_optics</Name>
+		<VertexFormat>80</VertexFormat>
+		<Variables>
+			<Item type="float" name="gMotionBlurScalar" skip="false" />
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float4" name="TexelSize" skip="false" />
+			<Item type="float4" name="BrightPassValues" skip="false" />
+			<Item type="float" name="White" skip="false" />
+			<Item type="float" name="deSat" skip="false" />
+			<Item type="float4" name="ConstAdd" skip="false" />
+			<Item type="float4" name="ColorCorrect" skip="false" />
+			<Item type="float" name="Contrast" skip="false" />
+			<Item type="float" name="LowerLimitAdaptation" skip="false" />
+			<Item type="float" name="HigherLimitAdaptation" skip="false" />
+			<Item type="float" name="AdaptationValue" skip="false" />
+			<Item type="float" name="IntensityBloom" skip="false" />
+			<Item type="float" name="Brightness" skip="false" />
+			<Item type="float" name="AdditiveReducer" skip="false" />
+			<Item type="float" name="AdditiveReducer2" skip="false" />
+			<Item type="float2" name="DistanceFalloff" skip="false" />
+			<Item type="float3" name="LightsourcePosition" skip="false" />
+			<Item type="float" name="RayLength" skip="false" />
+			<Item type="float" name="RayCatchDistance" skip="false" />
+			<Item type="float" name="ShadowShaftTranslucency" skip="false" />
+			<Item type="float" name="ParticleCutoutStrength" skip="false" />
+			<Item type="float4" name="Color2" skip="false" />
+			<Item type="float" name="FlareSize" skip="false" />
+			<Item type="float4x4" name="WorldViewProjInverse" skip="false" />
+			<Item type="float4" name="MeleeTargetWorldposScale" skip="false" />
+			<Item type="sampler" name="GlowSampler" skip="false" />
+			<Item type="sampler" name="GlowSamplerWrap" skip="false" />
+			<Item type="sampler" name="GlowSampler2" skip="false" />
+			<Item type="sampler" name="OpticSampler" skip="false" />
+			<Item type="sampler" name="FrameBufferSampler" skip="false" />
+			<Item type="sampler" name="ZBufferSampler" skip="false" />
+			<Item type="sampler" name="ParticleSampler" skip="false" />
+			<Item type="sampler" name="AdaptationSampler" skip="false" />
+			<Item type="sampler" name="BrightPassSampler" skip="false" />
+			<Item type="float" name="texCoordScale" skip="false" />
+			<Item type="float" name="cardSize" skip="false" />
+			<Item type="float4" name="gInitialVelocity" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_pond_water</Name>
+		<VertexFormat>71</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="SkyReflectionSampler2" skip="false" />
+			<Item type="sampler" name="DiffuseSampler" skip="false" />
+			<Item type="sampler" name="WaveSampler" skip="false" />
+			<Item type="float4" name="RippleParams" skip="false" />
+			<Item type="float2" name="WaterParams" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_poster</Name>
+		<VertexFormat>95</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="float" name="gMaxDisplacement" skip="false" />
+			<Item type="float" name="gCameraDistanceAtMaxDisplacement" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_postfx</Name>
+		<VertexFormat>65</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float4" name="TexelSize" skip="false" />
+			<Item type="float" name="ElapsedTime" skip="false" />
+			<Item type="float" name="Frames" skip="false" />
+			<Item type="float" name="Lambda" skip="false" />
+			<Item type="float4" name="BrightPassValues" skip="false" />
+			<Item type="float" name="White" skip="false" />
+			<Item type="float" name="IntensityBloom" skip="false" />
+			<Item type="float4" name="brightPassParams" skip="false" />
+			<Item type="float3" name="LUMINANCE" skip="false" />
+			<Item type="float" name="deSat" skip="false" />
+			<Item type="float4" name="ConstAdd" skip="false" />
+			<Item type="float4" name="ColorCorrect" skip="false" />
+			<Item type="float" name="Contrast" skip="false" />
+			<Item type="float4" name="DofParams" skip="false" />
+			<Item type="float3" name="NearFarClipPlaneQ" skip="false" />
+			<Item type="float2" name="NearFarClipPaneScaleAndBias" skip="false" />
+			<Item type="float4x4" name="gPrevViewProj" skip="false" />
+			<Item type="float4x4" name="gViewProjInverse" skip="false" />
+			<Item type="float" name="Gamma" skip="false" />
+			<Item type="float" name="LowerLimitAdaption" skip="false" />
+			<Item type="float" name="HigherLimitAdaption" skip="false" />
+			<Item type="sampler" name="FullResMapSampler" skip="false" />
+			<Item type="sampler" name="RenderMapSampler" skip="false" />
+			<Item type="sampler" name="VertexTextureSampler" skip="false" />
+			<Item type="sampler" name="RenderMapPointSampler" skip="false" />
+			<Item type="sampler" name="RenderMapBilinearSampler" skip="false" />
+			<Item type="sampler" name="RenderMapAnisoSampler" skip="false" />
+			<Item type="sampler" name="DepthMapSampler" skip="false" />
+			<Item type="sampler" name="ToneMapSampler" skip="false" />
+			<Item type="sampler" name="AdaptedLuminanceMapSampler" skip="false" />
+			<Item type="sampler" name="LightGlowTexSampler" skip="false" />
+			<Item type="float2" name="horzTapOffs" skip="false" />
+			<Item type="float2" name="vertTapOffs" skip="false" />
+			<Item type="float4" name="TexelWeight" skip="false" />
+			<Item type="float" name="SoftDofFalloffPower" skip="false" />
+			<Item type="float" name="SoftDofStrength" skip="false" />
+			<Item type="float4" name="HeatShimmerParams" skip="false" />
+			<Item type="float4" name="ColorScalar" skip="false" />
+			<Item type="sampler" name="GlowSampler" skip="false" />
+			<Item type="sampler" name="GlowSampler2" skip="false" />
+			<Item type="float" name="DisableVignette" skip="false" />
+			<Item type="float" name="AdditiveReducer" skip="false" />
+			<Item type="float" name="AdditiveReducer2" skip="false" />
+			<Item type="float4" name="GlowColor2" skip="false" />
+			<Item type="float4" name="GlowColor" skip="false" />
+			<Item type="float" name="FlareSize" skip="false" />
+			<Item type="sampler" name="DeathSampler" skip="false" />
+			<Item type="float3" name="DeathEffect" skip="false" />
+			<Item type="float4x4" name="WorldViewProjInverse" skip="false" />
+			<Item type="float" name="AverageHeight" skip="false" />
+			<Item type="float4" name="LightStreakDirection" skip="false" />
+			<Item type="float4" name="streakWeights" skip="false" />
+			<Item type="float4" name="StreakParams" skip="false" />
+			<Item type="float4" name="DuelColorCorrect" skip="false" />
+			<Item type="float4" name="DuelConstAdd" skip="false" />
+			<Item type="float" name="DuelEnemyU" skip="false" />
+			<Item type="float" name="DuelEnemyWidth" skip="false" />
+			<Item type="float" name="DueldeSat" skip="false" />
+			<Item type="float" name="DuelContrast" skip="false" />
+			<Item type="float2" name="tap16" skip="false" />
+			<Item type="float" name="zoomIntensity" skip="false" />
+			<Item type="float" name="shockIntensity" skip="false" />
+			<Item type="float" name="shockAmplitude" skip="false" />
+			<Item type="float" name="ParticleHeatShimmerSeed" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_pppelements</Name>
+		<VertexFormat>81</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="DiffuseSampler" skip="false" />
+			<Item type="sampler" name="NormalSampler" skip="false" />
+			<Item type="sampler" name="BrightPassSampler" skip="false" />
+			<Item type="float2" name="intensity" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_river_water</Name>
+		<VertexFormat>209</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float3" name="g" skip="false" />
+			<Item type="float" name="CurrentTime" skip="false" />
+			<Item type="float" name="WaterFogDensity" skip="false" />
+			<Item type="float" name="WaterFogClarity" skip="false" />
+			<Item type="float" name="FresnelStrength" skip="false" />
+			<Item type="float" name="FresnelFalloff" skip="false" />
+			<Item type="float" name="ReflectionDistortion" skip="false" />
+			<Item type="float" name="ReflectionIntensity" skip="false" />
+			<Item type="float" name="SpecularIntensity" skip="false" />
+			<Item type="float" name="SpecExponent" skip="false" />
+			<Item type="float" name="SpecularSkyWorldBlend" skip="false" />
+			<Item type="float" name="DepthBlendBias" skip="false" />
+			<Item type="float" name="FoamWrapLight" skip="false" />
+			<Item type="float" name="FoamScale" skip="false" />
+			<Item type="float" name="FoamSpeed" skip="false" />
+			<Item type="float" name="FoamCutoff" skip="false" />
+			<Item type="float" name="FoamCutoffWidth" skip="false" />
+			<Item type="float" name="FoamFlowExponent" skip="false" />
+			<Item type="float" name="FoamBumpAmplitude" skip="false" />
+			<Item type="float" name="FoamAmbientIntensity" skip="false" />
+			<Item type="float" name="FoamSpecularIntensity" skip="false" />
+			<Item type="float" name="FoamSpecularExponent" skip="false" />
+			<Item type="float" name="RippleAmplitude" skip="false" />
+			<Item type="float" name="RippleFlowAmplitude" skip="false" />
+			<Item type="float" name="RippleScale" skip="false" />
+			<Item type="float" name="RippleSpeed" skip="false" />
+			<Item type="float2" name="WaterLODUVOffsetsFog" skip="false" />
+			<Item type="float2" name="WaterLODUVScalesFog" skip="false" />
+			<Item type="float2" name="WaterLODUVOffsetsFlow" skip="false" />
+			<Item type="float2" name="WaterLODUVScalesFlow" skip="false" />
+			<Item type="float2" name="WaterLODUVOffsetsFoam" skip="false" />
+			<Item type="float2" name="WaterLODUVScalesFoam" skip="false" />
+			<Item type="float" name="RefractionDepthScalar" skip="false" />
+			<Item type="float" name="RefractionIndex" skip="false" />
+			<Item type="sampler" name="FlowSampler" skip="false" />
+			<Item type="sampler" name="RiverFoamSampler" skip="false" />
+			<Item type="sampler" name="FoamAnimSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="ReflectionSampler" skip="false" />
+			<Item type="sampler" name="SphereMapSampler" skip="false" />
+			<Item type="float" name="R0" skip="false" />
+			<Item type="float" name="DWavePeriod1" skip="false" />
+			<Item type="float" name="DWaveAmp1" skip="false" />
+			<Item type="float2" name="DWaveDirection1" skip="false" />
+			<Item type="float" name="DWavePeriod2" skip="false" />
+			<Item type="float" name="DWaveAmp2" skip="false" />
+			<Item type="float2" name="DWaveDirection2" skip="false" />
+			<Item type="float" name="DWaveNoiseScale" skip="false" />
+			<Item type="float2" name="DWaveNoiseScaleJ" skip="false" />
+			<Item type="float" name="DWaveNoiseDt" skip="false" />
+			<Item type="float2" name="DWaveNoiseDtJ" skip="false" />
+			<Item type="float" name="DWaveNoiseMagnitude" skip="false" />
+			<Item type="float2" name="DWaveNoiseMagnitudeJ" skip="false" />
+			<Item type="float" name="DWaveDistanceFalloff" skip="false" />
+			<Item type="float2" name="DWaveDistanceFalloffJ" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_river_water_joint</Name>
+		<VertexFormat>209</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float3" name="g" skip="false" />
+			<Item type="float" name="CurrentTime" skip="false" />
+			<Item type="float2" name="_AmbientCutoffV" skip="false" />
+			<Item type="float2" name="WaterFogDensityJ" skip="false" />
+			<Item type="float2" name="WaterFogClarityJ" skip="false" />
+			<Item type="float" name="FresnelStrength" skip="false" />
+			<Item type="float2" name="FresnelFalloffJ" skip="false" />
+			<Item type="float2" name="ReflectionDistortionJ" skip="false" />
+			<Item type="float2" name="ReflectionIntensityJ" skip="false" />
+			<Item type="float2" name="SpecularIntensityJ" skip="false" />
+			<Item type="float2" name="SpecExponentJ" skip="false" />
+			<Item type="float" name="SpecularSkyWorldBlend" skip="false" />
+			<Item type="float2" name="DepthBlendBiasJ" skip="false" />
+			<Item type="float" name="FoamWrapLight" skip="false" />
+			<Item type="float2" name="FoamScaleJ" skip="false" />
+			<Item type="float2" name="FoamSpeedJ" skip="false" />
+			<Item type="float2" name="FoamCutoffJ" skip="false" />
+			<Item type="float2" name="FoamCutoffWidthJ" skip="false" />
+			<Item type="float2" name="FoamFlowExponentJ" skip="false" />
+			<Item type="float2" name="FoamBumpAmplitudeJ" skip="false" />
+			<Item type="float2" name="FoamAmbientIntensityJ" skip="false" />
+			<Item type="float2" name="FoamSpecularIntensityJ" skip="false" />
+			<Item type="float2" name="FoamSpecularExponentJ" skip="false" />
+			<Item type="float2" name="RippleAmplitudeJ" skip="false" />
+			<Item type="float2" name="RippleFlowAmplitudeJ" skip="false" />
+			<Item type="float2" name="RippleScaleJ" skip="false" />
+			<Item type="float2" name="RippleSpeedJ" skip="false" />
+			<Item type="float2" name="WaterLODUVOffsetsFog" skip="false" />
+			<Item type="float2" name="WaterLODUVScalesFog" skip="false" />
+			<Item type="float2" name="WaterLODUVOffsetsFlow" skip="false" />
+			<Item type="float2" name="WaterLODUVScalesFlow" skip="false" />
+			<Item type="float2" name="WaterLODUVOffsetsFoam" skip="false" />
+			<Item type="float2" name="WaterLODUVScalesFoam" skip="false" />
+			<Item type="float" name="RefractionDepthScalar" skip="false" />
+			<Item type="float" name="RefractionIndex" skip="false" />
+			<Item type="sampler" name="FlowSampler" skip="false" />
+			<Item type="sampler" name="RiverFoamSampler" skip="false" />
+			<Item type="sampler" name="FoamAnimSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="ReflectionSampler" skip="false" />
+			<Item type="sampler" name="SphereMapSampler" skip="false" />
+			<Item type="float" name="R0" skip="false" />
+			<Item type="float" name="DWavePeriod1" skip="false" />
+			<Item type="float" name="DWaveAmp1" skip="false" />
+			<Item type="float2" name="DWaveDirection1" skip="false" />
+			<Item type="float" name="DWavePeriod2" skip="false" />
+			<Item type="float" name="DWaveAmp2" skip="false" />
+			<Item type="float2" name="DWaveDirection2" skip="false" />
+			<Item type="float" name="DWaveNoiseScale" skip="false" />
+			<Item type="float2" name="DWaveNoiseScaleJ" skip="false" />
+			<Item type="float" name="DWaveNoiseDt" skip="false" />
+			<Item type="float2" name="DWaveNoiseDtJ" skip="false" />
+			<Item type="float" name="DWaveNoiseMagnitude" skip="false" />
+			<Item type="float2" name="DWaveNoiseMagnitudeJ" skip="false" />
+			<Item type="float" name="DWaveDistanceFalloff" skip="false" />
+			<Item type="float2" name="DWaveDistanceFalloffJ" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_rmptfx_lit</Name>
+		<VertexFormat>2009</VertexFormat>
+		<Variables>
+			<Item type="float" name="gBiasToCamera" skip="false" />
+			<Item type="sampler" name="DiffuseTexSampler" skip="false" />
+			<Item type="float" name="gHDRIntensity" skip="false" />
+			<Item type="float" name="gSuperAlphaKey" skip="false" />
+			<Item type="float" name="gNearCameraFade" skip="false" />
+			<Item type="float" name="gSoftness" skip="false" />
+			<Item type="float" name="gColorTintAmount" skip="false" />
+			<Item type="float" name="gFalloff" skip="false" />
+			<Item type="float" name="gSpherical" skip="false" />
+			<Item type="float" name="gLightIntensity" skip="false" />
+			<Item type="float" name="gAmbientAmount" skip="false" />
+			<Item type="float" name="gAmbientGroundAmount" skip="false" />
+			<Item type="float" name="gMaxScreenSize" skip="false" />
+			<Item type="float" name="gScatter" skip="false" />
+			<Item type="sampler" name="TopDownShadowMaskSamplerVS" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_scope_barrel</Name>
+		<VertexFormat>16601</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="ScopeWorldSampler" skip="false" />
+			<Item type="float" name="targeti0" skip="false" />
+			<Item type="float3" name="targetpos0" skip="false" />
+			<Item type="float" name="targeti1" skip="false" />
+			<Item type="float3" name="targetpos1" skip="false" />
+			<Item type="float" name="targeti2" skip="false" />
+			<Item type="float3" name="targetpos2" skip="false" />
+			<Item type="float" name="mainglow" skip="false" />
+			<Item type="float3" name="lensworldpos" skip="false" />
+			<Item type="float" name="deSat" skip="false" />
+			<Item type="float4" name="ConstAdd" skip="false" />
+			<Item type="float4" name="ColorCorrect" skip="false" />
+			<Item type="float" name="Contrast" skip="false" />
+			<Item type="float3" name="LUMINANCE" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_scope_lens</Name>
+		<VertexFormat>65</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="float" name="deSat" skip="false" />
+			<Item type="float4" name="ConstAdd" skip="false" />
+			<Item type="float4" name="ColorCorrect" skip="false" />
+			<Item type="float" name="Contrast" skip="false" />
+			<Item type="float3" name="LUMINANCE" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_scope_lens_distortion</Name>
+		<VertexFormat>65</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="ScopeWorldSampler" skip="false" />
+			<Item type="sampler" name="BrightPassSampler" skip="false" />
+			<Item type="sampler" name="AdaptationSampler" skip="false" />
+			<Item type="float" name="MiddleGray" skip="false" />
+			<Item type="float" name="White" skip="false" />
+			<Item type="float" name="Contrast" skip="false" />
+			<Item type="float3" name="LUMINANCE" skip="false" />
+			<Item type="float" name="deSat" skip="false" />
+			<Item type="float4" name="ColorCorrect" skip="false" />
+			<Item type="float4" name="ConstAdd" skip="false" />
+			<Item type="float" name="LowerLimitAdaptation" skip="false" />
+			<Item type="float" name="HigherLimitAdaptation" skip="false" />
+			<Item type="float" name="IntensityBloom" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_shadowonly</Name>
+		<VertexFormat>7</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float" name="UseInSunShadow" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_shareduv_hair</Name>
+		<VertexFormat>49231</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="SpecShiftSampler" skip="false" />
+			<Item type="sampler" name="DetailNormalMapSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="DetailMapSampler" skip="false" />
+			<Item type="float" name="detailNormalMapScaleU" skip="false" />
+			<Item type="float" name="detailNormalMapScaleV" skip="false" />
+			<Item type="float" name="detailNormalMapScale" skip="false" />
+			<Item type="float" name="detailMapScaleU" skip="false" />
+			<Item type="float" name="detailMapScaleV" skip="false" />
+			<Item type="float" name="detailMapScale" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="specDiffuseAmount" skip="false" />
+			<Item type="float" name="specularShiftMapFalloff" skip="false" />
+			<Item type="float" name="specularShiftIntensity" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_taa</Name>
+		<VertexFormat>217</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="DepthMapSampler" skip="false" />
+			<Item type="sampler" name="TAACurrSampler" skip="false" />
+			<Item type="float4" name="TAACutoff720" skip="false" />
+			<Item type="float4" name="TAACutoffLow" skip="false" />
+			<Item type="float4" name="TAACutoff480" skip="false" />
+			<Item type="float4" name="TAAEdgeScale" skip="false" />
+			<Item type="float4" name="TAAEdgeScaleBox" skip="false" />
+			<Item type="float4" name="TAAEdgeScaleCross" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_terrain</Name>
+		<VertexFormat>16473</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float3" name="Bumpiness_Terrain123" skip="false" />
+			<Item type="float3" name="Bumpiness_Terrain456" skip="false" />
+			<Item type="float2" name="MegaTileRepetitions" skip="false" />
+			<Item type="float2" name="MegaTileOffset" skip="false" />
+			<Item type="float2" name="BlendMapScale1" skip="false" />
+			<Item type="float2" name="BlendMapOffset1" skip="false" />
+			<Item type="float2" name="BlendMapScale2" skip="false" />
+			<Item type="float2" name="BlendMapOffset2" skip="false" />
+			<Item type="float" name="MegaTexSpecularIntensityScale1" skip="false" />
+			<Item type="float" name="MegaTexSpecularIntensityScale2" skip="false" />
+			<Item type="float3" name="MegaTexSpecularIntensity123" skip="false" />
+			<Item type="float3" name="MegaTexSpecularIntensity456" skip="false" />
+			<Item type="float" name="MegaTexSpecularExponent123" skip="false" />
+			<Item type="float" name="MegaTexSpecularExponent456" skip="false" />
+			<Item type="float" name="MegaTexBump123" skip="false" />
+			<Item type="float" name="MegaTexBump456" skip="false" />
+			<Item type="float" name="MinBumpSelfShadow" skip="false" />
+			<Item type="float" name="AmbOccStrength" skip="false" />
+			<Item type="float" name="TerrainAmbOccSunFactor" skip="false" />
+			<Item type="float" name="TerrainAmbOccFillFactor" skip="false" />
+			<Item type="float" name="DirectStrength" skip="false" />
+			<Item type="sampler" name="TerrainDiffuseSampler1" skip="false" />
+			<Item type="sampler" name="TerrainDiffuseSampler2" skip="false" />
+			<Item type="sampler" name="TerrainDiffuseSampler3" skip="false" />
+			<Item type="sampler" name="TerrainDiffuseSampler4" skip="false" />
+			<Item type="sampler" name="TerrainDiffuseSampler5" skip="false" />
+			<Item type="sampler" name="TerrainDiffuseSampler6" skip="false" />
+			<Item type="sampler" name="TerrainNormalSampler1" skip="false" />
+			<Item type="sampler" name="TerrainNormalSampler2" skip="false" />
+			<Item type="sampler" name="TerrainNormalSampler3" skip="false" />
+			<Item type="sampler" name="TerrainNormalSampler4" skip="false" />
+			<Item type="sampler" name="TerrainNormalSampler5" skip="false" />
+			<Item type="sampler" name="TerrainNormalSampler6" skip="false" />
+			<Item type="sampler" name="TerrainBlendMap1" skip="false" />
+			<Item type="sampler" name="TerrainBlendMap2" skip="false" />
+			<Item type="sampler" name="SkyReflectionSampler2" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_terrain4</Name>
+		<VertexFormat>16473</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float3" name="Bumpiness_Terrain123" skip="false" />
+			<Item type="float3" name="Bumpiness_Terrain456" skip="false" />
+			<Item type="float2" name="MegaTileRepetitions" skip="false" />
+			<Item type="float2" name="MegaTileOffset" skip="false" />
+			<Item type="float2" name="BlendMapScale1" skip="false" />
+			<Item type="float2" name="BlendMapOffset1" skip="false" />
+			<Item type="float2" name="BlendMapScale2" skip="false" />
+			<Item type="float2" name="BlendMapOffset2" skip="false" />
+			<Item type="float" name="MegaTexSpecularIntensityScale1" skip="false" />
+			<Item type="float" name="MegaTexSpecularIntensityScale2" skip="false" />
+			<Item type="float3" name="MegaTexSpecularIntensity123" skip="false" />
+			<Item type="float3" name="MegaTexSpecularIntensity456" skip="false" />
+			<Item type="float" name="MegaTexSpecularExponent123" skip="false" />
+			<Item type="float" name="MegaTexSpecularExponent456" skip="false" />
+			<Item type="float" name="MegaTexBump123" skip="false" />
+			<Item type="float" name="MegaTexBump456" skip="false" />
+			<Item type="float" name="MinBumpSelfShadow" skip="false" />
+			<Item type="float" name="AmbOccStrength" skip="false" />
+			<Item type="float" name="TerrainAmbOccSunFactor" skip="false" />
+			<Item type="float" name="TerrainAmbOccFillFactor" skip="false" />
+			<Item type="float" name="DirectStrength" skip="false" />
+			<Item type="sampler" name="TerrainDiffuseSampler1" skip="false" />
+			<Item type="sampler" name="TerrainDiffuseSampler2" skip="false" />
+			<Item type="sampler" name="TerrainDiffuseSampler3" skip="false" />
+			<Item type="sampler" name="TerrainDiffuseSampler4" skip="false" />
+			<Item type="sampler" name="TerrainNormalSampler1" skip="false" />
+			<Item type="sampler" name="TerrainNormalSampler2" skip="false" />
+			<Item type="sampler" name="TerrainNormalSampler3" skip="false" />
+			<Item type="sampler" name="TerrainNormalSampler4" skip="false" />
+			<Item type="sampler" name="TerrainBlendMap1" skip="false" />
+			<Item type="sampler" name="SkyReflectionSampler2" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_terrain_blend</Name>
+		<VertexFormat>49401</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float" name="BumpSelfShadowAmount" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="float" name="detailNormalMapScaleU" skip="false" />
+			<Item type="float" name="detailNormalMapScaleV" skip="false" />
+			<Item type="float" name="detailNormalMapScale" skip="false" />
+			<Item type="float3" name="Bumpiness_Terrain123" skip="false" />
+			<Item type="float3" name="Bumpiness_Terrain456" skip="false" />
+			<Item type="float2" name="MegaTileRepetitions" skip="false" />
+			<Item type="float2" name="MegaTileOffset" skip="false" />
+			<Item type="float2" name="BlendMapScale1" skip="false" />
+			<Item type="float2" name="BlendMapOffset1" skip="false" />
+			<Item type="float2" name="BlendMapScale2" skip="false" />
+			<Item type="float2" name="BlendMapOffset2" skip="false" />
+			<Item type="float" name="MegaTexSpecularIntensityScale1" skip="false" />
+			<Item type="float" name="MegaTexSpecularIntensityScale2" skip="false" />
+			<Item type="float3" name="MegaTexSpecularIntensity123" skip="false" />
+			<Item type="float3" name="MegaTexSpecularIntensity456" skip="false" />
+			<Item type="float" name="MegaTexSpecularExponent123" skip="false" />
+			<Item type="float" name="MegaTexSpecularExponent456" skip="false" />
+			<Item type="float" name="MegaTexBump123" skip="false" />
+			<Item type="float" name="MegaTexBump456" skip="false" />
+			<Item type="float" name="MinBumpSelfShadow" skip="false" />
+			<Item type="float" name="AmbOccStrength" skip="false" />
+			<Item type="float" name="TerrainAmbOccSunFactor" skip="false" />
+			<Item type="float" name="TerrainAmbOccFillFactor" skip="false" />
+			<Item type="float" name="DirectStrength" skip="false" />
+			<Item type="sampler" name="TerrainDiffuseSampler1" skip="false" />
+			<Item type="sampler" name="TerrainDiffuseSampler2" skip="false" />
+			<Item type="sampler" name="TerrainDiffuseSampler3" skip="false" />
+			<Item type="sampler" name="TerrainDiffuseSampler4" skip="false" />
+			<Item type="sampler" name="TerrainDiffuseSampler5" skip="false" />
+			<Item type="sampler" name="TerrainDiffuseSampler6" skip="false" />
+			<Item type="sampler" name="TerrainNormalSampler1" skip="false" />
+			<Item type="sampler" name="TerrainNormalSampler2" skip="false" />
+			<Item type="sampler" name="TerrainNormalSampler3" skip="false" />
+			<Item type="sampler" name="TerrainNormalSampler4" skip="false" />
+			<Item type="sampler" name="TerrainNormalSampler5" skip="false" />
+			<Item type="sampler" name="TerrainNormalSampler6" skip="false" />
+			<Item type="sampler" name="TerrainBlendMap1" skip="false" />
+			<Item type="sampler" name="TerrainBlendMap2" skip="false" />
+			<Item type="sampler" name="SkyReflectionSampler2" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_terrain_low_lod</Name>
+		<VertexFormat>25</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float4" name="TileCenterPos" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_terrain_shoreline</Name>
+		<VertexFormat>16473</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float3" name="Bumpiness_Terrain123" skip="false" />
+			<Item type="float3" name="Bumpiness_Terrain456" skip="false" />
+			<Item type="float2" name="MegaTileRepetitions" skip="false" />
+			<Item type="float2" name="MegaTileOffset" skip="false" />
+			<Item type="float2" name="BlendMapScale1" skip="false" />
+			<Item type="float2" name="BlendMapOffset1" skip="false" />
+			<Item type="float2" name="BlendMapScale2" skip="false" />
+			<Item type="float2" name="BlendMapOffset2" skip="false" />
+			<Item type="float" name="MegaTexSpecularIntensityScale1" skip="false" />
+			<Item type="float" name="MegaTexSpecularIntensityScale2" skip="false" />
+			<Item type="float3" name="MegaTexSpecularIntensity123" skip="false" />
+			<Item type="float3" name="MegaTexSpecularIntensity456" skip="false" />
+			<Item type="float" name="MegaTexSpecularExponent123" skip="false" />
+			<Item type="float" name="MegaTexSpecularExponent456" skip="false" />
+			<Item type="float" name="MegaTexBump123" skip="false" />
+			<Item type="float" name="MegaTexBump456" skip="false" />
+			<Item type="float" name="MinBumpSelfShadow" skip="false" />
+			<Item type="float" name="AmbOccStrength" skip="false" />
+			<Item type="float" name="TerrainAmbOccSunFactor" skip="false" />
+			<Item type="float" name="TerrainAmbOccFillFactor" skip="false" />
+			<Item type="float" name="DirectStrength" skip="false" />
+			<Item type="sampler" name="TerrainDiffuseSampler1" skip="false" />
+			<Item type="sampler" name="TerrainDiffuseSampler2" skip="false" />
+			<Item type="sampler" name="TerrainDiffuseSampler3" skip="false" />
+			<Item type="sampler" name="TerrainDiffuseSampler4" skip="false" />
+			<Item type="sampler" name="TerrainDiffuseSampler5" skip="false" />
+			<Item type="sampler" name="TerrainDiffuseSampler6" skip="false" />
+			<Item type="sampler" name="TerrainNormalSampler1" skip="false" />
+			<Item type="sampler" name="TerrainNormalSampler2" skip="false" />
+			<Item type="sampler" name="TerrainNormalSampler3" skip="false" />
+			<Item type="sampler" name="TerrainNormalSampler4" skip="false" />
+			<Item type="sampler" name="TerrainNormalSampler5" skip="false" />
+			<Item type="sampler" name="TerrainNormalSampler6" skip="false" />
+			<Item type="sampler" name="TerrainBlendMap1" skip="false" />
+			<Item type="sampler" name="TerrainBlendMap2" skip="false" />
+			<Item type="sampler" name="SkyReflectionSampler2" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_traintrack</Name>
+		<VertexFormat>16473</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_traintrack_low_lod</Name>
+		<VertexFormat>81</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_treerock_prototype</Name>
+		<VertexFormat>16601</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="TreeTintSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="DetailNormalMapSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="AmbOccSampler" skip="false" />
+			<Item type="float" name="detailNormalMapScaleU" skip="false" />
+			<Item type="float" name="detailNormalMapScaleV" skip="false" />
+			<Item type="float" name="detailNormalMapScale" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_waterdecal</Name>
+		<VertexFormat>17</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float3" name="g" skip="false" />
+			<Item type="float" name="CurrentTime" skip="false" />
+			<Item type="float2" name="WaterLODUVOffsetsFog" skip="false" />
+			<Item type="float2" name="WaterLODUVScalesFog" skip="false" />
+			<Item type="float2" name="WaterLODUVOffsetsFlow" skip="false" />
+			<Item type="float2" name="WaterLODUVScalesFlow" skip="false" />
+			<Item type="float2" name="WaterLODUVOffsetsFoam" skip="false" />
+			<Item type="float2" name="WaterLODUVScalesFoam" skip="false" />
+			<Item type="sampler" name="RippleBumpAndAlphaSampler" skip="false" />
+			<Item type="float3" name="DecalCenter" skip="false" />
+			<Item type="float" name="DecalSize" skip="false" />
+			<Item type="float" name="RippleAlpha" skip="false" />
+			<Item type="float2" name="DecalDirection" skip="false" />
+			<Item type="float" name="InvBumpScale" skip="false" />
+			<Item type="float" name="DWavePeriod1" skip="false" />
+			<Item type="float" name="DWaveAmp1" skip="false" />
+			<Item type="float2" name="DWaveDirection1" skip="false" />
+			<Item type="float" name="DWavePeriod2" skip="false" />
+			<Item type="float" name="DWaveAmp2" skip="false" />
+			<Item type="float2" name="DWaveDirection2" skip="false" />
+			<Item type="float" name="DWaveNoiseScale" skip="false" />
+			<Item type="float2" name="DWaveNoiseScaleJ" skip="false" />
+			<Item type="float" name="DWaveNoiseDt" skip="false" />
+			<Item type="float2" name="DWaveNoiseDtJ" skip="false" />
+			<Item type="float" name="DWaveNoiseMagnitude" skip="false" />
+			<Item type="float2" name="DWaveNoiseMagnitudeJ" skip="false" />
+			<Item type="float" name="DWaveDistanceFalloff" skip="false" />
+			<Item type="float2" name="DWaveDistanceFalloffJ" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_waterjointdecal</Name>
+		<VertexFormat>17</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float3" name="g" skip="false" />
+			<Item type="float" name="CurrentTime" skip="false" />
+			<Item type="float2" name="WaterLODUVOffsetsFog" skip="false" />
+			<Item type="float2" name="WaterLODUVScalesFog" skip="false" />
+			<Item type="float2" name="WaterLODUVOffsetsFlow" skip="false" />
+			<Item type="float2" name="WaterLODUVScalesFlow" skip="false" />
+			<Item type="float2" name="WaterLODUVOffsetsFoam" skip="false" />
+			<Item type="float2" name="WaterLODUVScalesFoam" skip="false" />
+			<Item type="sampler" name="RippleBumpAndAlphaSampler" skip="false" />
+			<Item type="float3" name="DecalCenter" skip="false" />
+			<Item type="float" name="DecalSize" skip="false" />
+			<Item type="float" name="RippleAlpha" skip="false" />
+			<Item type="float2" name="DecalDirection" skip="false" />
+			<Item type="float" name="InvBumpScale" skip="false" />
+			<Item type="float" name="DWavePeriod1" skip="false" />
+			<Item type="float" name="DWaveAmp1" skip="false" />
+			<Item type="float2" name="DWaveDirection1" skip="false" />
+			<Item type="float" name="DWavePeriod2" skip="false" />
+			<Item type="float" name="DWaveAmp2" skip="false" />
+			<Item type="float2" name="DWaveDirection2" skip="false" />
+			<Item type="float" name="DWaveNoiseScale" skip="false" />
+			<Item type="float2" name="DWaveNoiseScaleJ" skip="false" />
+			<Item type="float" name="DWaveNoiseDt" skip="false" />
+			<Item type="float2" name="DWaveNoiseDtJ" skip="false" />
+			<Item type="float" name="DWaveNoiseMagnitude" skip="false" />
+			<Item type="float2" name="DWaveNoiseMagnitudeJ" skip="false" />
+			<Item type="float" name="DWaveDistanceFalloff" skip="false" />
+			<Item type="float2" name="DWaveDistanceFalloffJ" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_weapon</Name>
+		<VertexFormat>16591</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="SkyReflectionSampler" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="sampler" name="SpecSampler" skip="false" />
+			<Item type="sampler" name="BumpSampler" skip="false" />
+			<Item type="sampler" name="SphereMapSampler" skip="false" />
+			<Item type="float" name="specularFactor" skip="false" />
+			<Item type="float" name="specularColorFactor" skip="false" />
+			<Item type="float" name="bumpiness" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_wheeltrack</Name>
+		<VertexFormat>449</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="SkyReflectionSampler2" skip="false" />
+			<Item type="sampler" name="TrackTextureSampler" skip="false" />
+			<Item type="sampler" name="NormalMapSampler" skip="false" />
+			<Item type="sampler" name="DepthBufferSampler" skip="false" />
+			<Item type="float4" name="DepthParams" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_window_glow</Name>
+		<VertexFormat>25</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="float" name="beginFadeDist" skip="false" />
+			<Item type="float" name="endFadeDist" skip="false" />
+			<Item type="float" name="keyframeIndex" skip="false" />
+			<Item type="float" name="gMaxDisplacement" skip="false" />
+			<Item type="float" name="gCameraDistanceAtMaxDisplacement" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_wire</Name>
+		<VertexFormat>73</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="TextureSampler" skip="false" />
+			<Item type="float4" name="Offsets" skip="false" />
+			<Item type="float4" name="Colors" skip="false" />
+		</Variables>
+	</Shader>
+	<Shader>
+		<Name>rdr2_worldmovie</Name>
+		<VertexFormat>81</VertexFormat>
+		<Variables>
+			<Item type="float" name="physicsmaterial" skip="false" />
+			<Item type="sampler" name="DiffuseSampler" skip="false" />
+			<Item type="sampler" name="DepthSampler" skip="false" />
+			<Item type="float2" name="NearFarClipPaneScaleAndBias" skip="false" />
+			<Item type="float" name="coneWidth" skip="false" />
+			<Item type="float" name="coneLength" skip="false" />
+			<Item type="float4x4" name="projectorInvMatrix" skip="false" />
+		</Variables>
+	</Shader>
+</ShaderManager>
