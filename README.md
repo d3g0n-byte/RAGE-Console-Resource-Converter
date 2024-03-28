@@ -103,6 +103,7 @@
   <li><a href="https://github.com/Foxxyyy" target="_blank">Foxxyyy</a> &ndash; for his MagicRDR project</li>
   <li><a href="https://github.com/XBLToothPik" target="_blank">XBLToothPik</a> &ndash; for his AreDeAre xPlorer 2 project</li>
   <li><a href="https://web.archive.org/web/20140501000000*/dageron.com" target="_blank">Dageron</a> &ndash; for all his work to researching RAGE game engine</li>
+  <li> listener - for all his work researching RAGE game engine </li>
 </ul>
 
 ### Licensing
